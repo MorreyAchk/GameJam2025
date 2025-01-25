@@ -9,7 +9,12 @@ public class Aiming : MonoBehaviour
 
   private bool gunFacingRight;
 
-  public void Update()
+    private void Start()
+    {
+        gun.parent = null;
+    }
+
+    public void Update()
   {
     Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     Vector3 direction = mousePos - transform.position;
