@@ -22,28 +22,12 @@ public class LevelLoader : MonoBehaviour
 
     private void LoadInLevel(Scene scene, LoadSceneMode mode)
     {
-        StartCoroutine(LoadInLevelWithDelay());
+        transition.Play("WipeOut");
     }
 
     public void PlayNextLevel()
     {
-        StartCoroutine(LoadNextLevelWithDelay());
-    }
-
-    private IEnumerator LoadInLevelWithDelay()
-    {
-        transition.Play("WipeOut");
-        yield return new WaitForSeconds(0.85f);
-
-        transitionImage.enabled = false;
-    }
-
-    private IEnumerator LoadNextLevelWithDelay()
-    {
-        transitionImage.enabled = true;
         transition.Play("WipeIn");
-        yield return new WaitForSeconds(2f);
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
+
 }
