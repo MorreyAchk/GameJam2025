@@ -41,6 +41,8 @@ public class MainMenu : MonoBehaviour
 
     public void OnBrightnessChange(Slider slider)
     {
-
+      Color c = GlobalBehaviour.Instance.brightness.color;
+      c.a = 1 - slider.value;
+      GlobalBehaviour.Instance.brightness.color = c;
     }
 }

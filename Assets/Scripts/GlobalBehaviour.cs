@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GlobalBehaviour : MonoBehaviour
 {
     private static GlobalBehaviour instance;
     public AudioSource audioSource;
+    public Image brightness;
 
     public static GlobalBehaviour Instance => instance;
 
