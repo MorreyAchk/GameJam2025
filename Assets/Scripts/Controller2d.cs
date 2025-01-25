@@ -33,6 +33,8 @@ public class Controller2d : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!IsGrounded())
+            return;
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
     }
 
