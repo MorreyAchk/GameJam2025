@@ -194,6 +194,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   bubble: {fileID: 0}
+  createBubble: {fileID: 8300000, guid: 611358876cd589c4192de4e1f81188a0, type: 3}
 --- !u!114 &6838152941062758568
 MonoBehaviour:
   m_ObjectHideFlags: 0

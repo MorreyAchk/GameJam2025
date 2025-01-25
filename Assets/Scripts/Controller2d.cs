@@ -74,6 +74,7 @@ public class Controller2d : MonoBehaviour
 
     public void SetInBubble()
     {
+        GlobalBehaviour.Instance.audioSourceBubble.Play();
         bubble.isInBubble = true;
     }
 }
