@@ -7,14 +7,14 @@ public class Controller2d : MonoBehaviour
     private bool isJumping;
     private float horizontal;
     private float speed = 8f;
-    private float jumpingPower = 16f;
     private bool isFacingRight = true;
 
-    [SerializeField] private float groundColliderRadius = 0.2f;
+     private float groundColliderRadius = 0.2f;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private BubbleInteractable bubble;
+    [SerializeField] private float jumpingPower = 36f;
 
 
     void Update()
