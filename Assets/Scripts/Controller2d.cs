@@ -4,28 +4,36 @@ using UnityEngine;
 
 public class Controller2d : MonoBehaviour
 {
+    private bool isJumping;
     private float horizontal;
     private float speed = 8f;
     private float jumpingPower = 16f;
     private bool isFacingRight = true;
 
-    [SerializeField] private float groundColliderRadius=0.2f;
+    [SerializeField] private float groundColliderRadius = 0.2f;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private BubbleInteractable bubble;
+
 
     void Update()
     {
         horizontal = Input.GetAxisRaw("Horizontal");
+        isJumping = Input.GetButtonDown("Jump");
 
-        if (Input.GetButtonDown("Jump") && IsGrounded())
+        if (isJumping && IsGrounded())
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
         }
 
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
+        if (isJumping && rb.velocity.y > 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+        }
+        if (isJumping)
+        {
+            bubble.isInBubble = false;
         }
 
         Flip();
@@ -62,5 +70,10 @@ public class Controller2d : MonoBehaviour
             localScale.x *= -1f;
             transform.localScale = localScale;
         }
+    }
+
+    public void SetInBubble()
+    {
+        bubble.isInBubble = true;
     }
 }

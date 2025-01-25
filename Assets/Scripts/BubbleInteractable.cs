@@ -1,0 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BubbleInteractable : MonoBehaviour
+{
+    public bool isInBubble = false;
+    private Rigidbody2D rb;
+    private float defaultGravityScale;
+    [SerializeField] private Animator animator;
+    [SerializeField] private SpriteRenderer bubbleSprite;
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        defaultGravityScale = rb.gravityScale;
+    }
+    private void Update()
+    {
+        if (isInBubble)
+        {
+            animator.SetBool("DestroyBubble", false);
+            rb.velocity = new Vector2(0, 2f);
+            rb.gravityScale = 0f;
+        }
+        else
+        {
+            animator.SetBool("DestroyBubble", true);
+            rb.gravityScale = defaultGravityScale;
+        }
+    }
+
+}
