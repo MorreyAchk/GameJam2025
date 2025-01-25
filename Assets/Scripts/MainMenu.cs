@@ -1,18 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject options;
+
+    public void Awake()
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnStart()
     {
-        
+      SceneManager.LoadScene("Level1");
+    }
+
+    public void OnOptions()
+    {
+        options.SetActive(!options.activeSelf);
+    }
+
+    public void OnOptionsBack()
+    {
+        options.SetActive(!options.activeSelf);
+    }
+
+    public void OnExit()
+    {
+        Application.Quit();
+
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+    }
+
+    public void OnVolumeChange(Slider slider)
+    {
+      GlobalBehaviour.Instance.audioSource.volume = slider.value;
+    }
+
+    public void OnBrightnessChange(Slider slider)
+    {
+
     }
 }
