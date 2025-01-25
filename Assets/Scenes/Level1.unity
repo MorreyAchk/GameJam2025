@@ -12161,18 +12161,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 314033363581244257, guid: e77c073a83ace3b479ab6413ed5f6485, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.54
-      objectReference: {fileID: 0}
-    - target: {fileID: 314033363581244257, guid: e77c073a83ace3b479ab6413ed5f6485, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.54
-      objectReference: {fileID: 0}
-    - target: {fileID: 314033363581244257, guid: e77c073a83ace3b479ab6413ed5f6485, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.54
-      objectReference: {fileID: 0}
-    - target: {fileID: 314033363581244257, guid: e77c073a83ace3b479ab6413ed5f6485, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.67
       objectReference: {fileID: 0}
@@ -12212,21 +12200,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 314033363581244257, guid: e77c073a83ace3b479ab6413ed5f6485, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 928434409988461795, guid: e77c073a83ace3b479ab6413ed5f6485, type: 3}
-      propertyPath: groundColliderRadius
-      value: 0.04
-      objectReference: {fileID: 0}
     - target: {fileID: 1782322838064394327, guid: e77c073a83ace3b479ab6413ed5f6485, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6020466412334144035, guid: e77c073a83ace3b479ab6413ed5f6485, type: 3}
-      propertyPath: m_SortingOrder
-      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

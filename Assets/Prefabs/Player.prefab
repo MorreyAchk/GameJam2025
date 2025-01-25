@@ -27,8 +27,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.096, y: 0.191, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.94, y: 1.94, z: 1.94}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 314033363581244257}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -113,8 +113,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.54, y: 0.54, z: 0.54}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1071788913884165346}
   - {fileID: 4172921744433967460}
@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac8758b73d4e6b22880d14e4247939f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundColliderRadius: 0.2
+  groundColliderRadius: 0.04
   rb: {fileID: 4037225817319337351}
   groundCheck: {fileID: 1071788913884165346}
   groundLayer:
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gun: {fileID: 4172921744433967460}
-  gunDistance: 0.75
+  gunDistance: 1
 --- !u!1 &1834037383029820006
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,7 +190,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1557949897961870431}
-  - component: {fileID: 166917012115270837}
+  - component: {fileID: 4543732360224001119}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -207,14 +207,14 @@ Transform:
   m_GameObject: {fileID: 1834037383029820006}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.46, y: -0.19, z: 0}
+  m_LocalPosition: {x: -0.166, y: -0.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 314033363581244257}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &166917012115270837
-CircleCollider2D:
+--- !u!70 &4543732360224001119
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -245,9 +245,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.3757437, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.8757436
+  m_Offset: {x: 0.082162574, y: 0.39369464}
+  m_Size: {x: 1.1436074, y: 2.6364007}
+  m_Direction: 0
 --- !u!1 &6392302252738177052
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,7 +357,7 @@ Transform:
   m_GameObject: {fileID: 8003625965313035607}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalPosition: {x: -0.09, y: -1.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
