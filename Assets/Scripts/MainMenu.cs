@@ -5,14 +5,11 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public GameObject options;
-
-    public void Awake()
-    {
-    }
+    public LevelLoader levelLoader;
 
     public void OnStart()
     {
-      SceneManager.LoadScene("Level1");
+        levelLoader.PlayNextLevel();
     }
 
     public void OnOptions()
