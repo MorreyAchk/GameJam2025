@@ -77,4 +77,10 @@ public class Controller2d : MonoBehaviour
         GlobalBehaviour.Instance.audioSourceBubble.Play();
         bubble.isInBubble = true;
     }
+
+    public void OnSpike()
+    {
+      if (!bubble.isFreeze)
+        bubble.isInBubble = false;
+    }
 }

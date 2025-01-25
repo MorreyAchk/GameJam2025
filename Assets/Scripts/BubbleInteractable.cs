@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BubbleInteractable : MonoBehaviour
 {
-    public bool isInBubble = false;
+    public bool isInBubble, isFreeze;
     private Rigidbody2D rb;
     private float defaultGravityScale;
     [SerializeField] private Animator animator;
