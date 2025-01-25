@@ -14,11 +14,11 @@ public class AimTrajectory : MonoBehaviour
     private List<Vector2> pointsOfReflection = new List<Vector2>();
     private Vector2 playerPosition, mousePosition;
 
-    public LineRenderer renderer;
+    public new LineRenderer renderer;
 
     public void Start()
     {
-      mask = LayerMask.GetMask("Ground");
+        mask = LayerMask.GetMask("Ground");
     }
 
     public void Update()
@@ -29,25 +29,30 @@ public class AimTrajectory : MonoBehaviour
             mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             pointsOfReflection.Clear();
             pointsOfReflection.Add(playerPosition);
-            int bounceCount = 0;
 
+            int bounceCount = 0;
             Vector2 direction = (mousePosition - playerPosition).normalized;
+
             while (bounceCount < maxBounces)
             {
                 RaycastHit2D hit = Physics2D.Raycast(
-                    pointsOfReflection[pointsOfReflection.Count - 1] + direction * 0.1f,
+                    pointsOfReflection[pointsOfReflection.Count - 1] + direction * 0.01f, // Offset to avoid self-hit
                     direction,
                     maxDistance,
                     mask);
 
                 if (hit.collider != null)
                 {
-                    pointsOfReflection.Add(hit.point);
-                    Vector2 reflection = Vector2.Reflect(direction, hit.normal);                    
-                    direction = reflection.normalized;
-                    bounceCount++;
+                    if (Vector2.Distance(pointsOfReflection[pointsOfReflection.Count - 1], hit.point) > 0.1f)
+                    {
+                        pointsOfReflection.Add(hit.point);
+                        Vector2 reflection = Vector2.Reflect(direction, hit.normal);
+                        direction = reflection.normalized;
+                        bounceCount++;
+                    }
+                    else break; // Stop if the hit is too close to avoid dense points
                 }
-                else break;
+                else break; // Stop if no collision
             }
         }
 
@@ -58,6 +63,10 @@ public class AimTrajectory : MonoBehaviour
                 pointsOfReflection
                 .Select(v => new Vector3(v.x, v.y, 0))
                 .ToArray());
+        }
+        else
+        {
+            renderer.positionCount = 0; // Clear the line if no points
         }
     }
 }

@@ -18,13 +18,13 @@ public class BubbleInteractable : MonoBehaviour
     {
         if (isInBubble)
         {
-            animator.SetBool("DestroyBubble", false);
+            animator.Play("Default");
             rb.velocity = new Vector2(0, 2f);
             rb.gravityScale = 0f;
         }
         else
         {
-            animator.SetBool("DestroyBubble", true);
+            animator.Play("BubblePop");
             rb.gravityScale = defaultGravityScale;
         }
     }
