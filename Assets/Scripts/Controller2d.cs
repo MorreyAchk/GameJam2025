@@ -9,6 +9,7 @@ public class Controller2d : MonoBehaviour
     private float jumpingPower = 16f;
     private bool isFacingRight = true;
 
+    [SerializeField] private float groundColliderRadius=0.2f;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
@@ -37,7 +38,17 @@ public class Controller2d : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        return Physics2D.OverlapCircle(groundCheck.position, groundColliderRadius, groundLayer);
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (groundCheck != null)
+        {
+            Gizmos.color = Color.red;
+
+            Gizmos.DrawWireSphere(groundCheck.position, groundColliderRadius);
+        }
     }
 
     private void Flip()
