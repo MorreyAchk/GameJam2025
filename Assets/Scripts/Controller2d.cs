@@ -83,4 +83,12 @@ public class Controller2d : MonoBehaviour
       if (!bubble.isFreeze)
         bubble.isInBubble = false;
     }
+
+    public void OnKnowledge(string skill)
+    {
+      if (skill == "Freeze")
+      {
+        bubble.isFreeze = true;
+      }
+    }
 }
