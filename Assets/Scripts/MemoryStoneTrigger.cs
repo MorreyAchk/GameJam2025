@@ -6,6 +6,7 @@ public class MemoryStoneTrigger : MonoBehaviour
 {
     public Powers power;
     public Color color = Color.white;
+    public float xValueForce;
 
     public void Awake()
     {
@@ -19,6 +20,11 @@ public class MemoryStoneTrigger : MonoBehaviour
         {
             if (power == Powers.Bubble)
                 bubbleInteractable.isInBubble = true;
+            if (power == Powers.Wind)
+                bubbleInteractable.MoveBubble(xValueForce);
+
+            color = Color.white;
+            Set(Powers.Empty, color);
         }
     }
 

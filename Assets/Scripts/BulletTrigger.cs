@@ -6,6 +6,11 @@ public class BulletTrigger : MonoBehaviour
 {
     public Powers power;
     public Color color;
+    private Rigidbody2D rb;
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -19,7 +24,7 @@ public class BulletTrigger : MonoBehaviour
             }
             if (power == Powers.Wind)
             {
-                bubbleInteractable.MoveBubble(collision.transform.position);
+                bubbleInteractable.MoveBubble(rb.velocity.x);
                 Destroy(this.gameObject);
             }
 

@@ -7,10 +7,9 @@ public class BubbleInteractable : MonoBehaviour
     public bool isInBubble, isFreeze;
     private Rigidbody2D rb;
     private float defaultGravityScale;
-    [SerializeField] private float windForce = 20f;
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer bubbleSprite;
-    private Vector2 bubbleDirection;
+    private float bubbleDirectionX;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -22,22 +21,21 @@ public class BubbleInteractable : MonoBehaviour
         {
             GlobalBehaviour.Instance.audioSourceBubble.Play();
             animator.Play("Default");
-            rb.velocity = bubbleDirection + new Vector2(0, 2f);
+            rb.velocity = new Vector2(bubbleDirectionX, 2f);
             rb.gravityScale = 0f;
         }
         else
         {
+            bubbleDirectionX = 0;
             GlobalBehaviour.Instance.audioSourceBubble.Stop();
             animator.Play("BubblePop");
             rb.gravityScale = defaultGravityScale;
         }
     }
 
-    public void MoveBubble(Vector3 collisionPosition)
+    public void MoveBubble(float velocityX)
     {
-        Vector2 direction = (collisionPosition - transform.position).normalized;
-        bubbleDirection = direction * rb.velocity.magnitude * windForce;
-        print(bubbleDirection);
+        bubbleDirectionX = velocityX * 2f;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

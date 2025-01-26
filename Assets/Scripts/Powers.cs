@@ -5,5 +5,6 @@ using UnityEngine;
 public enum Powers
 {
     Wind,
-    Bubble
+    Bubble,
+    Empty
 }
