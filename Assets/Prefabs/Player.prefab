@@ -219,6 +219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isInBubble: 0
+  isFreeze: 0
   animator: {fileID: 2333919359029940321}
   bubbleSprite: {fileID: 3583541473928984733}
 --- !u!1 &1834037383029820006
@@ -406,6 +407,7 @@ GameObject:
   - component: {fileID: 4903232322752242884}
   - component: {fileID: 4907504108871414149}
   - component: {fileID: 831615502451498461}
+  - component: {fileID: 1914834232769612546}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
@@ -599,6 +601,22 @@ MonoBehaviour:
   maxBounces: 5
   maxDistance: 20
   renderer: {fileID: 4907504108871414149}
+--- !u!114 &1914834232769612546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6392302252738177052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3693125887b531a43a5e561535913fed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gun: {fileID: 4172921744433967460}
+  bulletPrefab: {fileID: 7946226507871204232, guid: 7e2ef7b4af5c91947b6bc16791c7f13f, type: 3}
+  color: {r: 0.7169812, g: 0.7573832, b: 1, a: 1}
+  skill: Bubble
 --- !u!1 &8003625965313035607
 GameObject:
   m_ObjectHideFlags: 0
