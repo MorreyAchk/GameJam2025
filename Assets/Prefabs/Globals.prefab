@@ -789,6 +789,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 3051161134752132543}
   audioSourceBubble: {fileID: 7029410642694701464}
+  lever:
+  - {fileID: 8300000, guid: d3d6cbe8a93a5e64a9adde2dafc64d11, type: 3}
+  - {fileID: 8300000, guid: 612c977964a21e942a8f993bb6f14968, type: 3}
+  - {fileID: 8300000, guid: 864917deb0de5844597f010cd775f8d8, type: 3}
+  door:
+  - {fileID: 8300000, guid: 5d900b08d7d4564458b4c67a7071d7ab, type: 3}
+  - {fileID: 8300000, guid: 2e2f96168f484af45ac7dc3b3b56b13b, type: 3}
+  - {fileID: 8300000, guid: 5a68c852e07326e408e5b1bd5ef42beb, type: 3}
   brightness: {fileID: 6649287137363978627}
   resetShow: {fileID: 1252766435927937058}
 --- !u!1 &8129897811373229218

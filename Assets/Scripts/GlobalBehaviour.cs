@@ -9,6 +9,7 @@ public class GlobalBehaviour : MonoBehaviour
 {
     private static GlobalBehaviour instance;
     public AudioSource audioSource, audioSourceBubble;
+    public AudioClip[] lever, door;
     public Image brightness;
 
     public GameObject resetShow;
@@ -43,4 +44,8 @@ public class GlobalBehaviour : MonoBehaviour
         resetTime = 0;
       }
     }
+
+    public AudioClip GetLeverClip() => lever[Random.Range(0, lever.Length)];
+
+    public AudioClip GetDoorClip() => door[Random.Range(0, door.Length)];
 }

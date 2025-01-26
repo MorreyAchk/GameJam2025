@@ -8,6 +8,8 @@ public class DoorFlags : MonoBehaviour
     public bool isPlate;
     private Animator animator;
 
+    private AudioClip clip;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -17,6 +19,7 @@ public class DoorFlags : MonoBehaviour
         if (collision.CompareTag("Player")) {
             isOn = !isOn;
             animator.SetBool("ToggleValue", isOn);
+            GlobalBehaviour.Instance.audioSource.PlayOneShot(GlobalBehaviour.Instance.GetLeverClip(), .2f);
         }
     }
 
@@ -25,6 +28,7 @@ public class DoorFlags : MonoBehaviour
         if (isPlate && collision.CompareTag("Player")) {
             isOn=false;
             animator.SetBool("ToggleValue", false);
+            GlobalBehaviour.Instance.audioSource.PlayOneShot(GlobalBehaviour.Instance.GetLeverClip(), .2f);
         }
     }
 }
