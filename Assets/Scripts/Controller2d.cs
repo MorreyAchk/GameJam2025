@@ -8,48 +8,49 @@ public class Controller2d : MonoBehaviour
     private float horizontal;
     private float speed = 8f;
     private bool isFacingRight = true;
+    private Rigidbody2D rb;
+    private float defaultGravityScale;
+    public float bubbleDirectionX;
 
-     private float groundColliderRadius = 0.2f;
-    [SerializeField] private Rigidbody2D rb;
+    public float groundColliderRadius = 0.2f;
+    public SpriteRenderer spriteRenderer;
+    public bool isInBubble, isFreeze, isMoving;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private BubbleInteractable bubble;
-    [SerializeField] private float jumpingPower = 36f;
-    [SerializeField] private Animator animator;
+    [SerializeField] private float jumpingPower = 3f;
+    [SerializeField] private Animator playerAnimator;
+    [SerializeField] private BubbleEffects bubbleEffects;
 
-    public SpriteRenderer spriteRenderer;
-
-    public bool isMoving = false;
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        defaultGravityScale = rb.gravityScale;
+    }
 
     void Update()
     {
-        horizontal = Input.GetAxisRaw("Horizontal");
-        isJumping = Input.GetButtonDown("Jump");
-
-        if (isJumping && IsGrounded())
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
-        }
-
-        if (isJumping && rb.velocity.y > 0f)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
-        }
-        if (isJumping)
-        {
-            bubble.isInBubble = false;
-        }
-        isMoving = horizontal != 0 || isJumping;
-        animator.SetBool("isMoving",isMoving);
-
-        Flip();
+        PlayerInput();
+        Jumping();
+        Animations();
     }
 
     private void FixedUpdate()
     {
-        if (!IsGrounded())
-            return;
-        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        Vector2 velocity;
+        if (isInBubble)
+        {
+            bubbleEffects.InBubbleEffect();
+            rb.gravityScale = 0f;
+            velocity = new Vector2(bubbleDirectionX, 2f);
+        }
+        else
+        {
+            bubbleEffects.PopBubbleEffect();
+            bubbleDirectionX = 0;
+            rb.gravityScale = defaultGravityScale;
+            velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        }
+        rb.velocity = velocity;
     }
 
     private bool IsGrounded()
@@ -67,6 +68,34 @@ public class Controller2d : MonoBehaviour
         }
     }
 
+    private void PlayerInput()
+    {
+        horizontal = Input.GetAxisRaw("Horizontal");
+        isJumping = Input.GetButtonDown("Jump");
+        isMoving = horizontal != 0 || isJumping;
+    }
+
+    private void Animations()
+    {
+        playerAnimator.SetBool("isMoving", isMoving);
+        Flip();
+    }
+
+    private void Jumping()
+    {
+        if (isJumping)
+        {
+            if (IsGrounded())
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+            }
+            else if (rb.velocity.y > 0f)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+            }
+        }
+    }
+
     private void Flip()
     {
         if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
@@ -76,17 +105,38 @@ public class Controller2d : MonoBehaviour
         }
     }
 
-    public void OnSpike()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-      if (!bubble.isFreeze)
-        bubble.isInBubble = false;
+        if (collision.collider.tag.ToLower().Contains("wall"))
+        {
+            isInBubble = false;
+        }
+        else
+        {
+            Collider2D collider2D = collision.collider;
+            BulletTrigger bullet = collider2D.GetComponent<BulletTrigger>();
+            if (bullet != null)
+            {
+                if (bullet.power == Powers.Bubble)
+                    isInBubble = true;
+
+                if (bullet.power == Powers.Wind)
+                    bubbleDirectionX = bullet.GetComponent<Rigidbody2D>().velocity.x;
+            }
+        }
     }
 
-    public void OnKnowledge(string skill)
-    {
-      if (skill == "Freeze")
-      {
-        bubble.isFreeze = true;
-      }
-    }
+    //public void OnSpike()
+    //{
+    //    if (!bubble.isFreeze)
+    //        bubble.isInBubble = false;
+    //}
+
+    //public void OnKnowledge(string skill)
+    //{
+    //    if (skill == "Freeze")
+    //    {
+    //        bubble.isFreeze = true;
+    //    }
+    //}
 }

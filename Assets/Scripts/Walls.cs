@@ -5,35 +5,42 @@ using UnityEngine;
 
 public class Walls : MonoBehaviour
 {
+    public bool finalDoor;
+    public bool isReversed;
+    private bool hasToggled;
     public List<DoorFlags> flags;
-    public bool startOpen;
+
     private Animator animator;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
-        if (startOpen) {
-            animator.Play("Open");
-        }
-        else
-        {
-            animator.Play("Close");
-        }
     }
 
     private void Update()
     {
-        if (flags.Count>0)
+        bool isAllOn = flags.All(flag => flag.isOn);
+
+        if (flags.Count == 0 || (finalDoor && isAllOn))
         {
-            if (flags.All(flag => flag.isOn))
-            {
-                animator.Play("Open");
-            }
-            else
-            {
-                animator.Play("Close");
-            }
+            animator.Play("Open");
+            flags.Clear();
+            return;
         }
+
+        if (isAllOn)
+        {
+            hasToggled = true;
+            string animation = !isReversed ^ isAllOn ? "Close" : "Open";
+            animator.Play(animation);
+        }
+
+        else if(hasToggled)
+        {
+            string animation = !isReversed ^ !isAllOn ? "Open":"Close" ;
+            animator.Play(animation);
+        }
+
     }
 
 }

@@ -7,7 +7,7 @@ public class DoorAnimation : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        GlobalBehaviour.Instance.audioSource.PlayOneShot(GlobalBehaviour.Instance.GetDoorClip(), .2f);
+        //GlobalBehaviour.Instance.audioSource.PlayOneShot(GlobalBehaviour.Instance.GetDoorClip(), .2f);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -19,7 +19,7 @@ public class DoorAnimation : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        GlobalBehaviour.Instance.audioSource.PlayOneShot(GlobalBehaviour.Instance.GetDoorClip(), .2f);
+        //GlobalBehaviour.Instance.audioSource.PlayOneShot(GlobalBehaviour.Instance.GetDoorClip(), .2f);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

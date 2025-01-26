@@ -7,8 +7,8 @@ public class Aiming : MonoBehaviour
     public Transform gun;
     public float gunDistance = 1.5f;
 
-    private bool gunFacingRight;
-    [SerializeField]private SpriteRenderer gunSprite;
+    private bool facingLeft = false;
+    [SerializeField] private SpriteRenderer gunSprite;
 
     private void Start()
     {
@@ -30,17 +30,12 @@ public class Aiming : MonoBehaviour
 
     private void GunFlipController(Vector3 mousePos)
     {
-        if (mousePos.x < gun.position.x && gunFacingRight)
-            GunFlip();
-        else if (mousePos.x > gun.position.x && !gunFacingRight)
-            GunFlip();
+        bool shouldFaceLeft = mousePos.x < gun.position.x;
+
+        if (shouldFaceLeft != facingLeft)
+        {
+            facingLeft = shouldFaceLeft;
+            gunSprite.flipY = facingLeft;
+        }
     }
-
-    private void GunFlip()
-    {
-        gunFacingRight = !gunFacingRight;
-        gunSprite.flipY = gunFacingRight;
-    }
-
-
 }

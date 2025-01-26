@@ -18,7 +18,6 @@ public class AimingKeys : MonoBehaviour
 
         if (axis != default)
           gun.RotateAround(transform.position, axis, Time.deltaTime * 200);
-
         trajectory.Fire(gun);
     }
 }

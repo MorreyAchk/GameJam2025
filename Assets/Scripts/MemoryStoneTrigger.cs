@@ -6,22 +6,34 @@ public class MemoryStoneTrigger : MonoBehaviour
 {
     public Powers power;
     public Color color = Color.white;
-    public float xValueForce;
+    public float xWindValueForce=10f;
+    private SpriteRenderer sr;
 
     public void Awake()
     {
+        sr = GetComponent<SpriteRenderer>();
         Set(power, color);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        BubbleInteractable bubbleInteractable = collision.GetComponentInParent<BubbleInteractable>();
-        if (bubbleInteractable != null)
+        if (collision.CompareTag("Bullet"))
         {
+            BulletTrigger bullet = collision.GetComponent<BulletTrigger>();
+            Set(bullet.power, bullet.color);
+        }
+
+        if (collision.CompareTag("Player"))
+        {
+            Controller2d controller2D = collision.GetComponent<Controller2d>();
             if (power == Powers.Bubble)
-                bubbleInteractable.isInBubble = true;
+            {
+                controller2D.isInBubble = true;
+            }
             if (power == Powers.Wind)
-                bubbleInteractable.MoveBubble(xValueForce);
+            {
+                controller2D.bubbleDirectionX = xWindValueForce;
+            }
 
             color = Color.white;
             Set(Powers.Empty, color);
@@ -31,7 +43,6 @@ public class MemoryStoneTrigger : MonoBehaviour
     public void Set(Powers power, Color color)
     {
         this.power = power;
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
         sr.color = this.color = color;
     }
 }
