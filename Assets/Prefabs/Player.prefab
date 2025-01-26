@@ -619,7 +619,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gun: {fileID: 4172921744433967460}
   bulletPrefab: {fileID: 7946226507871204232, guid: 7e2ef7b4af5c91947b6bc16791c7f13f, type: 3}
-  color: {r: 0.7169812, g: 0.7573832, b: 1, a: 1}
+  color: {r: 0.4039216, g: 0.28235295, b: 0.9058824, a: 1}
   power: 1
 --- !u!1 &8003625965313035607
 GameObject:
