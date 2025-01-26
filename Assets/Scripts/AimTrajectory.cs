@@ -15,6 +15,7 @@ public class AimTrajectory : MonoBehaviour
     private Vector2 playerPosition, mousePosition;
 
     public new LineRenderer renderer;
+    [SerializeField]private Controller2d controller;
 
     public void Start()
     {
@@ -54,6 +55,11 @@ public class AimTrajectory : MonoBehaviour
                 }
                 else break; // Stop if no collision
             }
+        }
+
+        if (controller.isMoving)
+        {
+            pointsOfReflection.Clear();
         }
 
         if (pointsOfReflection.Count > 0)

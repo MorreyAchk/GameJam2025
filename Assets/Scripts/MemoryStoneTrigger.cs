@@ -4,28 +4,28 @@ using UnityEngine;
 
 public class MemoryStoneTrigger : MonoBehaviour
 {
-    public string skill;
+    public Powers power;
     public Color color = Color.white;
 
     public void Awake()
     {
-      Set(skill, color);
+        Set(power, color);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Controller2d controller2D = collision.GetComponentInParent<Controller2d>();
-        if (controller2D != null)
+        BubbleInteractable bubbleInteractable = collision.GetComponentInParent<BubbleInteractable>();
+        if (bubbleInteractable != null)
         {
-          if (skill == "Bubble")
-            controller2D.SetInBubble();
+            if (power == Powers.Bubble)
+                bubbleInteractable.isInBubble = true;
         }
     }
 
-    public void Set(string skill, Color color)
+    public void Set(Powers power, Color color)
     {
-      this.skill = skill;
-      SpriteRenderer sr = GetComponent<SpriteRenderer>();
-      sr.color = this.color = color;
+        this.power = power;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        sr.color = this.color = color;
     }
 }

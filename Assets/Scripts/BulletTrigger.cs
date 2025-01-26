@@ -4,29 +4,33 @@ using UnityEngine.SceneManagement;
 
 public class BulletTrigger : MonoBehaviour
 {
-  public string skill;
-  public Color color;
+    public Powers power;
+    public Color color;
 
-  private void OnTriggerEnter2D(Collider2D collision)
-  {
-    Controller2d controller2D = collision.GetComponentInParent<Controller2d>();
-    if (controller2D != null)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-      if (skill == "Bubble")
-        controller2D.SetInBubble();
+        BubbleInteractable bubbleInteractable = collision.GetComponentInParent<BubbleInteractable>();
+        if (bubbleInteractable != null)
+        {
+            if (power == Powers.Bubble)
+            {
+                bubbleInteractable.isInBubble = true;
+                Destroy(this.gameObject);
+            }
+            if (power == Powers.Wind)
+            {
+                bubbleInteractable.MoveBubble(collision.transform.position);
+                Destroy(this.gameObject);
+            }
 
-      Destroy(this.gameObject);
-    }
+        }
 
         MemoryStoneTrigger ms = collision.GetComponentInParent<MemoryStoneTrigger>();
         if (ms != null)
         {
-          ms.Set(skill, color);
-          Destroy(this.gameObject);
+            ms.Set(power, color);
+            Destroy(this.gameObject);
         }
 
-        BulletTrigger b = collision.GetComponentInParent<BulletTrigger>();
-        if (b != null)
-          Destroy(this.gameObject);
-  }
+    }
 }

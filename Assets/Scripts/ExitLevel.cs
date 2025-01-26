@@ -12,6 +12,9 @@ public class ExitLevel : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        levelLoader.PlayNextLevel();
+        if (collision.CompareTag("Player"))
+        {
+            levelLoader.PlayNextLevel();
+        }
     }
 }

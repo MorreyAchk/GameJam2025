@@ -15,7 +15,9 @@ public class Controller2d : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private BubbleInteractable bubble;
     [SerializeField] private float jumpingPower = 36f;
+    [SerializeField] private Animator animator;
 
+    public bool isMoving = false;
 
     void Update()
     {
@@ -35,6 +37,8 @@ public class Controller2d : MonoBehaviour
         {
             bubble.isInBubble = false;
         }
+        isMoving = horizontal != 0 || isJumping;
+        animator.SetBool("isMoving",isMoving);
 
         Flip();
     }
@@ -70,12 +74,6 @@ public class Controller2d : MonoBehaviour
             localScale.x *= -1f;
             transform.localScale = localScale;
         }
-    }
-
-    public void SetInBubble()
-    {
-        GlobalBehaviour.Instance.audioSourceBubble.Play();
-        bubble.isInBubble = true;
     }
 
     public void OnSpike()

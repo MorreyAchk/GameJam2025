@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 9206493810958228069}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,7 +136,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1071788913884165346}
@@ -190,8 +190,10 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  bubble: {fileID: 0}
-  jumpingPower: 36
+  bubble: {fileID: 9206493810958228069}
+  jumpingPower: 26
+  animator: {fileID: 8330587057131715858}
+  isMoving: 0
 --- !u!114 &6838152941062758568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gun: {fileID: 4172921744433967460}
   gunDistance: 1
+  gunSprite: {fileID: 3583541473928984733}
 --- !u!114 &9206493810958228069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,7 +237,7 @@ GameObject:
   - component: {fileID: 4543732360224001119}
   m_Layer: 0
   m_Name: Collider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -286,8 +289,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.082162574, y: 0.39369464}
-  m_Size: {x: 1.1436074, y: 2.6364007}
+  m_Offset: {x: 0.058555603, y: -0.054836616}
+  m_Size: {x: 1.0963931, y: 1.7393371}
   m_Direction: 0
 --- !u!1 &4285957913477820987
 GameObject:
@@ -366,7 +369,7 @@ SpriteRenderer:
   m_Sprite: {fileID: 1426872881, guid: c82e8d3af399c3a4e8376ecca6b98044, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
-  m_FlipY: 0
+  m_FlipY: 1
   m_DrawMode: 0
   m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
@@ -503,7 +506,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 54d702210077c6b4d97eddae74d64c12, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -577,8 +580,8 @@ LineRenderer:
       m_NumAlphaKeys: 2
     numCornerVertices: 0
     numCapVertices: 0
-    alignment: 0
-    textureMode: 0
+    alignment: 1
+    textureMode: 2
     textureScale: {x: 1, y: 1}
     shadowBias: 0.5
     generateLightingData: 0
@@ -601,6 +604,7 @@ MonoBehaviour:
   maxBounces: 5
   maxDistance: 20
   renderer: {fileID: 4907504108871414149}
+  controller: {fileID: 928434409988461795}
 --- !u!114 &1914834232769612546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -616,7 +620,7 @@ MonoBehaviour:
   gun: {fileID: 4172921744433967460}
   bulletPrefab: {fileID: 7946226507871204232, guid: 7e2ef7b4af5c91947b6bc16791c7f13f, type: 3}
   color: {r: 0.7169812, g: 0.7573832, b: 1, a: 1}
-  skill: Bubble
+  power: 1
 --- !u!1 &8003625965313035607
 GameObject:
   m_ObjectHideFlags: 0
