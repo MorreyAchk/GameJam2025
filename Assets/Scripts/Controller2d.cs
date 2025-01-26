@@ -17,6 +17,8 @@ public class Controller2d : MonoBehaviour
     [SerializeField] private float jumpingPower = 36f;
     [SerializeField] private Animator animator;
 
+    public SpriteRenderer spriteRenderer;
+
     public bool isMoving = false;
 
     void Update()
@@ -70,9 +72,7 @@ public class Controller2d : MonoBehaviour
         if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
         {
             isFacingRight = !isFacingRight;
-            Vector3 localScale = transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
+            spriteRenderer.flipX = !isFacingRight;
         }
     }
 
