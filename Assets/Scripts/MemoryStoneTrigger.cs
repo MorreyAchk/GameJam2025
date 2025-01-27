@@ -5,14 +5,15 @@ using UnityEngine;
 public class MemoryStoneTrigger : MonoBehaviour
 {
     public Powers power;
-    public Color color = Color.white;
+    public Color color;
+    public float defaultIntensity = 3f;
+    public float intensity=10f;
+    public SpriteRenderer innerSprite;
     public float xWindValueForce=10f;
-    private SpriteRenderer sr;
 
     public void Awake()
     {
-        sr = GetComponent<SpriteRenderer>();
-        Set(power, color);
+        Set(power, color, defaultIntensity);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -20,7 +21,8 @@ public class MemoryStoneTrigger : MonoBehaviour
         if (collision.CompareTag("Bullet"))
         {
             BulletTrigger bullet = collision.GetComponent<BulletTrigger>();
-            Set(bullet.power, bullet.color);
+            Set(bullet.power, bullet.color, intensity);
+            Destroy(collision.gameObject);
         }
 
         if (collision.CompareTag("Player"))
@@ -36,13 +38,13 @@ public class MemoryStoneTrigger : MonoBehaviour
             }
 
             color = Color.white;
-            Set(Powers.Empty, color);
+            Set(Powers.Empty, color, defaultIntensity);
         }
     }
 
-    public void Set(Powers power, Color color)
+    public void Set(Powers power, Color color,float intensity)
     {
         this.power = power;
-        sr.color = this.color = color;
+        innerSprite.material.SetColor("_GlowColor", color * intensity);
     }
 }
