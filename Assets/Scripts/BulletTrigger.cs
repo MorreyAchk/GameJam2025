@@ -9,7 +9,7 @@ public class BulletTrigger : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.collider.CompareTag("Wall")) {
+        if (!collision.collider.tag.ToLower().Contains("wall")) {
             Destroy(gameObject);
         }
     }

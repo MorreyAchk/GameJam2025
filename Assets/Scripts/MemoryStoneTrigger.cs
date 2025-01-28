@@ -30,7 +30,7 @@ public class MemoryStoneTrigger : MonoBehaviour
             Controller2d controller2D = collision.GetComponent<Controller2d>();
             if (power == Powers.Bubble)
             {
-                controller2D.isInBubble = true;
+                controller2D.UpdateBubbleStateServerRpc(true);
             }
             if (power == Powers.Wind)
             {

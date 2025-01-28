@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Aiming : MonoBehaviour
+public class Aiming : NetworkBehaviour
 {
     public Transform gun;
     public float gunDistance = 1.5f;
@@ -10,13 +11,11 @@ public class Aiming : MonoBehaviour
     private bool facingLeft = false;
     [SerializeField] private SpriteRenderer gunSprite;
 
-    private void Start()
-    {
-        gun.parent = null;
-    }
-
     public void Update()
     {
+        if (!IsOwner)
+            return;
+
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 direction = mousePos - transform.position;
 

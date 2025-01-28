@@ -7,6 +7,11 @@ public class MainMenu : MonoBehaviour
     public GameObject options;
     public LevelLoader levelLoader;
 
+    private void Start()
+    {
+        GlobalBehaviour.Instance.audioSource.volume = PlayerPrefs.GetFloat("volume");
+    }
+
     public void OnStart()
     {
         levelLoader.PlayNextLevel();
@@ -26,20 +31,21 @@ public class MainMenu : MonoBehaviour
     {
         Application.Quit();
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-        #endif
+#endif
     }
 
     public void OnVolumeChange(Slider slider)
     {
-      GlobalBehaviour.Instance.audioSource.volume = slider.value;
+        PlayerPrefs.SetFloat("volume", slider.value);
+        GlobalBehaviour.Instance.audioSource.volume = PlayerPrefs.GetFloat("volume");
     }
 
     public void OnBrightnessChange(Slider slider)
     {
-      Color c = GlobalBehaviour.Instance.brightness.color;
-      c.a = 1 - slider.value;
-      GlobalBehaviour.Instance.brightness.color = c;
+        Color c = GlobalBehaviour.Instance.brightness.color;
+        c.a = 1 - slider.value;
+        GlobalBehaviour.Instance.brightness.color = c;
     }
 }

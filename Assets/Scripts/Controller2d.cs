@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Controller2d : MonoBehaviour
+public class Controller2d : NetworkBehaviour
 {
-    private bool isJumping;
+    public bool isJumping,isMoving;
     private float horizontal;
     private float speed = 8f;
     private bool isFacingRight = true;
@@ -14,21 +15,35 @@ public class Controller2d : MonoBehaviour
 
     public float groundColliderRadius = 0.2f;
     public SpriteRenderer spriteRenderer;
-    public bool isInBubble, isFreeze, isMoving;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float jumpingPower = 3f;
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private BubbleEffects bubbleEffects;
 
+    private readonly NetworkVariable<bool> isFacingRightNetwork = new (true);
+    private readonly NetworkVariable<bool> isInBubbleNetwork = new (false);
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         defaultGravityScale = rb.gravityScale;
+
+        isFacingRightNetwork.OnValueChanged += OnFacingDirectionChanged;
+        isInBubbleNetwork.OnValueChanged += OnBubbleStateChanged;
+    }
+
+    public override void OnDestroy()
+    {
+        isFacingRightNetwork.OnValueChanged -= OnFacingDirectionChanged;
+        isInBubbleNetwork.OnValueChanged -= OnBubbleStateChanged;
     }
 
     void Update()
     {
+        if (!IsOwner)
+            return;
+
         PlayerInput();
         Jumping();
         Animations();
@@ -36,16 +51,17 @@ public class Controller2d : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!IsOwner)
+            return;
+
         Vector2 velocity;
-        if (isInBubble)
+        if (isInBubbleNetwork.Value)
         {
-            bubbleEffects.InBubbleEffect();
             rb.gravityScale = 0f;
             velocity = new Vector2(bubbleDirectionX, 2f);
         }
         else
         {
-            bubbleEffects.PopBubbleEffect();
             bubbleDirectionX = 0;
             rb.gravityScale = defaultGravityScale;
             velocity = new Vector2(horizontal * speed, rb.velocity.y);
@@ -63,7 +79,6 @@ public class Controller2d : MonoBehaviour
         if (groundCheck != null)
         {
             Gizmos.color = Color.red;
-
             Gizmos.DrawWireSphere(groundCheck.position, groundColliderRadius);
         }
     }
@@ -98,10 +113,36 @@ public class Controller2d : MonoBehaviour
 
     private void Flip()
     {
-        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
+        if ((isFacingRight && horizontal < 0f) || (!isFacingRight && horizontal > 0f))
         {
             isFacingRight = !isFacingRight;
-            spriteRenderer.flipX = !isFacingRight;
+
+            if (IsServer)
+            {
+                isFacingRightNetwork.Value = isFacingRight;
+            }
+            else
+            {
+                UpdateFacingDirectionServerRpc(isFacingRight);
+            }
+        }
+    }
+
+    private void OnFacingDirectionChanged(bool oldValue, bool newValue)
+    {
+        spriteRenderer.flipX = !newValue;
+    }
+
+    private void OnBubbleStateChanged(bool oldValue, bool newValue)
+    {
+        // Update bubble effects when the state changes
+        if (newValue)
+        {
+            bubbleEffects.InBubbleEffect();
+        }
+        else
+        {
+            bubbleEffects.PopBubbleEffect();
         }
     }
 
@@ -109,21 +150,48 @@ public class Controller2d : MonoBehaviour
     {
         if (collision.collider.tag.ToLower().Contains("wall"))
         {
-            isInBubble = false;
+            UpdateBubbleState(false);
         }
         else
         {
-            Collider2D collider2D = collision.collider;
-            BulletTrigger bullet = collider2D.GetComponent<BulletTrigger>();
+            BulletTrigger bullet = collision.collider.GetComponent<BulletTrigger>();
             if (bullet != null)
             {
                 if (bullet.power == Powers.Bubble)
-                    isInBubble = true;
+                {
+                    UpdateBubbleState(true);
+                }
 
                 if (bullet.power == Powers.Wind)
+                {
                     bubbleDirectionX = bullet.GetComponent<Rigidbody2D>().velocity.x;
+                }
             }
         }
+    }
+
+    private void UpdateBubbleState(bool newState)
+    {
+        if (IsServer)
+        {
+            isInBubbleNetwork.Value = newState;
+        }
+        else
+        {
+            UpdateBubbleStateServerRpc(newState);
+        }
+    }
+
+    [ServerRpc]
+    public void UpdateBubbleStateServerRpc(bool newState)
+    {
+        isInBubbleNetwork.Value = newState;
+    }
+
+    [ServerRpc]
+    private void UpdateFacingDirectionServerRpc(bool newFacingRight)
+    {
+        isFacingRightNetwork.Value = newFacingRight;
     }
 
     //public void OnSpike()

@@ -8,8 +8,9 @@ public class BubbleEffects : MonoBehaviour
     [SerializeField] private SpriteRenderer bubbleSprite;
     [SerializeField] private ParticleSystem bubbleParticleSystem;
 
-    public void InBubbleEffect() {
-        bubbleAnimator.Play("Default");
+    public void InBubbleEffect() 
+    {
+        bubbleAnimator.Play("BubbleIn");
         if (!bubbleParticleSystem.isPlaying)
         {
             bubbleParticleSystem.Play();
