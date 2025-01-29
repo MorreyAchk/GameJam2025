@@ -5,36 +5,71 @@ using UnityEngine;
 
 public class Aiming : NetworkBehaviour
 {
-    public Transform gun;
+
+    public Transform playerTransform;
     public float gunDistance = 1.5f;
 
-    private bool facingLeft = false;
     [SerializeField] private SpriteRenderer gunSprite;
+    private readonly NetworkVariable<bool> isFacingRightNetwork = new(true);
+    private NetworkVariable<Quaternion> gunRotation = new (default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    private NetworkVariable<float> gunPositionAngle = new (default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+
+    private void Start()
+    {
+        isFacingRightNetwork.OnValueChanged += OnFacingDirectionChanged;
+    }
+
+    public override void OnDestroy()
+    {
+        isFacingRightNetwork.OnValueChanged -= OnFacingDirectionChanged;
+    }
 
     public void Update()
     {
-        if (!IsOwner)
-            return;
+        if (IsOwner)
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 direction = mousePos - playerTransform.position;
 
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 direction = mousePos - transform.position;
+            Quaternion newRotation = Quaternion.Euler(new Vector3(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg));
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        gun.rotation = Quaternion.Euler(new Vector3(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg));
+            gunRotation.Value = newRotation;
+            gunPositionAngle.Value = angle;
 
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        gun.position = transform.position + Quaternion.Euler(0, 0, angle) * new Vector3(gunDistance, 0, 0);
+            GunFlipController(mousePos);
+        }
 
-        GunFlipController(mousePos);
+        transform.rotation = gunRotation.Value;
+        transform.position = playerTransform.position + Quaternion.Euler(0, 0, gunPositionAngle.Value) * new Vector3(gunDistance, 0, 0);
+    }
+
+    private void OnFacingDirectionChanged(bool oldValue, bool newValue)
+    {
+        gunSprite.flipY = !newValue;
     }
 
     private void GunFlipController(Vector3 mousePos)
     {
-        bool shouldFaceLeft = mousePos.x < gun.position.x;
+        bool isFacingRight = mousePos.x > transform.position.x;
 
-        if (shouldFaceLeft != facingLeft)
+        if (isFacingRight != isFacingRightNetwork.Value)
         {
-            facingLeft = shouldFaceLeft;
-            gunSprite.flipY = facingLeft;
+            if (IsServer)
+            {
+                isFacingRightNetwork.Value = isFacingRight;
+            }
+            else
+            {
+                UpdateFacingDirectionServerRpc(isFacingRight);
+            }
         }
+    }
+
+    [ServerRpc]
+    private void UpdateFacingDirectionServerRpc(bool newFacingRight)
+    {
+        isFacingRightNetwork.Value = newFacingRight;
     }
 }

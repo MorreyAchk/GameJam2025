@@ -1135,9 +1135,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fd042c46c4d5b5409ae0d8d908ec53d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxPlayers: 2
   inputField: {fileID: 123530868}
   options: {fileID: 142619890}
   waitScreen: {fileID: 2020120755}
+  nextScene: NetworkTest
 --- !u!1 &1529563487
 GameObject:
   m_ObjectHideFlags: 0

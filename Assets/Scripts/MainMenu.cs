@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public GameObject options;
-    public LevelLoader levelLoader;
 
     private void Start()
     {
@@ -14,7 +13,7 @@ public class MainMenu : MonoBehaviour
 
     public void OnStart()
     {
-        levelLoader.PlayNextLevel();
+        GlobalBehaviour.Instance.PlayNextLevel();
     }
 
     public void OnOptions()

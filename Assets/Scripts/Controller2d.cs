@@ -135,7 +135,6 @@ public class Controller2d : NetworkBehaviour
 
     private void OnBubbleStateChanged(bool oldValue, bool newValue)
     {
-        // Update bubble effects when the state changes
         if (newValue)
         {
             bubbleEffects.InBubbleEffect();

@@ -11,12 +11,11 @@ public class PlayerSpawner : MonoBehaviour
 
     private void Awake()
     {
-        if (isInDevelopment)
-        {
+        if (isInDevelopment) {
             NetworkManager.Singleton.StartHost();
-            SpawnHostPlayer(1u);
         }
     }
+
     private void Start()
     {
         if (NetworkManager.Singleton.IsServer)
@@ -42,26 +41,10 @@ public class PlayerSpawner : MonoBehaviour
     {
         Debug.Log($"Spawning player for client {clientId}");
 
-        var playerPrefab = NetworkManager.Singleton.NetworkConfig.PlayerPrefab;
-        if (playerPrefab != null)
-        {
-            Vector2 spawnPosition = GetSpawnPosition(clientId);
-
-            var playerInstance = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
-            playerInstance.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
-        }
-        else
-        {
-            Debug.LogError("Player prefab not set in NetworkManager.");
-        }
-    }
-
-    private void SpawnHostPlayer(ulong clientId)
-    {
         Vector2 spawnPosition = GetSpawnPosition(clientId);
 
         var playerInstance = Instantiate(hostPlayerPrefab, spawnPosition, Quaternion.identity);
-        playerInstance.GetComponent<NetworkObject>().Spawn();
+        playerInstance.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
     }
 
     private Vector2 GetSpawnPosition(ulong clientId)

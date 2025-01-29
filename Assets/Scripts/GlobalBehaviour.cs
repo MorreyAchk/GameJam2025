@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class GlobalBehaviour : MonoBehaviour
 {
     private static GlobalBehaviour instance;
-    public AudioSource audioSource, audioSourceBubble;
+    public AudioSource audioSource;
     public AudioClip[] lever, door;
     public Image brightness;
 
@@ -16,6 +16,31 @@ public class GlobalBehaviour : MonoBehaviour
     private float resetTime;
 
     public static GlobalBehaviour Instance => instance;
+
+    [Header("Level loader")]
+    public Animator transition;
+    public Image transitionImage;
+
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += LoadInLevel;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= LoadInLevel;
+    }
+
+    private void LoadInLevel(Scene scene, LoadSceneMode mode)
+    {
+        transition.Play("WipeOut");
+    }
+
+    public void PlayNextLevel()
+    {
+        transition.Play("WipeIn");
+    }
 
     public void Awake()
     {

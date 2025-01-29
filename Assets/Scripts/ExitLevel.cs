@@ -4,17 +4,11 @@ using UnityEngine;
 
 public class ExitLevel : MonoBehaviour
 {
-    private LevelLoader levelLoader;
-    void Start()
-    {
-        levelLoader = FindAnyObjectByType<LevelLoader>();
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            levelLoader.PlayNextLevel();
+            GlobalBehaviour.Instance.PlayNextLevel();
         }
     }
 }

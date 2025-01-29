@@ -3,8 +3,9 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class AimTrajectory : MonoBehaviour
+public class AimTrajectory : NetworkBehaviour
 {
     private int mask;
 
@@ -24,6 +25,10 @@ public class AimTrajectory : MonoBehaviour
 
     public void Update()
     {
+        if (!IsOwner) {
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             playerPosition = transform.position;

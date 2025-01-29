@@ -9,10 +9,11 @@ using UnityEngine.SceneManagement;
 public class LobbyManager : MonoBehaviour
 {
     private int playersConnected = 0;
-    private const int maxPlayers = 2;
+    public int maxPlayers = 2;
     public TMP_InputField inputField;
     public GameObject options;
     public GameObject waitScreen;
+    public string nextScene;
 
     private void Start()
     {
@@ -43,7 +44,7 @@ public class LobbyManager : MonoBehaviour
     public void JoinGame()
     {
         var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
-        transport.ConnectionData.Address = inputField.text;
+        transport.ConnectionData.Address = "127.0.0.1";
 
         if (NetworkManager.Singleton.StartClient())
         {
@@ -75,6 +76,6 @@ public class LobbyManager : MonoBehaviour
 
     private void StartGameForAllPlayers()
     {
-        NetworkManager.Singleton.SceneManager.LoadScene("Level1", LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene(nextScene, LoadSceneMode.Single);
     }
 }

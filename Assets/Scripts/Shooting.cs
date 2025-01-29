@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Shooting : NetworkBehaviour
 {
-    public Transform gun;
     public float gunRadius=0.5f;
+    public Transform shootingPoint;
     public GameObject bulletPrefab;
     public float bulletForce=7f;
     public Color color;
@@ -15,30 +15,39 @@ public class Shooting : NetworkBehaviour
 
     private bool IsInGround()
     {
-        return Physics2D.OverlapCircle(gun.position, gunRadius, groundLayer);
+        return Physics2D.OverlapCircle(shootingPoint.position, gunRadius, groundLayer);
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(gun.position, gunRadius);
+        Gizmos.DrawWireSphere(shootingPoint.position, gunRadius);
     }
 
 
-    public void Update()
+    private void Update()
     {
         if (!IsOwner)
             return;
 
         if (Input.GetMouseButtonDown(1) && !IsInGround())
         {
-            GameObject bullet = Instantiate(bulletPrefab, gun.position, gun.rotation);
-            BulletTrigger bi = bullet.GetComponent<BulletTrigger>();
-            bi.color = color;
-            bi.power = power;
-            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-            rb.velocity = transform.right * bulletForce;
-            Destroy(bullet, 5);
+            SpawnBulletServerRpc(shootingPoint.position, shootingPoint.rotation);
         }
     }
+
+    [ServerRpc]
+    private void SpawnBulletServerRpc(Vector3 position, Quaternion rotation)
+    {
+        GameObject bullet = Instantiate(bulletPrefab, position, rotation);
+        NetworkObject networkObject = bullet.GetComponent<NetworkObject>();
+        networkObject.Spawn();
+
+        BulletTrigger bi = bullet.GetComponent<BulletTrigger>();
+        bi.Set(power,color); // Use a method to set synced properties
+
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+        rb.velocity = shootingPoint.right * bulletForce;
+    }
+
 }
