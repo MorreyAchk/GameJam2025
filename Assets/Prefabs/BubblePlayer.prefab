@@ -546,7 +546,7 @@ MonoBehaviour:
   maxBounces: 5
   maxDistance: 20
   renderer: {fileID: 183609408913905045}
-  controller: {fileID: 0}
+  controller: {fileID: 6421700695625668603}
 --- !u!114 &8717388084105346660
 MonoBehaviour:
   m_ObjectHideFlags: 0

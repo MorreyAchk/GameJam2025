@@ -15,11 +15,12 @@ public class AimTrajectory : NetworkBehaviour
     private List<Vector2> pointsOfReflection = new List<Vector2>();
     private Vector2 playerPosition, mousePosition;
 
-    public new LineRenderer renderer;
+    private new LineRenderer renderer;
     [SerializeField]private Controller2d controller;
 
     public void Start()
     {
+        renderer = GetComponent<LineRenderer>();
         mask = LayerMask.GetMask("Ground");
     }
 

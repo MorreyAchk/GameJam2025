@@ -545,8 +545,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxBounces: 5
   maxDistance: 20
-  renderer: {fileID: 183609408913905045}
-  controller: {fileID: 0}
+  controller: {fileID: 6421700695625668603}
 --- !u!114 &8717388084105346660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,7 +560,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunRadius: 0.1
   shootingPoint: {fileID: 8708646526920129684}
-  bulletPrefab: {fileID: 7946226507871204232, guid: 7e2ef7b4af5c91947b6bc16791c7f13f, type: 3}
+  bulletPrefab: {fileID: 7946226507871204232, guid: 992d4cdfdd3b9694f9910e3399712aab, type: 3}
   bulletForce: 7
   color: {r: 0, g: 0.9166293, b: 1, a: 0}
   power: 0

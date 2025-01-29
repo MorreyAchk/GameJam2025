@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BulletBase
+  m_Name: W_BulletBase
   m_Shader: {fileID: -6465566751694194690, guid: f0eb14559a0ae984aaf0f042c08ca339, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -48,7 +48,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _GlowColor: {r: 1.5084945, g: 0, b: 8.474189, a: 0}
+    - _GlowColor: {r: 0, g: 5.1657333, b: 8.47419, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &5564156799958040161
 MonoBehaviour:

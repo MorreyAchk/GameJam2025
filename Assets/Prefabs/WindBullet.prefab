@@ -53,7 +53,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 458f86a350d28114fa2d70591628effe, type: 2}
+  - {fileID: 2100000, guid: 48b04713c0a33f14d92a8224d8dd20c4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 8924874327281147410}
   - component: {fileID: 7296175538215960043}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: WindBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -205,7 +205,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: aea15586956f31f48bde5868ea93e8d8, type: 2}
+  - {fileID: 2100000, guid: e10956f2007bc434bbb621d7b8983d01, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -424,7 +424,7 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.301
-  m_Color: {r: 0.9713988, g: 0.390566, b: 1, a: 1}
+  m_Color: {r: 0.39215684, g: 0.8775712, b: 1, a: 1}
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
