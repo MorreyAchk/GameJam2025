@@ -3,18 +3,12 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 
-public class BulletTrigger : NetworkBehaviour
+public class BulletTrigger : MonoBehaviour
 {
     public Powers power;
     public Color color;
     public int maxBounces=8;
     private int bounceCounter;
-    private NetworkObject networkObject;
-
-    private void Start()
-    {
-        networkObject = GetComponent<NetworkObject>();  
-    }
 
     public void Set(Powers power,Color color) {
         this.power = power;
@@ -25,7 +19,7 @@ public class BulletTrigger : NetworkBehaviour
     {
         bounceCounter++;
         if (!collision.collider.tag.ToLower().Contains("wall") || bounceCounter == maxBounces) {
-            networkObject.Despawn();
+            Destroy(gameObject);
         }
     }
 }

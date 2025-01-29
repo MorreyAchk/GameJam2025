@@ -1,0 +1,546 @@
+fileFormatVersion: 2
+guid: e54c4407e9a7cd24ba52fe0128dbbb55
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Screenshot_20250126_011821_Sketchbook-removebg-preview_0
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 282
+        width: 158
+        height: 207
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3bab5d31fa73de4a9cbedae9c1e5158
+      internalID: -1486480523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Screenshot_20250126_011821_Sketchbook-removebg-preview_1
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 438
+        width: 35
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0e0e8784b9a22c4f829777c2156d771
+      internalID: -47367002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Screenshot_20250126_011821_Sketchbook-removebg-preview_2
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 417
+        width: 94
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98791f5d3456f7d42ba6c0c7f7aaafbc
+      internalID: -32292893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Screenshot_20250126_011821_Sketchbook-removebg-preview_3
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 360
+        width: 25
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b5c75412e819404b94e7a16950999b5
+      internalID: 592213230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Screenshot_20250126_011821_Sketchbook-removebg-preview_4
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 356
+        width: 21
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 551fad2a5963c98438e574b92b8f03ca
+      internalID: -1441456967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Screenshot_20250126_011821_Sketchbook-removebg-preview_5
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 325
+        width: 94
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c94dc11c95dcd14ab9c292c489874e8
+      internalID: -1042032187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Screenshot_20250126_011821_Sketchbook-removebg-preview_6
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 306
+        width: 16
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebd5e96309a58bd4296d0368c8f35fb6
+      internalID: -1220992592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Screenshot_20250126_011821_Sketchbook-removebg-preview_7
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 309
+        width: 17
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 975cbe279752ba440913d5f8d8695145
+      internalID: -2141502463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Screenshot_20250126_011821_Sketchbook-removebg-preview_9
+      rect:
+        serializedVersion: 2
+        x: 379
+        y: 202
+        width: 31
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c2a5529ba0648a499e79b0ee4004696
+      internalID: -1231150755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Screenshot_20250126_011821_Sketchbook-removebg-preview_10
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 39
+        width: 126
+        height: 176
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0614c4e4b1e27fd4bbb1dad843407d1a
+      internalID: -1004648576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Screenshot_20250126_011821_Sketchbook-removebg-preview_11
+      rect:
+        serializedVersion: 2
+        x: 232
+        y: 68
+        width: 55
+        height: 126
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1635a74be4122974a994ad4154325029
+      internalID: 1513731836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Screenshot_20250126_011821_Sketchbook-removebg-preview_12
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 127
+        width: 17
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bfa3b7fc8f7a4840ba4e06ff4584009
+      internalID: 1170714941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Screenshot_20250126_011821_Sketchbook-removebg-preview_13
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 135
+        width: 21
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6557c9bcd105e2544a781ab0155577cf
+      internalID: 509068470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Screenshot_20250126_011821_Sketchbook-removebg-preview_14
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 116
+        width: 18
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bebd186c456cddd43a04b652bca7594a
+      internalID: -892537881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Screenshot_20250126_011821_Sketchbook-removebg-preview_15
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 128
+        width: 27
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b1c796b53665f74e9a24f69724f1214
+      internalID: 852031028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Screenshot_20250126_011821_Sketchbook-removebg-preview_16
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 4
+        width: 19
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c30746053f47dd64f9e792d4a1edae1e
+      internalID: 125156838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Screenshot_20250126_011821_Sketchbook-removebg-preview_17
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 11
+        width: 27
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33af10abc902ea94697c8f662daf387f
+      internalID: -700287209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Screenshot_20250126_011821_Sketchbook-removebg-preview_18
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 36
+        width: 30
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd75af81ae01f854da8ac29e0f88dfd2
+      internalID: 1564627362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Screenshot_20250126_011821_Sketchbook-removebg-preview_19
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 38
+        width: 46
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88177892aef28644f8b5f0bdf2934ca7
+      internalID: -427276738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_0: -1486480523
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_1: -47367002
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_10: -1004648576
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_11: 1513731836
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_12: 1170714941
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_13: 509068470
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_14: -892537881
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_15: 852031028
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_16: 125156838
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_17: -700287209
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_18: 1564627362
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_19: -427276738
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_2: -32292893
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_3: 592213230
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_4: -1441456967
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_5: -1042032187
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_6: -1220992592
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_7: -2141502463
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_8: 2076495277
+      Screenshot_20250126_011821_Sketchbook-removebg-preview_9: -1231150755
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

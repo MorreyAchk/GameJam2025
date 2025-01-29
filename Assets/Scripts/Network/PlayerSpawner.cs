@@ -7,11 +7,13 @@ using UnityEngine.SceneManagement;
 public class PlayerSpawner : MonoBehaviour
 {
     public bool isInDevelopment;
-    public GameObject hostPlayerPrefab;
+    public GameObject bubblePlayerPrefab;
+    public GameObject windPlayerPrefab;
 
     private void Awake()
     {
-        if (isInDevelopment) {
+        if (isInDevelopment)
+        {
             NetworkManager.Singleton.StartHost();
         }
     }
@@ -42,8 +44,8 @@ public class PlayerSpawner : MonoBehaviour
         Debug.Log($"Spawning player for client {clientId}");
 
         Vector2 spawnPosition = GetSpawnPosition(clientId);
-
-        var playerInstance = Instantiate(hostPlayerPrefab, spawnPosition, Quaternion.identity);
+        
+        var playerInstance = Instantiate(clientId == 0 ? bubblePlayerPrefab : windPlayerPrefab, spawnPosition, Quaternion.identity);
         playerInstance.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
     }
 

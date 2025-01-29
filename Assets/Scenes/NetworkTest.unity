@@ -13918,7 +13918,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isInDevelopment: 1
-  hostPlayerPrefab: {fileID: 1802323255938062425, guid: 13371ce72a0e7554eb6bf910cb35c25a, type: 3}
+  bubblePlayerPrefab: {fileID: 1802323255938062425, guid: e59d179c79e59ab44a2bee31262b15b1, type: 3}
+  windPlayerPrefab: {fileID: 1802323255938062425, guid: 13371ce72a0e7554eb6bf910cb35c25a, type: 3}
 --- !u!4 &1493994709
 Transform:
   m_ObjectHideFlags: 0

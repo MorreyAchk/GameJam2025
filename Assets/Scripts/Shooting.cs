@@ -14,6 +14,7 @@ public class Shooting : NetworkBehaviour
     public Powers power;
     public LayerMask groundLayer;
 
+
     private bool IsInGround()
     {
         return Physics2D.OverlapCircle(shootingPoint.position, gunRadius, groundLayer);
@@ -33,15 +34,26 @@ public class Shooting : NetworkBehaviour
 
         if (Input.GetMouseButtonDown(1) && !IsInGround())
         {
-            SpawnBulletServerRpc(shootingPoint.position, shootingPoint.rotation);
+            if (IsServer)
+            {
+                SpawnBulletClientRpc(shootingPoint.position, shootingPoint.rotation);
+            }
+            else {
+                InstantiateBullet(shootingPoint.position, shootingPoint.rotation);
+                SpawnBulletServerRpc(shootingPoint.position, shootingPoint.rotation);
+            }
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void SpawnBulletServerRpc(Vector3 position, Quaternion rotation)
+    [ServerRpc]
+    private void SpawnBulletServerRpc(Vector3 position, Quaternion rotation) => InstantiateBullet(position, rotation);
+
+    [ClientRpc]
+    private void SpawnBulletClientRpc(Vector3 position, Quaternion rotation) => InstantiateBullet(position, rotation);
+
+    private void InstantiateBullet(Vector3 position, Quaternion rotation)
     {
         GameObject bullet = Instantiate(bulletPrefab, position, rotation);
-        bullet.GetComponent<NetworkObject>().Spawn();
 
         BulletTrigger bi = bullet.GetComponent<BulletTrigger>();
         bi.Set(power, color); // Use a method to set synced properties
