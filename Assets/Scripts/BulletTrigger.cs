@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 
-public class BulletTrigger : MonoBehaviour
+public class BulletTrigger : NetworkBehaviour
 {
     public Powers power;
     public Color color;
