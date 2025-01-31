@@ -149,7 +149,7 @@ MonoBehaviour:
   defaultIntensity: 2
   intensity: 20
   innerSprite: {fileID: 7598385113593506539}
-  xWindValueForce: 10
+  xWindValueForce: -10
 --- !u!1 &6111683723098043947
 GameObject:
   m_ObjectHideFlags: 0

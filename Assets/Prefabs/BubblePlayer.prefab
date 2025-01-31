@@ -203,7 +203,7 @@ MonoBehaviour:
   UseQuaternionSynchronization: 0
   UseQuaternionCompression: 0
   UseHalfFloatPrecision: 0
-  InLocalSpace: 0
+  InLocalSpace: 1
   Interpolate: 1
   SlerpPosition: 0
 --- !u!114 &6173023261497456150
@@ -545,7 +545,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxBounces: 5
   maxDistance: 20
-  renderer: {fileID: 183609408913905045}
+  gunShootTransform: {fileID: 8708646526920129684}
   controller: {fileID: 6421700695625668603}
 --- !u!114 &8717388084105346660
 MonoBehaviour:
@@ -582,6 +582,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 2720838217730057344}
   gunDistance: 1.5
+  lockedIn: 0
   gunSprite: {fileID: 9095359384153656716}
 --- !u!1 &6414149055101361715
 GameObject:

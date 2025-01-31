@@ -39,8 +39,8 @@ public class Shooting : NetworkBehaviour
                 SpawnBulletClientRpc(shootingPoint.position, shootingPoint.rotation);
             }
             else {
-                InstantiateBullet(shootingPoint.position, shootingPoint.rotation);
                 SpawnBulletServerRpc(shootingPoint.position, shootingPoint.rotation);
+                InstantiateBullet(shootingPoint.position, shootingPoint.rotation);
             }
         }
     }

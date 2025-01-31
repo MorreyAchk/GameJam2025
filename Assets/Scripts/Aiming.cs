@@ -8,6 +8,7 @@ public class Aiming : NetworkBehaviour
 
     public Transform playerTransform;
     public float gunDistance = 1.5f;
+    public bool lockedIn;
 
     [SerializeField] private SpriteRenderer gunSprite;
     private readonly NetworkVariable<bool> isFacingRightNetwork = new(true);
@@ -27,6 +28,9 @@ public class Aiming : NetworkBehaviour
 
     public void Update()
     {
+        if (lockedIn)
+            return;
+
         if (IsOwner)
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

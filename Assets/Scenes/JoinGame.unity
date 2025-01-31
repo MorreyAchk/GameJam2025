@@ -1139,7 +1139,7 @@ MonoBehaviour:
   inputField: {fileID: 123530868}
   options: {fileID: 142619890}
   waitScreen: {fileID: 2020120755}
-  nextScene: Level1
+  nextScene: NetworkTest
 --- !u!1 &1529563487
 GameObject:
   m_ObjectHideFlags: 0

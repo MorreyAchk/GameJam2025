@@ -12,33 +12,36 @@ public class AimTrajectory : NetworkBehaviour
     public int maxBounces = 5;
     public float maxDistance = 20f;
 
+    public Transform gunShootTransform;
     private List<Vector2> pointsOfReflection = new List<Vector2>();
-    private Vector2 playerPosition, mousePosition;
+    private Vector2 mousePosition;
 
+    private Aiming aiming;
     private new LineRenderer renderer;
-    [SerializeField]private Controller2d controller;
+    [SerializeField] private Controller2d controller;
 
     public void Start()
     {
+        aiming = GetComponent<Aiming>();
         renderer = GetComponent<LineRenderer>();
         mask = LayerMask.GetMask("Ground");
     }
 
     public void Update()
     {
-        if (!IsOwner) {
+        if (!IsOwner)
+        {
             return;
         }
 
         if (Input.GetMouseButtonDown(0))
         {
-            playerPosition = transform.position;
             mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             pointsOfReflection.Clear();
-            pointsOfReflection.Add(playerPosition);
+            pointsOfReflection.Add(gunShootTransform.position);
 
             int bounceCount = 0;
-            Vector2 direction = (mousePosition - playerPosition).normalized;
+            Vector2 direction = (mousePosition - new Vector2(gunShootTransform.position.x, gunShootTransform.position.y)).normalized;
 
             while (bounceCount < maxBounces)
             {
@@ -61,10 +64,12 @@ public class AimTrajectory : NetworkBehaviour
                 }
                 else break; // Stop if no collision
             }
+            aiming.lockedIn = true;
         }
 
         if (controller.isMoving)
         {
+            aiming.lockedIn = false;
             pointsOfReflection.Clear();
         }
 

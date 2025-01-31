@@ -545,6 +545,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxBounces: 5
   maxDistance: 20
+  gunShootTransform: {fileID: 8708646526920129684}
   controller: {fileID: 6421700695625668603}
 --- !u!114 &8717388084105346660
 MonoBehaviour:
@@ -581,6 +582,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 2720838217730057344}
   gunDistance: 1.5
+  lockedIn: 0
   gunSprite: {fileID: 9095359384153656716}
 --- !u!1 &6414149055101361715
 GameObject:
