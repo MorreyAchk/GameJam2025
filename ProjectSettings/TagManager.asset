@@ -8,6 +8,7 @@ TagManager:
   - DestroyableWalls
   - Wall
   - Bullet
+  - Lever
   layers:
   - Default
   - TransparentFX

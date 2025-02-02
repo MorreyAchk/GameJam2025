@@ -19,7 +19,7 @@ public class Walls : MonoBehaviour
 
     private void Update()
     {
-        bool isAllOn = flags.All(flag => flag.isOn);
+        bool isAllOn = flags.All(flag => flag.isOn.Value);
 
         if (flags.Count == 0 || (finalDoor && isAllOn))
         {

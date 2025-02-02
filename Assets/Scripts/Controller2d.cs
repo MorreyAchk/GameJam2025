@@ -20,8 +20,8 @@ public class Controller2d : NetworkBehaviour
     [SerializeField] private float jumpingPower = 3f;
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private BubbleEffects bubbleEffects;
-    [SerializeField] private GameObject gunObject;
     private Vector3 networkPosition;
+    public DoorFlags currentLever;
 
     private readonly NetworkVariable<bool> isFacingRightNetwork = new (true);
     private readonly NetworkVariable<bool> isInBubbleNetwork = new (false);
@@ -45,6 +45,7 @@ public class Controller2d : NetworkBehaviour
     {
         if (IsOwner)
         {
+            InteractWithLever();
             PlayerInput();
             Jumping();
             Animations();
@@ -174,7 +175,6 @@ public class Controller2d : NetworkBehaviour
             }
         }
     }
-
     private void UpdateBubbleState(bool newState)
     {
         if (IsServer)
@@ -200,10 +200,7 @@ public class Controller2d : NetworkBehaviour
     }
 
     [ServerRpc]
-    private void SentPositionToServerRpc(Vector3 position)
-    {
-        SentPositionFromClientRpc(position);
-    }
+    private void SentPositionToServerRpc(Vector3 position) => SentPositionFromClientRpc(position);
 
     [ClientRpc]
     private void SentPositionFromClientRpc(Vector3 position)
@@ -212,6 +209,13 @@ public class Controller2d : NetworkBehaviour
             return;
 
         networkPosition = position;
+    }
+
+    private void InteractWithLever() {
+        if (Input.GetKeyDown(KeyCode.E) && currentLever != null)
+        {
+            currentLever.Interact();
+        }
     }
 
     //public void OnSpike()

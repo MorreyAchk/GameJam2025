@@ -10,16 +10,12 @@ public class PlayerSpawner : MonoBehaviour
     public GameObject bubblePlayerPrefab;
     public GameObject windPlayerPrefab;
 
-    private void Awake()
+    private void Start()
     {
         if (isInDevelopment)
         {
             NetworkManager.Singleton.StartHost();
         }
-    }
-
-    private void Start()
-    {
         if (NetworkManager.Singleton.IsServer)
         {
             NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;

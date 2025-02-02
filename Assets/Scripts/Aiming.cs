@@ -54,7 +54,7 @@ public class Aiming : NetworkBehaviour
             ShootBullet();
             MoveGun();
             Trajectory();
-            SentPositionToServerRpc(aimingAngle, transform.rotation);
+            SentAngleAndRotationToServerRpc(aimingAngle, transform.rotation);
         }
         else {
             transform.position = networkPosition;
@@ -62,6 +62,7 @@ public class Aiming : NetworkBehaviour
         }
     }
 
+    #region Moving
     private void MoveGun() {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 direction = mousePos - playerTransform.position;
@@ -76,27 +77,19 @@ public class Aiming : NetworkBehaviour
     }
 
     [ServerRpc]
-    private void SentPositionToServerRpc(float angle,Quaternion rotation)
+    private void SentAngleAndRotationToServerRpc(float angle,Quaternion rotation)
     {
-        SentPositionFromClientRpc(angle, rotation);
+        SentAngleAndRotationFromClientRpc(angle, rotation);
     }
 
     [ClientRpc]
-    private void SentPositionFromClientRpc(float angle, Quaternion rotation)
+    private void SentAngleAndRotationFromClientRpc(float angle, Quaternion rotation)
     {
         if (IsOwner)
             return;
 
         networkPosition = playerTransform.position + Quaternion.Euler(0, 0, angle) * new Vector3(gunDistance, 0, 0);
         networkRotation = rotation;
-    }
-
-    private void ShootBullet() {
-        if (Input.GetMouseButtonDown(1) && !IsInGround() && pointsOfReflection.Count >= 2)
-        {
-            Vector2 firstDirection = (pointsOfReflection[1] - pointsOfReflection[0]).normalized;
-            SpawnBulletServerRpc(firstDirection);
-        }
     }
 
     private void OnFacingDirectionChanged(bool oldValue, bool newValue)
@@ -127,6 +120,9 @@ public class Aiming : NetworkBehaviour
         isFacingRightNetwork.Value = newFacingRight;
     }
 
+    #endregion
+
+    #region Aiming
     private bool IsInGround()
     {
         return Physics2D.OverlapCircle(shootingPoint.position, gunRadius, groundLayer);
@@ -188,8 +184,32 @@ public class Aiming : NetworkBehaviour
         }
     }
 
+    #endregion
+
+    #region Shooting
+    private void ShootBullet()
+    {
+        if (Input.GetMouseButtonDown(1) && !IsInGround() && pointsOfReflection.Count >= 2)
+        {
+            Vector2 direction = (pointsOfReflection[1] - pointsOfReflection[0]).normalized;
+            if (IsServer)
+            {
+                SpawnBulletClientRpc(direction);
+            }
+            else {
+                SpawnBullet(direction);
+                SpawnBulletServerRpc(direction);
+            }
+        }
+    }
+
+    [ClientRpc]
+    private void SpawnBulletClientRpc(Vector2 direction) => SpawnBullet(direction);
+
     [ServerRpc]
-    private void SpawnBulletServerRpc(Vector2 direction)
+    private void SpawnBulletServerRpc(Vector2 direction) => SpawnBullet(direction);
+
+    private void SpawnBullet(Vector2 direction)
     {
         GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
 
@@ -200,4 +220,6 @@ public class Aiming : NetworkBehaviour
 
         rb.velocity = direction * bulletForce;
     }
+
+    #endregion
 }

@@ -128,8 +128,6 @@ MonoBehaviour:
   jumpingPower: 15
   playerAnimator: {fileID: 2466617933267394414}
   bubbleEffects: {fileID: 1756762610675945713}
-  gunObject: {fileID: 6442900510672276459, guid: 484462ae54d1d4740962f86b4d49fed5, type: 3}
-  player: {fileID: 2720838217730057344}
 --- !u!114 &1756762610675945713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,7 +553,7 @@ MonoBehaviour:
   playerTransform: {fileID: 2720838217730057344}
   gunDistance: 1.5
   gunSprite: {fileID: 1838705426267889285}
-  gunRadius: 0.5
+  gunRadius: 0.15
   shootingPoint: {fileID: 2262498184099671965}
   bulletPrefab: {fileID: 7946226507871204232, guid: 7e2ef7b4af5c91947b6bc16791c7f13f, type: 3}
   bulletForce: 10
