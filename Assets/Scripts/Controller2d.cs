@@ -20,6 +20,8 @@ public class Controller2d : NetworkBehaviour
     [SerializeField] private float jumpingPower = 3f;
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private BubbleEffects bubbleEffects;
+    [SerializeField] private GameObject gunObject;
+    private Vector3 networkPosition;
 
     private readonly NetworkVariable<bool> isFacingRightNetwork = new (true);
     private readonly NetworkVariable<bool> isInBubbleNetwork = new (false);
@@ -41,12 +43,16 @@ public class Controller2d : NetworkBehaviour
 
     void Update()
     {
-        if (!IsOwner)
-            return;
-
-        PlayerInput();
-        Jumping();
-        Animations();
+        if (IsOwner)
+        {
+            PlayerInput();
+            Jumping();
+            Animations();
+            SentPositionToServerRpc(transform.position);
+        }
+        else {
+            transform.position = networkPosition;
+        }
     }
 
     private void FixedUpdate()
@@ -191,6 +197,21 @@ public class Controller2d : NetworkBehaviour
     private void UpdateFacingDirectionServerRpc(bool newFacingRight)
     {
         isFacingRightNetwork.Value = newFacingRight;
+    }
+
+    [ServerRpc]
+    private void SentPositionToServerRpc(Vector3 position)
+    {
+        SentPositionFromClientRpc(position);
+    }
+
+    [ClientRpc]
+    private void SentPositionFromClientRpc(Vector3 position)
+    {
+        if (IsOwner)
+            return;
+
+        networkPosition = position;
     }
 
     //public void OnSpike()

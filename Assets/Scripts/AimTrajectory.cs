@@ -19,6 +19,7 @@ public class AimTrajectory : NetworkBehaviour
     private Aiming aiming;
     private new LineRenderer renderer;
     [SerializeField] private Controller2d controller;
+    public Vector2 direction;
 
     public void Start()
     {
@@ -41,7 +42,7 @@ public class AimTrajectory : NetworkBehaviour
             pointsOfReflection.Add(gunShootTransform.position);
 
             int bounceCount = 0;
-            Vector2 direction = (mousePosition - new Vector2(gunShootTransform.position.x, gunShootTransform.position.y)).normalized;
+            direction = (mousePosition - new Vector2(gunShootTransform.position.x, gunShootTransform.position.y)).normalized;
 
             while (bounceCount < maxBounces)
             {
@@ -64,12 +65,10 @@ public class AimTrajectory : NetworkBehaviour
                 }
                 else break; // Stop if no collision
             }
-            aiming.lockedIn = true;
         }
 
         if (controller.isMoving)
         {
-            aiming.lockedIn = false;
             pointsOfReflection.Clear();
         }
 
