@@ -7,7 +7,6 @@ public class Controller2d : NetworkBehaviour
 {
     public bool isJumping,isMoving;
     private float horizontal;
-    private float speed = 8f;
     private bool isFacingRight = true;
     private Rigidbody2D rb;
     private float defaultGravityScale;
@@ -18,6 +17,7 @@ public class Controller2d : NetworkBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float jumpingPower = 3f;
+    [SerializeField] private float speed = 8f;
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private BubbleEffects bubbleEffects;
     private Vector3 networkPosition;
@@ -25,6 +25,7 @@ public class Controller2d : NetworkBehaviour
 
     private readonly NetworkVariable<bool> isFacingRightNetwork = new (true);
     private readonly NetworkVariable<bool> isInBubbleNetwork = new (false);
+    public bool wasInBubble,isGrounded;
 
     private void Start()
     {
@@ -45,6 +46,7 @@ public class Controller2d : NetworkBehaviour
     {
         if (IsOwner)
         {
+            IsGrounded();
             InteractWithLever();
             PlayerInput();
             Jumping();
@@ -64,6 +66,7 @@ public class Controller2d : NetworkBehaviour
         Vector2 velocity;
         if (isInBubbleNetwork.Value)
         {
+            wasInBubble = true;
             rb.gravityScale = 0f;
             velocity = new Vector2(bubbleDirectionX, 2f);
         }
@@ -76,9 +79,11 @@ public class Controller2d : NetworkBehaviour
         rb.velocity = velocity;
     }
 
-    private bool IsGrounded()
+    private void IsGrounded()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, groundColliderRadius, groundLayer);
+        isGrounded =  Physics2D.OverlapCircle(groundCheck.position, groundColliderRadius, groundLayer);
+        if(isGrounded && wasInBubble)
+            wasInBubble = false;
     }
 
     private void OnDrawGizmos()
@@ -92,9 +97,11 @@ public class Controller2d : NetworkBehaviour
 
     private void PlayerInput()
     {
+        isMoving = !isInBubbleNetwork.Value && (horizontal != 0 || isJumping);
+        if (wasInBubble)
+            return;
         horizontal = Input.GetAxisRaw("Horizontal");
         isJumping = Input.GetButtonDown("Jump");
-        isMoving = horizontal != 0 || isJumping;
     }
 
     private void Animations()
@@ -107,7 +114,7 @@ public class Controller2d : NetworkBehaviour
     {
         if (isJumping)
         {
-            if (IsGrounded())
+            if (isGrounded)
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
             }

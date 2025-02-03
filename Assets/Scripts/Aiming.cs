@@ -24,6 +24,7 @@ public class Aiming : NetworkBehaviour
     public Color color;
     public Powers power;
     public LayerMask groundLayer;
+    public ParticleSystem shootingParticles;
 
     [Header("Trajectory")]
     public int maxBounces = 5;
@@ -211,6 +212,7 @@ public class Aiming : NetworkBehaviour
 
     private void SpawnBullet(Vector2 direction)
     {
+        shootingParticles.Play();
         GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
 
         BulletTrigger bi = bullet.GetComponent<BulletTrigger>();

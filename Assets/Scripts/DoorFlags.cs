@@ -59,7 +59,7 @@ public class DoorFlags : NetworkBehaviour
 
     public void Interact()
     {
-        if (!isPlate) // Ensure only non-plates can be interacted with manually
+        if (!isPlate)
         {
             RequestToggleServerRpc();
         }

@@ -44,7 +44,7 @@ public class LobbyManager : MonoBehaviour
     public void JoinGame()
     {
         var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
-        transport.ConnectionData.Address = "127.0.0.1";
+        transport.ConnectionData.Address = inputField.text;
 
         if (NetworkManager.Singleton.StartClient())
         {
