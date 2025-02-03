@@ -17,6 +17,7 @@ public class LobbyManager : MonoBehaviour
 
     private void Start()
     {
+        GlobalBehaviour.Instance.LoadInLevel();
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
     }
@@ -38,6 +39,7 @@ public class LobbyManager : MonoBehaviour
     public void StopGame() {
         waitScreen.SetActive(false);
         options.SetActive(true);
+        playersConnected--;
         NetworkManager.Singleton.Shutdown();
     }
 
@@ -76,6 +78,6 @@ public class LobbyManager : MonoBehaviour
 
     private void StartGameForAllPlayers()
     {
-        NetworkManager.Singleton.SceneManager.LoadScene(nextScene, LoadSceneMode.Single);
+        StartCoroutine(GlobalBehaviour.Instance.LoadOutLevel(() => { NetworkManager.Singleton.SceneManager.LoadScene(nextScene, LoadSceneMode.Single); }));
     }
 }

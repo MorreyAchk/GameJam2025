@@ -8,12 +8,13 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        GlobalBehaviour.Instance.LoadInLevel();
         GlobalBehaviour.Instance.audioSource.volume = PlayerPrefs.GetFloat("volume");
     }
 
     public void OnStart()
     {
-        GlobalBehaviour.Instance.PlayNextLevel();
+        StartCoroutine(GlobalBehaviour.Instance.LoadOutLevel(() => { SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); }));
     }
 
     public void OnOptions()

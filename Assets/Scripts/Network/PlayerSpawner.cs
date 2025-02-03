@@ -12,6 +12,7 @@ public class PlayerSpawner : MonoBehaviour
 
     private void Start()
     {
+        GlobalBehaviour.Instance.LoadInLevel();
         if (isInDevelopment)
         {
             NetworkManager.Singleton.StartHost();

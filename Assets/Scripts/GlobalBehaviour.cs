@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GlobalBehaviour : MonoBehaviour
 {
@@ -22,24 +23,16 @@ public class GlobalBehaviour : MonoBehaviour
     public Image transitionImage;
 
 
-    void OnEnable()
-    {
-        SceneManager.sceneLoaded += LoadInLevel;
-    }
-
-    void OnDisable()
-    {
-        SceneManager.sceneLoaded -= LoadInLevel;
-    }
-
-    private void LoadInLevel(Scene scene, LoadSceneMode mode)
+    public void LoadInLevel()
     {
         transition.Play("WipeOut");
     }
 
-    public void PlayNextLevel()
+    public IEnumerator LoadOutLevel(Action loadAction)
     {
         transition.Play("WipeIn");
+        yield return new WaitForSeconds(transition.GetCurrentAnimatorStateInfo(0).length);
+        loadAction.Invoke();
     }
 
     public void Awake()
@@ -70,7 +63,4 @@ public class GlobalBehaviour : MonoBehaviour
       }
     }
 
-    public AudioClip GetLeverClip() => lever[Random.Range(0, lever.Length)];
-
-    public AudioClip GetDoorClip() => door[Random.Range(0, door.Length)];
 }
