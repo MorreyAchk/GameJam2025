@@ -196,33 +196,25 @@ public class Aiming : NetworkBehaviour
         {
             Vector2 direction = (pointsOfReflection[1] - pointsOfReflection[0]).normalized;
             cooldown.StartCooldown();
-            if (IsServer)
-            {
-                SpawnBulletClientRpc(direction);
-            }
-            else {
-                SpawnBullet(direction);
-                SpawnBulletServerRpc(direction);
-            }
+            SpawnBulletServerRpc(direction);
         }
     }
-
     [ClientRpc]
-    private void SpawnBulletClientRpc(Vector2 direction) => SpawnBullet(direction);
+    private void ShootingParticlesClientRpc() {
+        shootingParticles.Play();
+    }
 
     [ServerRpc]
-    private void SpawnBulletServerRpc(Vector2 direction) => SpawnBullet(direction);
-
-    private void SpawnBullet(Vector2 direction)
+    private void SpawnBulletServerRpc(Vector2 direction)
     {
-        shootingParticles.Play();
+        ShootingParticlesClientRpc();
         GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
+        bullet.GetComponent<NetworkObject>().Spawn();
 
         BulletTrigger bi = bullet.GetComponent<BulletTrigger>();
-        bi.Set(power, color); // Use a method to set synced properties
+        bi.Set(power, color);
 
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-
         rb.velocity = direction * bulletForce;
     }
 

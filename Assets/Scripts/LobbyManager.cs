@@ -17,6 +17,7 @@ public class LobbyManager : MonoBehaviour
 
     private void Start()
     {
+        inputField.text = "127.0.0.1";
         GlobalBehaviour.Instance.LoadInLevel();
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;

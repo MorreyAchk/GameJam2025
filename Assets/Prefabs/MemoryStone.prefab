@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5603532505240092521}
   - component: {fileID: 9058094553197226940}
   - component: {fileID: 222407625027087939}
+  - component: {fileID: 7815434190283069222}
   m_Layer: 0
   m_Name: MemoryStone
   m_TagString: Untagged
@@ -146,12 +147,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   power: 2
-  color: {r: 1, g: 1, b: 1, a: 1}
   defaultIntensity: 2
   intensity: 20
   innerSprite: {fileID: 7598385113593506539}
-  xWindValueForce: -11
+  xWindValueForce: -15
   particleSystem: {fileID: 5938816992636201387}
+--- !u!114 &7815434190283069222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2102074815352201623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 1
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &6111683723098043947
 GameObject:
   m_ObjectHideFlags: 0

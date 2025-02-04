@@ -4986,6 +4986,7 @@ GameObject:
   - component: {fileID: -8358368514033352418}
   - component: {fileID: 2416770471996403311}
   - component: {fileID: 3117620305110841559}
+  - component: {fileID: 3547999292928342768}
   m_Layer: 0
   m_Name: BubbleBullet
   m_TagString: Bullet
@@ -5141,6 +5142,26 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 0, a: 0}
   maxBounces: 8
   graphics: {fileID: 0}
+--- !u!114 &3547999292928342768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7946226507871204232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &8264300083526211866
 GameObject:
   m_ObjectHideFlags: 0

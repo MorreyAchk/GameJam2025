@@ -1,19 +1,24 @@
 using UnityEngine;
 using UnityEditor;
+using Unity.Netcode;
 
-public class BulletTrigger : MonoBehaviour
+public class BulletTrigger : NetworkBehaviour
 {
     public Powers power;
     public Color color;
     public int maxBounces = 8;
     private int bounceCounter;
     private Rigidbody2D rb;
+    private Vector3 networkPosition;
+    private float networkRotationAngle;
+    private NetworkObject networkObject;
 
     [HideInInspector] public Transform graphics;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        networkObject = GetComponent<NetworkObject>();
     }
 
     public void Set(Powers power, Color color)
@@ -25,21 +30,48 @@ public class BulletTrigger : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         bounceCounter++;
-        if (!collision.collider.tag.ToLower().Contains("wall") || bounceCounter == maxBounces)
+        if (bounceCounter == maxBounces)
         {
-            Destroy(gameObject);
+            DespawnBullet();
         }
+    }
+
+    public void DespawnBullet() {
+        if(IsServer)
+            networkObject.Despawn(true);
+    }
+
+    private void Update()
+    {
+        if (IsServer) {
+            SentPositionFromClientRpc(transform.position);
+            return;
+        }
+        transform.position = networkPosition;
+    }
+
+    [ClientRpc]
+    private void SentPositionFromClientRpc(Vector3 position)
+    {
+        networkPosition = position;
+    }
+
+    [ClientRpc]
+    private void SentAngleFromClientRpc(float angle)
+    {
+        networkRotationAngle = angle;
     }
 
     private void FixedUpdate()
     {
         if (power == Powers.Wind) {
-            // Rotate the graphics to face the movement direction
-            if (rb.velocity.sqrMagnitude > 0.01f) // Ensure there's some movement
-            {
-                float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
+            float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
+            if (IsServer) {
                 graphics.rotation = Quaternion.Euler(0, 0, angle);
+                SentAngleFromClientRpc(angle);
+                return;
             }
+            graphics.rotation = Quaternion.Euler(0, 0, networkRotationAngle);
         }
     }
 }

@@ -16,12 +16,13 @@ public class PlayerSpawner : MonoBehaviour
         {
             NetworkManager.Singleton.StartHost();
         }
-        else {
+        if (GlobalBehaviour.Instance != null)
+        {
             GlobalBehaviour.Instance.LoadInLevel();
-            if (NetworkManager.Singleton.IsServer)
-            {
-                NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
-            }
+        }
+        if (NetworkManager.Singleton.IsServer)
+        {
+            NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
         }
     }
 
@@ -43,7 +44,7 @@ public class PlayerSpawner : MonoBehaviour
         Debug.Log($"Spawning player for client {clientId}");
 
         Vector2 spawnPosition = GetSpawnPosition(clientId);
-        
+
         var playerInstance = Instantiate(clientId == 0 ? bubblePlayerPrefab : windPlayerPrefab, spawnPosition, Quaternion.identity);
         playerInstance.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
     }
