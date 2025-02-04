@@ -165,6 +165,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   shootingParticles: {fileID: 7790056970519450053}
+  cooldown:
+    cooldownTime: 2
   maxBounces: 5
   maxDistance: 20
 --- !u!1 &1802323255938062425

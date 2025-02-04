@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class Aiming : NetworkBehaviour
 {
-
     [Header("Aiming")]
     public Transform playerTransform;
     public float gunDistance = 1.5f;
@@ -25,6 +24,7 @@ public class Aiming : NetworkBehaviour
     public Powers power;
     public LayerMask groundLayer;
     public ParticleSystem shootingParticles;
+    [SerializeField] private Cooldown cooldown;
 
     [Header("Trajectory")]
     public int maxBounces = 5;
@@ -190,9 +190,12 @@ public class Aiming : NetworkBehaviour
     #region Shooting
     private void ShootBullet()
     {
+        if (cooldown.IsCoolingDown)
+            return;
         if (Input.GetMouseButtonDown(1) && !IsInGround() && pointsOfReflection.Count >= 2)
         {
             Vector2 direction = (pointsOfReflection[1] - pointsOfReflection[0]).normalized;
+            cooldown.StartCooldown();
             if (IsServer)
             {
                 SpawnBulletClientRpc(direction);

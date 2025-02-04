@@ -45,6 +45,7 @@ public class LobbyManager : MonoBehaviour
 
     public void JoinGame()
     {
+        StartCoroutine(GlobalBehaviour.Instance.LoadOutLevel(null));
         var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
         transport.ConnectionData.Address = inputField.text;
 

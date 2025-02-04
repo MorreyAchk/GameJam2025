@@ -32,7 +32,7 @@ public class GlobalBehaviour : MonoBehaviour
     {
         transition.Play("WipeIn");
         yield return new WaitForSeconds(transition.GetCurrentAnimatorStateInfo(0).length);
-        loadAction.Invoke();
+        loadAction?.Invoke();
     }
 
     public void Awake()

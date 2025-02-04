@@ -11688,7 +11688,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &641368456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14087,6 +14087,10 @@ PrefabInstance:
     - target: {fileID: 7387977155355090451, guid: 3f2178ee03d527a43884aba92a3be38d, type: 3}
       propertyPath: m_Name
       value: ExitDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819185902299770474, guid: 3f2178ee03d527a43884aba92a3be38d, type: 3}
+      propertyPath: nextScene
+      value: Level2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

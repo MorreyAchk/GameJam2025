@@ -10,6 +10,7 @@ public class MemoryStoneTrigger : MonoBehaviour
     public float intensity=10f;
     public SpriteRenderer innerSprite;
     public float xWindValueForce=10f;
+    public new ParticleSystem particleSystem;
 
     public void Awake()
     {
@@ -22,6 +23,8 @@ public class MemoryStoneTrigger : MonoBehaviour
         {
             BulletTrigger bullet = collision.GetComponent<BulletTrigger>();
             Set(bullet.power, bullet.color, intensity);
+            particleSystem.GetComponent<ParticleSystemRenderer>().material = innerSprite.material;
+            particleSystem.Play();
             Destroy(collision.gameObject);
         }
 
