@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class MemoryStoneTrigger : MonoBehaviour
+public class MemoryStoneTrigger : NetworkBehaviour
 {
     public Powers power;
     public Color color;
@@ -11,21 +12,18 @@ public class MemoryStoneTrigger : MonoBehaviour
     public SpriteRenderer innerSprite;
     public float xWindValueForce=10f;
     public new ParticleSystem particleSystem;
-
-    public void Awake()
-    {
-        Set(power, color, defaultIntensity);
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!IsServer)
+            return;
+
         if (collision.CompareTag("Bullet"))
         {
             BulletTrigger bullet = collision.GetComponent<BulletTrigger>();
             Set(bullet.power, bullet.color, intensity);
             particleSystem.GetComponent<ParticleSystemRenderer>().material = innerSprite.material;
             particleSystem.Play();
-            Destroy(collision.gameObject);
+            bullet.DespawnBullet();
         }
 
         if (collision.CompareTag("Player"))
@@ -33,11 +31,11 @@ public class MemoryStoneTrigger : MonoBehaviour
             Controller2d controller2D = collision.GetComponent<Controller2d>();
             if (power == Powers.Bubble)
             {
-                controller2D.UpdateBubbleStateServerRpc(true);
+                controller2D.UpdateBubbleState(true);
             }
             if (power == Powers.Wind)
             {
-                controller2D.bubbleDirectionX = xWindValueForce;
+                controller2D.UpdateBubbleDirection(xWindValueForce);
             }
 
             color = Color.white;

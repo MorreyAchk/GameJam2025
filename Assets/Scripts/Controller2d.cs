@@ -10,7 +10,6 @@ public class Controller2d : NetworkBehaviour
     private bool isFacingRight = true;
     private Rigidbody2D rb;
     private float defaultGravityScale;
-    public float bubbleDirectionX;
 
     public float groundColliderRadius = 0.2f;
     public SpriteRenderer spriteRenderer;
@@ -25,6 +24,7 @@ public class Controller2d : NetworkBehaviour
 
     private readonly NetworkVariable<bool> isFacingRightNetwork = new (true);
     private readonly NetworkVariable<bool> isInBubbleNetwork = new (false);
+    private readonly NetworkVariable<float> bubbleDirectionX = new(0f);
     public bool wasInBubble,isGrounded;
 
     private void Start()
@@ -68,11 +68,10 @@ public class Controller2d : NetworkBehaviour
         {
             wasInBubble = true;
             rb.gravityScale = 0f;
-            velocity = new Vector2(bubbleDirectionX, 2f);
+            velocity = new Vector2(bubbleDirectionX.Value, 2f);
         }
         else
         {
-            bubbleDirectionX = 0;
             rb.gravityScale = defaultGravityScale;
             velocity = new Vector2(horizontal * speed, rb.velocity.y);
         }
@@ -95,6 +94,7 @@ public class Controller2d : NetworkBehaviour
         }
     }
 
+    #region PlayerMovement
     private void PlayerInput()
     {
         isMoving = !isInBubbleNetwork.Value && (horizontal != 0 || isJumping);
@@ -147,59 +147,6 @@ public class Controller2d : NetworkBehaviour
         spriteRenderer.flipX = !newValue;
     }
 
-    private void OnBubbleStateChanged(bool oldValue, bool newValue)
-    {
-        if (newValue)
-        {
-            bubbleEffects.InBubbleEffect();
-        }
-        else
-        {
-            bubbleEffects.PopBubbleEffect();
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.tag.ToLower().Contains("wall"))
-        {
-            UpdateBubbleState(false);
-        }
-        else
-        {
-            BulletTrigger bullet = collision.collider.GetComponent<BulletTrigger>();
-            if (bullet != null)
-            {
-                if (bullet.power == Powers.Bubble)
-                {
-                    UpdateBubbleState(true);
-                }
-
-                if (bullet.power == Powers.Wind)
-                {
-                    bubbleDirectionX = bullet.GetComponent<Rigidbody2D>().velocity.x;
-                }
-            }
-        }
-    }
-    private void UpdateBubbleState(bool newState)
-    {
-        if (IsServer)
-        {
-            isInBubbleNetwork.Value = newState;
-        }
-        else
-        {
-            UpdateBubbleStateServerRpc(newState);
-        }
-    }
-
-    [ServerRpc]
-    public void UpdateBubbleStateServerRpc(bool newState)
-    {
-        isInBubbleNetwork.Value = newState;
-    }
-
     [ServerRpc]
     private void UpdateFacingDirectionServerRpc(bool newFacingRight)
     {
@@ -217,6 +164,68 @@ public class Controller2d : NetworkBehaviour
 
         networkPosition = position;
     }
+
+    #endregion
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!IsServer)
+            return;
+
+        if (collision.collider.tag.ToLower().Contains("wall"))
+        {
+            UpdateBubbleState(false);
+        }
+        else
+        {
+            BulletTrigger bullet = collision.collider.GetComponent<BulletTrigger>();
+            if (bullet != null)
+            {
+                if (bullet.power == Powers.Bubble)
+                {
+                    UpdateBubbleState(true);
+                }
+
+                if (bullet.power == Powers.Wind)
+                {
+                    bubbleDirectionX.Value = bullet.GetComponent<Rigidbody2D>().velocity.x;
+                }
+            }
+            bullet.DespawnBullet();
+        }
+    }
+
+    private void OnBubbleStateChanged(bool oldValue, bool newValue)
+    {
+        if (newValue)
+        {
+            bubbleEffects.InBubbleEffect();
+        }
+        else
+        {
+            if (IsServer) {
+                bubbleDirectionX.Value = 0;
+            }
+            bubbleEffects.PopBubbleEffect();
+        }
+    }
+
+    public void UpdateBubbleState(bool newState)
+    {
+        if (IsServer)
+        {
+            isInBubbleNetwork.Value = newState;
+        }
+    }
+
+    public void UpdateBubbleDirection(float newDirection)
+    {
+        if (IsServer)
+        {
+            bubbleDirectionX.Value = newDirection;
+        }
+    }
+
 
     private void InteractWithLever() {
         if (Input.GetKeyDown(KeyCode.E) && currentLever != null)

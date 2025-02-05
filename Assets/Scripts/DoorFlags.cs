@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class DoorFlags : NetworkBehaviour
 {
-    public NetworkVariable<bool> isOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public bool isPlate;
     private Animator animator;
+    public readonly NetworkVariable<bool> isOn = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
 
     private void Start()
     {
@@ -19,14 +20,13 @@ public class DoorFlags : NetworkBehaviour
     {
         isOn.OnValueChanged -= OnDoorStateChanged;
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             if (isPlate)
             {
-                isOn.Value = true;
+                ToggleFlag(true);
             }
             else
             {
@@ -36,13 +36,14 @@ public class DoorFlags : NetworkBehaviour
         }
     }
 
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             if (isPlate)
             {
-                isOn.Value = false;
+                ToggleFlag(false);
             }
             else
             {
@@ -63,6 +64,22 @@ public class DoorFlags : NetworkBehaviour
         {
             RequestToggleServerRpc();
         }
+    }
+
+    private void ToggleFlag(bool newValue) {
+        if (IsServer)
+        {
+            isOn.Value = newValue;
+        }
+        else {
+            ToggleFlagServerRpc(newValue);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void ToggleFlagServerRpc(bool newValue)
+    {
+        isOn.Value = newValue;
     }
 
     [ServerRpc(RequireOwnership = false)]

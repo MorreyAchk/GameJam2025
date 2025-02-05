@@ -29,6 +29,8 @@ public class BulletTrigger : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (!IsServer)
+            return;
         bounceCounter++;
         if (bounceCounter == maxBounces)
         {
@@ -37,8 +39,7 @@ public class BulletTrigger : NetworkBehaviour
     }
 
     public void DespawnBullet() {
-        if(IsServer)
-            networkObject.Despawn(true);
+        networkObject.Despawn(true);
     }
 
     private void Update()
