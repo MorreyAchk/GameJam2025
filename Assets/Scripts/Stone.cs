@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Stone : MonoBehaviour
+public class Stone : NetworkBehaviour
 {
     public bool isInBubble, isFreeze, wasInBubble;
     private Rigidbody2D rb;
@@ -40,28 +41,31 @@ public class Stone : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Wall")) { 
+        if (!IsServer)
+            return;
+
+        if (collision.collider.tag.ToLower().Contains("wall"))
+        { 
             isInBubble = false;
         }
-        else
+        if (collision.collider.CompareTag("Bullet"))
         {
             Collider2D collider2D = collision.collider;
             BulletTrigger bullet = collider2D.GetComponent<BulletTrigger>();
-            if (bullet != null)
+            if (bullet.power == Powers.Bubble)
             {
-                if (bullet.power == Powers.Bubble)
-                {
-                    wasInBubble = true;
-                    isInBubble = true;
-                }
-
-                if (bullet.power == Powers.Wind)
-                    bubbleDirectionX = bullet.GetComponent<Rigidbody2D>().velocity.x;
+                wasInBubble = true;
+                isInBubble = true;
             }
+
+            if (bullet.power == Powers.Wind)
+                bubbleDirectionX = bullet.GetComponent<Rigidbody2D>().velocity.x;
+
+            bullet.DespawnBullet();
         }
         if (wasInBubble && collision.collider.CompareTag("DestroyableWalls"))
         {
-            Destroy(collision.gameObject);
+            collision.gameObject.GetComponent<NetworkObject>().Despawn(true);
         }
     }
 }
