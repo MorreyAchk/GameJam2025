@@ -176,20 +176,17 @@ public class Controller2d : NetworkBehaviour
         {
             UpdateBubbleState(false);
         }
-        else
+        if (collision.collider.CompareTag("Bullet"))
         {
             BulletTrigger bullet = collision.collider.GetComponent<BulletTrigger>();
-            if (bullet != null)
+            if (bullet.power == Powers.Bubble)
             {
-                if (bullet.power == Powers.Bubble)
-                {
-                    UpdateBubbleState(true);
-                }
+                UpdateBubbleState(true);
+            }
 
-                if (bullet.power == Powers.Wind)
-                {
-                    bubbleDirectionX.Value = bullet.GetComponent<Rigidbody2D>().velocity.x;
-                }
+            if (bullet.power == Powers.Wind && isInBubbleNetwork.Value)
+            {
+                bubbleDirectionX.Value = bullet.GetComponent<Rigidbody2D>().velocity.x;
             }
             bullet.DespawnBullet();
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -5,13 +6,31 @@ using UnityEngine;
 
 public class MemoryStoneTrigger : NetworkBehaviour
 {
-    public Powers power;
-    public Color color;
+
     public float defaultIntensity = 3f;
-    public float intensity=10f;
+    public float intensity = 10f;
     public SpriteRenderer innerSprite;
-    public float xWindValueForce=10f;
+    public float xWindValueForce = 10f;
     public new ParticleSystem particleSystem;
+    public NetworkVariable<MemoryStoneData> memoryStoneData = new(new MemoryStoneData(Powers.Empty, Color.white), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    private MemoryStoneData localData = new(Powers.Empty, Color.white);
+
+    private void Start()
+    {
+        memoryStoneData.OnValueChanged += OnMemoryStoneDataChanged;
+    }
+
+    private void OnMemoryStoneDataChanged(MemoryStoneData previousValue, MemoryStoneData newValue)
+    {
+        float finalIntensity = Powers.Empty == newValue.power ? defaultIntensity : intensity;
+        innerSprite.material.SetColor("_GlowColor", newValue.color * finalIntensity);
+
+        if (Powers.Empty != newValue.power) {
+            particleSystem.GetComponent<ParticleSystemRenderer>().material = innerSprite.material;
+            particleSystem.Play();
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!IsServer)
@@ -20,32 +39,31 @@ public class MemoryStoneTrigger : NetworkBehaviour
         if (collision.CompareTag("Bullet"))
         {
             BulletTrigger bullet = collision.GetComponent<BulletTrigger>();
-            Set(bullet.power, bullet.color, intensity);
-            particleSystem.GetComponent<ParticleSystemRenderer>().material = innerSprite.material;
-            particleSystem.Play();
+            SetNetworkData(bullet.power, bullet.color);
             bullet.DespawnBullet();
         }
 
         if (collision.CompareTag("Player"))
         {
             Controller2d controller2D = collision.GetComponent<Controller2d>();
-            if (power == Powers.Bubble)
+            if (memoryStoneData.Value.power == Powers.Bubble)
             {
                 controller2D.UpdateBubbleState(true);
             }
-            if (power == Powers.Wind)
+            if (memoryStoneData.Value.power == Powers.Wind)
             {
                 controller2D.UpdateBubbleDirection(xWindValueForce);
             }
 
-            color = Color.white;
-            Set(Powers.Empty, color, defaultIntensity);
+            SetNetworkData(Powers.Empty, Color.white);
         }
     }
 
-    public void Set(Powers power, Color color,float intensity)
+
+    private void SetNetworkData(Powers power,Color color)
     {
-        this.power = power;
-        innerSprite.material.SetColor("_GlowColor", color * intensity);
+        localData.power = power;
+        localData.color = color;
+        memoryStoneData.Value = localData;
     }
 }
