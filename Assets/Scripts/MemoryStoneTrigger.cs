@@ -45,14 +45,14 @@ public class MemoryStoneTrigger : NetworkBehaviour
 
         if (collision.CompareTag("Player"))
         {
-            Controller2d controller2D = collision.GetComponent<Controller2d>();
+            BulletEffects bulletEffects = collision.GetComponent<BulletEffects>();
             if (memoryStoneData.Value.power == Powers.Bubble)
             {
-                controller2D.UpdateBubbleState(true);
+                bulletEffects.UpdateBubbleState(true);
             }
             if (memoryStoneData.Value.power == Powers.Wind)
             {
-                controller2D.UpdateBubbleDirection(xWindValueForce);
+                bulletEffects.UpdateBubbleDirection(xWindValueForce);
             }
 
             SetNetworkData(Powers.Empty, Color.white);

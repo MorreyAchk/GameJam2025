@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class PlayerSpawner : MonoBehaviour
 {
     public bool isInDevelopment;
+    public GameObject networkManager;
+
     public GameObject bubblePlayerPrefab;
     public GameObject windPlayerPrefab;
 
@@ -14,7 +16,9 @@ public class PlayerSpawner : MonoBehaviour
     {
         if (isInDevelopment)
         {
+            networkManager.SetActive(true);
             NetworkManager.Singleton.StartHost();
+            SpawnAllPlayers();
         }
         if (GlobalBehaviour.Instance != null)
         {

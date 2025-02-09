@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Walls : MonoBehaviour
+public class Interactables : MonoBehaviour
 {
     public bool finalDoor;
     public bool isReversed;
     private bool hasToggled;
-    public List<DoorFlags> flags;
+    public List<InteractFlags> flags;
+    public string onAnimationName= "Open";
+    public string offAnimationName= "Close";
 
     private Animator animator;
 
@@ -23,7 +25,7 @@ public class Walls : MonoBehaviour
 
         if (flags.Count == 0 || (finalDoor && isAllOn))
         {
-            animator.Play("Open");
+            animator.Play(onAnimationName);
             flags.Clear();
             return;
         }
@@ -31,13 +33,13 @@ public class Walls : MonoBehaviour
         if (isAllOn)
         {
             hasToggled = true;
-            string animation = !isReversed ^ isAllOn ? "Close" : "Open";
+            string animation = !isReversed ^ isAllOn ? offAnimationName : onAnimationName;
             animator.Play(animation);
         }
 
         else if(hasToggled)
         {
-            string animation = !isReversed ^ !isAllOn ? "Open":"Close" ;
+            string animation = !isReversed ^ !isAllOn ? onAnimationName : offAnimationName;
             animator.Play(animation);
         }
 

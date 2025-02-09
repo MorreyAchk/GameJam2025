@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class Controller2d : NetworkBehaviour
 {
-    public bool isJumping,isMoving;
-    private float horizontal;
+    public bool isJumping, isMoving;
+    private float horizontal, vertical;
     private bool isFacingRight = true;
     private Rigidbody2D rb;
-    private float defaultGravityScale;
+
 
     public float groundColliderRadius = 0.2f;
     public SpriteRenderer spriteRenderer;
@@ -18,28 +18,26 @@ public class Controller2d : NetworkBehaviour
     [SerializeField] private float jumpingPower = 3f;
     [SerializeField] private float speed = 8f;
     [SerializeField] private Animator playerAnimator;
-    [SerializeField] private BubbleEffects bubbleEffects;
+    [SerializeField] private BulletEffects bubbleEffects;
     private Vector3 networkPosition;
-    public DoorFlags currentLever;
+    public InteractFlags currentLever;
 
-    private readonly NetworkVariable<bool> isFacingRightNetwork = new (true);
-    private readonly NetworkVariable<bool> isInBubbleNetwork = new (false);
-    private readonly NetworkVariable<float> bubbleDirectionX = new(0f);
-    public bool wasInBubble,isGrounded;
+    private readonly NetworkVariable<bool> isOnLadder = new(false);
+    private readonly NetworkVariable<bool> isFacingRightNetwork = new(true);
+    private BulletEffects bulletEffects;
+    private bool isGrounded;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        defaultGravityScale = rb.gravityScale;
+        bulletEffects= GetComponent<BulletEffects>();
 
         isFacingRightNetwork.OnValueChanged += OnFacingDirectionChanged;
-        isInBubbleNetwork.OnValueChanged += OnBubbleStateChanged;
     }
 
     public override void OnDestroy()
     {
         isFacingRightNetwork.OnValueChanged -= OnFacingDirectionChanged;
-        isInBubbleNetwork.OnValueChanged -= OnBubbleStateChanged;
     }
 
     void Update()
@@ -53,7 +51,8 @@ public class Controller2d : NetworkBehaviour
             Animations();
             SentPositionToServerRpc(transform.position);
         }
-        else {
+        else
+        {
             transform.position = networkPosition;
         }
     }
@@ -64,25 +63,30 @@ public class Controller2d : NetworkBehaviour
             return;
 
         Vector2 velocity;
-        if (isInBubbleNetwork.Value)
+        if (bulletEffects.isInBubbleNetwork.Value)
         {
-            wasInBubble = true;
-            rb.gravityScale = 0f;
-            velocity = new Vector2(bubbleDirectionX.Value, 2f);
+            bulletEffects.wasInBubble = true;
+            velocity = new Vector2(bulletEffects.bubbleDirectionX.Value, 2f);
         }
         else
         {
-            rb.gravityScale = defaultGravityScale;
-            velocity = new Vector2(horizontal * speed, rb.velocity.y);
+            if (isOnLadder.Value)
+            {
+                velocity = new Vector2((vertical + horizontal) * speed, rb.velocity.y);
+            }
+            else
+            {
+                velocity = new Vector2(horizontal * speed, rb.velocity.y);
+            }
         }
         rb.velocity = velocity;
     }
 
     private void IsGrounded()
     {
-        isGrounded =  Physics2D.OverlapCircle(groundCheck.position, groundColliderRadius, groundLayer);
-        if(isGrounded && wasInBubble)
-            wasInBubble = false;
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundColliderRadius, groundLayer);
+        if (isGrounded && bulletEffects.wasInBubble)
+            bulletEffects.wasInBubble = false;
     }
 
     private void OnDrawGizmos()
@@ -97,10 +101,11 @@ public class Controller2d : NetworkBehaviour
     #region PlayerMovement
     private void PlayerInput()
     {
-        isMoving = !isInBubbleNetwork.Value && (horizontal != 0 || isJumping);
-        if (wasInBubble)
+        isMoving = !bulletEffects.isInBubbleNetwork.Value && (horizontal != 0 || isJumping);
+        if (bulletEffects.wasInBubble)
             return;
         horizontal = Input.GetAxisRaw("Horizontal");
+        vertical = Input.GetAxisRaw("Vertical");
         isJumping = Input.GetButtonDown("Jump");
     }
 
@@ -172,59 +177,14 @@ public class Controller2d : NetworkBehaviour
         if (!IsServer)
             return;
 
-        if (collision.collider.tag.ToLower().Contains("wall"))
+        if (collision.collider.CompareTag("Ladder"))
         {
-            UpdateBubbleState(false);
-        }
-        if (collision.collider.CompareTag("Bullet"))
-        {
-            BulletTrigger bullet = collision.collider.GetComponent<BulletTrigger>();
-            if (bullet.power == Powers.Bubble)
-            {
-                UpdateBubbleState(true);
-            }
-
-            if (bullet.power == Powers.Wind && isInBubbleNetwork.Value)
-            {
-                bubbleDirectionX.Value = bullet.GetComponent<Rigidbody2D>().velocity.x;
-            }
-            bullet.DespawnBullet();
+            isOnLadder.Value = true;
         }
     }
 
-    private void OnBubbleStateChanged(bool oldValue, bool newValue)
+    private void InteractWithLever()
     {
-        if (newValue)
-        {
-            bubbleEffects.InBubbleEffect();
-        }
-        else
-        {
-            if (IsServer) {
-                bubbleDirectionX.Value = 0;
-            }
-            bubbleEffects.PopBubbleEffect();
-        }
-    }
-
-    public void UpdateBubbleState(bool newState)
-    {
-        if (IsServer)
-        {
-            isInBubbleNetwork.Value = newState;
-        }
-    }
-
-    public void UpdateBubbleDirection(float newDirection)
-    {
-        if (IsServer)
-        {
-            bubbleDirectionX.Value = newDirection;
-        }
-    }
-
-
-    private void InteractWithLever() {
         if (Input.GetKeyDown(KeyCode.E) && currentLever != null)
         {
             currentLever.Interact();

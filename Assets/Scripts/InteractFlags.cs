@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class DoorFlags : NetworkBehaviour
+public class InteractFlags : NetworkBehaviour
 {
     public bool isPlate;
     private Animator animator;
@@ -22,7 +22,7 @@ public class DoorFlags : NetworkBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") || collision.CompareTag("Stone"))
         {
             if (isPlate)
             {
@@ -39,7 +39,7 @@ public class DoorFlags : NetworkBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") || collision.CompareTag("Stone"))
         {
             if (isPlate)
             {
@@ -66,12 +66,14 @@ public class DoorFlags : NetworkBehaviour
         }
     }
 
-    private void ToggleFlag(bool newValue) {
+    private void ToggleFlag(bool newValue)
+    {
         if (IsServer)
         {
             isOn.Value = newValue;
         }
-        else {
+        else
+        {
             ToggleFlagServerRpc(newValue);
         }
     }
