@@ -6,32 +6,31 @@ using UnityEngine;
 
 public class BulletEffects : NetworkBehaviour
 {
-    public Rigidbody2D rb;
-    private float defaultGravityScale;
+    private Rigidbody2D rb;
+    private float defaultGravityScale,defaultMass;
     [SerializeField] private Animator animator;
+    [SerializeField] private Collider2D parentCollider;
     [SerializeField] private ParticleSystem bubbleParticleSystem;
-    [SerializeField] private ParticleSystem snowflakeParticleSystem;
-    public readonly NetworkVariable<bool> isFrozen = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    public readonly NetworkVariable<bool> isInBubbleNetwork = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public readonly NetworkVariable<bool> isInBubble = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public readonly NetworkVariable<float> bubbleDirectionX = new(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public bool wasInBubble;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>(); 
-        isInBubbleNetwork.OnValueChanged += OnBubbleStateChanged;
-        isFrozen.OnValueChanged += OnFrozenStateChanged;
+        isInBubble.OnValueChanged += OnBubbleStateChanged;
         defaultGravityScale = rb.gravityScale;
+        defaultMass = rb.mass;
     }
 
     public override void OnDestroy()
     {
-        isInBubbleNetwork.OnValueChanged -= OnBubbleStateChanged;
+        isInBubble.OnValueChanged -= OnBubbleStateChanged;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!IsServer || isFrozen.Value)
+        if (!IsServer)
             return;
 
         if (collision.collider.tag.ToLower().Contains("wall"))
@@ -44,11 +43,8 @@ public class BulletEffects : NetworkBehaviour
             if (bullet.power == Powers.Bubble)
                 UpdateBubbleState(true);
 
-            if (bullet.power == Powers.Wind && isInBubbleNetwork.Value)
+            if (bullet.power == Powers.Wind && isInBubble.Value)
                 UpdateBubbleDirection(bullet.GetComponent<Rigidbody2D>().velocity.x);
-
-            if (bullet.power == Powers.Ice)
-                UpdateFrozenState(true);
 
             bullet.DespawnBullet();
         }
@@ -58,7 +54,8 @@ public class BulletEffects : NetworkBehaviour
     {
         if (newValue)
         {
-            rb.gravityScale = 0f;
+            rb.gravityScale = 0f;            
+            rb.mass = 10f;
             InBubbleEffect();
         }
         else
@@ -68,24 +65,8 @@ public class BulletEffects : NetworkBehaviour
                 bubbleDirectionX.Value = 0;
             }
             rb.gravityScale = defaultGravityScale;
+            rb.mass = defaultMass;
             PopBubbleEffect();
-        }
-    }
-
-    private void OnFrozenStateChanged(bool previousValue, bool newValue)
-    {
-        if (!IsServer)
-            return;
-
-        if (newValue)
-        {
-            isInBubbleNetwork.Value = false;
-            bubbleDirectionX.Value = 0;
-            FreezeBubbleEffect();
-        }
-        else
-        {
-            UnFreezeBubbleEffect();
         }
     }
 
@@ -93,7 +74,7 @@ public class BulletEffects : NetworkBehaviour
     {
         if (IsServer)
         {
-            isInBubbleNetwork.Value = newState;
+            isInBubble.Value = newState;
         }
     }
 
@@ -104,15 +85,6 @@ public class BulletEffects : NetworkBehaviour
             bubbleDirectionX.Value = newDirection;
         }
     }
-
-    public void UpdateFrozenState(bool newState)
-    {
-        if (IsServer)
-        {
-            isFrozen.Value = newState;
-        }
-    }
-
 
     private void InBubbleEffect()
     {
@@ -129,24 +101,6 @@ public class BulletEffects : NetworkBehaviour
         if (bubbleParticleSystem.isPlaying)
         {
             bubbleParticleSystem.Stop();
-        }
-    }
-
-    private void FreezeBubbleEffect()
-    {
-        animator.Play("IceIn");
-        if (snowflakeParticleSystem.isPlaying)
-        {
-            snowflakeParticleSystem.Play();
-        }
-    }
-
-    private void UnFreezeBubbleEffect()
-    {
-        animator.Play("IceOut");
-        if (snowflakeParticleSystem.isPlaying)
-        {
-            snowflakeParticleSystem.Stop();
         }
     }
 

@@ -63,8 +63,6 @@ public class LobbyManager : MonoBehaviour
     private void OnClientConnected(ulong clientId)
     {
         playersConnected++;
-        Debug.Log($"Player connected. Total players: {playersConnected}");
-
         if (playersConnected == maxPlayers)
         {
             Debug.Log("All players connected. Starting game...");

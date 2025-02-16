@@ -1,33 +1,53 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerSpawner : MonoBehaviour
+public class PlayerSpawner : NetworkBehaviour
 {
     public bool isInDevelopment;
-    public GameObject networkManager;
+    public GameObject networkManagerObject;
+    public GameObject globalBehaviourObject;
 
     public GameObject bubblePlayerPrefab;
     public GameObject windPlayerPrefab;
 
+    public readonly NetworkVariable<bool> isLevelResetting = new(false);
+
     private void Start()
     {
-        if (isInDevelopment)
+        isLevelResetting.OnValueChanged -= OnIsLevelResettingChanged;
+        if (isInDevelopment && FindFirstObjectByType<NetworkManager>() == null)
         {
-            networkManager.SetActive(true);
-            NetworkManager.Singleton.StartHost();
-            SpawnAllPlayers();
+            Instantiate(globalBehaviourObject);
+            networkManagerObject.SetActive(true);
+            NetworkManager.StartHost();
+        }
+        else
+        {
+            if (IsServer)
+                NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
         }
         if (GlobalBehaviour.Instance != null)
         {
             GlobalBehaviour.Instance.LoadInLevel();
         }
-        if (NetworkManager.Singleton.IsServer)
-        {
-            NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
-        }
+
+    }
+
+    private void OnIsLevelResettingChanged(bool previousValue, bool newValue)
+    {
+        if(newValue)
+            GlobalBehaviour.Instance.ResetLoadOutLevelLevel();
+    }
+
+    public override void OnDestroy()
+    {
+        if (NetworkManager.Singleton != null)
+            NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
     }
 
     private void OnSceneLoaded(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
@@ -37,7 +57,11 @@ public class PlayerSpawner : MonoBehaviour
 
     private void SpawnAllPlayers()
     {
-        foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
+        if (!IsServer)
+            return;
+
+        var connectedClientIds = NetworkManager.Singleton.ConnectedClientsIds.ToList();
+        foreach (var clientId in connectedClientIds)
         {
             SpawnPlayer(clientId);
         }
@@ -45,12 +69,9 @@ public class PlayerSpawner : MonoBehaviour
 
     private void SpawnPlayer(ulong clientId)
     {
-        Debug.Log($"Spawning player for client {clientId}");
-
         Vector2 spawnPosition = GetSpawnPosition(clientId);
-
         var playerInstance = Instantiate(clientId == 0 ? bubblePlayerPrefab : windPlayerPrefab, spawnPosition, Quaternion.identity);
-        playerInstance.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
+        playerInstance.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId,true);
     }
 
     private Vector2 GetSpawnPosition(ulong clientId)

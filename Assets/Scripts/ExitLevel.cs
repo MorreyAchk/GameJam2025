@@ -13,8 +13,8 @@ public class ExitLevel : NetworkBehaviour
         {
             StartCoroutine(GlobalBehaviour.Instance.LoadOutLevel(() =>
             {
-                if (IsServer)
-                    NetworkManager.Singleton.SceneManager.LoadScene(nextScene, LoadSceneMode.Single);
+                if(IsServer)
+                    GlobalBehaviour.Instance.LoadLevel(nextScene);
             }));
         }
     }

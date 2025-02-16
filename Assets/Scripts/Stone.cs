@@ -16,7 +16,7 @@ public class Stone : NetworkBehaviour
     }
     private void Update()
     {
-        if (bulletEffects.isInBubbleNetwork.Value)
+        if (bulletEffects.isInBubble.Value)
         {
             rb.velocity = new Vector2(bulletEffects.bubbleDirectionX.Value, 2f);
         }

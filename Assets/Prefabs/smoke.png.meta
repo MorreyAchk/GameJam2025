@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 87b3200a1242e264eb83d1ef506bd782
+guid: 867f791bc152ee242bbf913ec1c38a09
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: hand-drawn-animation-frames-element-collection_0
+      name: smoke_0
       rect:
         serializedVersion: 2
-        x: 151
-        y: 739
-        width: 368
-        height: 367
+        x: 213
+        y: 755
+        width: 396
+        height: 224
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9d378d1da4eedb04084608f8ba5419e3
-      internalID: 192802956
+      spriteID: b6b4d9b03348ba34cad4a57d621bb4fc
+      internalID: -429858906
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hand-drawn-animation-frames-element-collection_1
+      name: smoke_1
       rect:
         serializedVersion: 2
-        x: 591
-        y: 739
-        width: 369
-        height: 367
+        x: 692
+        y: 755
+        width: 567
+        height: 273
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,20 +145,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 90a4ec2b42309934d81e3d742f019fea
-      internalID: -645677918
+      spriteID: 0e71216dedf509649be3a3faa5560003
+      internalID: 1140106313
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hand-drawn-animation-frames-element-collection_2
+      name: smoke_2
       rect:
         serializedVersion: 2
-        x: 1028
-        y: 739
-        width: 377
-        height: 367
+        x: 1283
+        y: 749
+        width: 537
+        height: 328
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,20 +166,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6d4fdbc41b6f7b04081e6d81d22373a4
-      internalID: -1183891734
+      spriteID: ffca8de94cd9e0448bd69ee1ca628be8
+      internalID: 2144851195
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hand-drawn-animation-frames-element-collection_3
+      name: smoke_3
       rect:
         serializedVersion: 2
-        x: 1467
-        y: 738
-        width: 382
-        height: 368
+        x: 142
+        y: 214
+        width: 508
+        height: 342
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,20 +187,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 00a47a1695a61d548b2587693381f121
-      internalID: -1029276374
+      spriteID: a2ab539724980bd4a8cdf351cc5a7170
+      internalID: -1632398418
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hand-drawn-animation-frames-element-collection_4
+      name: smoke_4
       rect:
         serializedVersion: 2
-        x: 151
-        y: 226
-        width: 360
-        height: 362
+        x: 920
+        y: 219
+        width: 294
+        height: 375
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -208,20 +208,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 06edc48395953214387dbb7fde2753af
-      internalID: -66422077
+      spriteID: a5a6d6c7d62892848bd710f6ac6b9287
+      internalID: 1929496325
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hand-drawn-animation-frames-element-collection_5
+      name: smoke_5
       rect:
         serializedVersion: 2
-        x: 591
-        y: 232
-        width: 345
-        height: 356
+        x: 1217
+        y: 501
+        width: 21
+        height: 19
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -229,20 +229,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2da86ae6f8f4cf64b9f8652e04a2935b
-      internalID: 1685779442
+      spriteID: b0f7a18fa6c75d8478745d83ce99174b
+      internalID: -1942517758
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hand-drawn-animation-frames-element-collection_9
+      name: smoke_6
       rect:
         serializedVersion: 2
-        x: 901
-        y: 467
-        width: 12
-        height: 11
+        x: 1464
+        y: 418
+        width: 118
+        height: 129
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -250,20 +250,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ab9b0e8200d2a564fabcbeb36f1dd54a
-      internalID: -907271593
+      spriteID: defb38576ee5d6349add0153d2a64eae
+      internalID: -929768145
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hand-drawn-animation-frames-element-collection_6
+      name: smoke_7
       rect:
         serializedVersion: 2
-        x: 1457
-        y: 266
-        width: 394
-        height: 374
+        x: 1600
+        y: 426
+        width: 50
+        height: 58
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -271,20 +271,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 46904e5acb3f50f4f82122b086c26d3b
-      internalID: 611214259
+      spriteID: ff12f79e6cfa8ad49bed5a54eb3208aa
+      internalID: -1526257962
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hand-drawn-animation-frames-element-collection_7
+      name: smoke_8
       rect:
         serializedVersion: 2
-        x: 1002
-        y: 263
-        width: 373
-        height: 357
+        x: 808
+        y: 325
+        width: 189
+        height: 91
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -292,8 +292,134 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 448d34f889e22ff40b8554c19f6d6a7c
-      internalID: -1233114331
+      spriteID: 7c7011d8195614347b189da9a4cc5bed
+      internalID: 1414549115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: smoke_9
+      rect:
+        serializedVersion: 2
+        x: 1434
+        y: 394
+        width: 28
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 947684eaa806def4d9c31f76ea1fe89f
+      internalID: -1981672328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: smoke_10
+      rect:
+        serializedVersion: 2
+        x: 1488
+        y: 342
+        width: 90
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1327ac3847c8cac428949bc0657c04da
+      internalID: 5589085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: smoke_11
+      rect:
+        serializedVersion: 2
+        x: 1621
+        y: 365
+        width: 20
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31b364e4038c6f2428099a713f99cdf1
+      internalID: -409125194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: smoke_12
+      rect:
+        serializedVersion: 2
+        x: 1478
+        y: 249
+        width: 21
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6811ff0d2cdc2ca4f838efd3462eea25
+      internalID: -1704948973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: smoke_13
+      rect:
+        serializedVersion: 2
+        x: 1541
+        y: 273
+        width: 51
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b72fd25b37b93d4a83aa2b8935e4787
+      internalID: 1585297933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: smoke_14
+      rect:
+        serializedVersion: 2
+        x: 1621
+        y: 264
+        width: 38
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23350943a818dec429585dacf14b16fc
+      internalID: 1964139125
       vertices: []
       indices: 
       edges: []
@@ -309,16 +435,21 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      hand-drawn-animation-frames-element-collection_0: 192802956
-      hand-drawn-animation-frames-element-collection_1: -645677918
-      hand-drawn-animation-frames-element-collection_2: -1183891734
-      hand-drawn-animation-frames-element-collection_3: -1029276374
-      hand-drawn-animation-frames-element-collection_4: -66422077
-      hand-drawn-animation-frames-element-collection_5: 1685779442
-      hand-drawn-animation-frames-element-collection_6: 611214259
-      hand-drawn-animation-frames-element-collection_7: -1233114331
-      hand-drawn-animation-frames-element-collection_8: 1075847703
-      hand-drawn-animation-frames-element-collection_9: -907271593
+      smoke_0: -429858906
+      smoke_1: 1140106313
+      smoke_10: 5589085
+      smoke_11: -409125194
+      smoke_12: -1704948973
+      smoke_13: 1585297933
+      smoke_14: 1964139125
+      smoke_2: 2144851195
+      smoke_3: -1632398418
+      smoke_4: 1929496325
+      smoke_5: -1942517758
+      smoke_6: -929768145
+      smoke_7: -1526257962
+      smoke_8: 1414549115
+      smoke_9: -1981672328
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

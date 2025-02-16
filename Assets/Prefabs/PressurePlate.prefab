@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 2184697629986151251}
   - component: {fileID: 2942984348781972658}
   - component: {fileID: 70364043519185078}
+  - component: {fileID: 1094948882082647906}
   m_Layer: 0
   m_Name: PressurePlate
   m_TagString: Untagged
@@ -132,8 +133,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebe8ec676067c944db8e0b3ed4eaf3a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOn:
-    m_InternalValue: 0
   isPlate: 1
 --- !u!95 &2184697629986151251
 Animator:
@@ -216,8 +215,22 @@ MonoBehaviour:
   GlobalObjectIdHash: 951099334
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
-  ActiveSceneSynchronization: 1
+  ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 1
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &1094948882082647906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4667820841253027649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a65bcc0c981a340a2971f2b68bc388, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 2184697629986151251}

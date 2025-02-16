@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Controller2d : NetworkBehaviour
 {
@@ -12,27 +14,32 @@ public class Controller2d : NetworkBehaviour
 
 
     public float groundColliderRadius = 0.2f;
-    public SpriteRenderer spriteRenderer;
+    public SpriteRenderer playerSprite;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float jumpingPower = 3f;
     [SerializeField] private float speed = 8f;
     [SerializeField] private Animator playerAnimator;
-    [SerializeField] private BulletEffects bubbleEffects;
+    public ParticleSystem deathParticleSystem;
     private Vector3 networkPosition;
     public InteractFlags currentLever;
 
     private readonly NetworkVariable<bool> isOnLadder = new(false);
     private readonly NetworkVariable<bool> isFacingRightNetwork = new(true);
+    private PlayerSpawner playerSpawner;
     private BulletEffects bulletEffects;
     private bool isGrounded;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        bulletEffects= GetComponent<BulletEffects>();
-
+        bulletEffects = GetComponent<BulletEffects>();
         isFacingRightNetwork.OnValueChanged += OnFacingDirectionChanged;
+    }
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        playerSpawner = FindObjectOfType<PlayerSpawner>();
     }
 
     public override void OnDestroy()
@@ -42,6 +49,9 @@ public class Controller2d : NetworkBehaviour
 
     void Update()
     {
+        if (playerSpawner.isLevelResetting.Value)
+            return;
+
         if (IsOwner)
         {
             IsGrounded();
@@ -59,11 +69,8 @@ public class Controller2d : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (!IsOwner)
-            return;
-
         Vector2 velocity;
-        if (bulletEffects.isInBubbleNetwork.Value)
+        if (bulletEffects.isInBubble.Value)
         {
             bulletEffects.wasInBubble = true;
             velocity = new Vector2(bulletEffects.bubbleDirectionX.Value, 2f);
@@ -72,7 +79,7 @@ public class Controller2d : NetworkBehaviour
         {
             if (isOnLadder.Value)
             {
-                velocity = new Vector2((vertical + horizontal) * speed, rb.velocity.y);
+                velocity = new Vector2(horizontal * speed, vertical * speed);
             }
             else
             {
@@ -101,7 +108,7 @@ public class Controller2d : NetworkBehaviour
     #region PlayerMovement
     private void PlayerInput()
     {
-        isMoving = !bulletEffects.isInBubbleNetwork.Value && (horizontal != 0 || isJumping);
+        isMoving = !bulletEffects.isInBubble.Value && (horizontal != 0 || isJumping);
         if (bulletEffects.wasInBubble)
             return;
         horizontal = Input.GetAxisRaw("Horizontal");
@@ -149,7 +156,7 @@ public class Controller2d : NetworkBehaviour
 
     private void OnFacingDirectionChanged(bool oldValue, bool newValue)
     {
-        spriteRenderer.flipX = !newValue;
+        playerSprite.flipX = !newValue;
     }
 
     [ServerRpc]
@@ -171,18 +178,6 @@ public class Controller2d : NetworkBehaviour
     }
 
     #endregion
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (!IsServer)
-            return;
-
-        if (collision.collider.CompareTag("Ladder"))
-        {
-            isOnLadder.Value = true;
-        }
-    }
-
     private void InteractWithLever()
     {
         if (Input.GetKeyDown(KeyCode.E) && currentLever != null)
@@ -191,17 +186,42 @@ public class Controller2d : NetworkBehaviour
         }
     }
 
-    //public void OnSpike()
-    //{
-    //    if (!bubble.isFreeze)
-    //        bubble.isInBubble = false;
-    //}
+    public void OnLadder()
+    {
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        isOnLadder.Value = true;
+    }
 
-    //public void OnKnowledge(string skill)
-    //{
-    //    if (skill == "Freeze")
-    //    {
-    //        bubble.isFreeze = true;
-    //    }
-    //}
+    public void OffLadder()
+    {
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        isOnLadder.Value = false;
+    }
+
+    public void Die()
+    {
+        ActivateTransitionClientRpc();
+        if (IsServer)
+        {
+            ParticleSystem deathParticles = Instantiate(deathParticleSystem, transform.position, Quaternion.identity);
+            deathParticles.GetComponent<NetworkObject>().Spawn();
+            playerSpawner.isLevelResetting.Value = true;
+            HideServerRpc();
+        }
+    }
+
+    [ClientRpc]
+    private void ActivateTransitionClientRpc() => GlobalBehaviour.Instance.ResetLoadOutLevelLevel();
+
+    [ServerRpc(RequireOwnership = false)]
+    private void HideServerRpc()
+    {
+        HideClientRpc();
+    }
+
+    [ClientRpc]
+    private void HideClientRpc()
+    {
+        gameObject.SetActive(false);
+    }
 }

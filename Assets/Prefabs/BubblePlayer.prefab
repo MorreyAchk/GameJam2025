@@ -40,7 +40,6 @@ Transform:
   - {fileID: 8707600239260190099}
   - {fileID: 2966065903676091032}
   - {fileID: 5018564862800805184}
-  - {fileID: 5624829169706739455}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &253282584483879122
@@ -120,7 +119,7 @@ MonoBehaviour:
   isJumping: 0
   isMoving: 0
   groundColliderRadius: 0.24
-  spriteRenderer: {fileID: 5815475381691992811}
+  playerSprite: {fileID: 5815475381691992811}
   groundCheck: {fileID: 2112350369941850299}
   groundLayer:
     serializedVersion: 2
@@ -128,7 +127,7 @@ MonoBehaviour:
   jumpingPower: 15
   speed: 6
   playerAnimator: {fileID: 2466617933267394414}
-  bubbleEffects: {fileID: 1756762610675945713}
+  deathParticleSystem: {fileID: 5667968697205443265, guid: b5dcf2e4e0de7b44e9472fbd3dd30bb8, type: 3}
   currentLever: {fileID: 0}
 --- !u!114 &1756762610675945713
 MonoBehaviour:
@@ -143,8 +142,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 353371248710072597}
+  parentCollider: {fileID: 2044233522259549153}
   bubbleParticleSystem: {fileID: 7114867732542484785}
-  snowflakeParticleSystem: {fileID: 5771900389276728720}
+  wasInBubble: 0
 --- !u!114 &6173023261497456150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10409,7 +10409,6 @@ GameObject:
   - component: {fileID: 55582843595033809}
   - component: {fileID: 353371248710072597}
   - component: {fileID: 6322113681148369562}
-  - component: {fileID: 2743700924807282405}
   m_Layer: 0
   m_Name: BulletEffects
   m_TagString: Untagged
@@ -10519,105 +10518,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []
   m_Animator: {fileID: 353371248710072597}
---- !u!58 &2743700924807282405
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8683909964699823987}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1.95
---- !u!1001 &9030753117838883960
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2720838217730057344}
-    m_Modifications:
-    - target: {fileID: 1509977948477052227, guid: e513a8a24dce3e14da0af5e458dc2a71, type: 3}
-      propertyPath: m_Name
-      value: SnowParticles
-      objectReference: {fileID: 0}
-    - target: {fileID: 3701051011124271751, guid: e513a8a24dce3e14da0af5e458dc2a71, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.09
-      objectReference: {fileID: 0}
-    - target: {fileID: 3701051011124271751, guid: e513a8a24dce3e14da0af5e458dc2a71, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 3701051011124271751, guid: e513a8a24dce3e14da0af5e458dc2a71, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3701051011124271751, guid: e513a8a24dce3e14da0af5e458dc2a71, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.9691019
-      objectReference: {fileID: 0}
-    - target: {fileID: 3701051011124271751, guid: e513a8a24dce3e14da0af5e458dc2a71, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3701051011124271751, guid: e513a8a24dce3e14da0af5e458dc2a71, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3701051011124271751, guid: e513a8a24dce3e14da0af5e458dc2a71, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.24666072
-      objectReference: {fileID: 0}
-    - target: {fileID: 3701051011124271751, guid: e513a8a24dce3e14da0af5e458dc2a71, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3701051011124271751, guid: e513a8a24dce3e14da0af5e458dc2a71, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3701051011124271751, guid: e513a8a24dce3e14da0af5e458dc2a71, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e513a8a24dce3e14da0af5e458dc2a71, type: 3}
---- !u!4 &5624829169706739455 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3701051011124271751, guid: e513a8a24dce3e14da0af5e458dc2a71, type: 3}
-  m_PrefabInstance: {fileID: 9030753117838883960}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &5771900389276728720 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 3263498737654071784, guid: e513a8a24dce3e14da0af5e458dc2a71, type: 3}
-  m_PrefabInstance: {fileID: 9030753117838883960}
-  m_PrefabAsset: {fileID: 0}

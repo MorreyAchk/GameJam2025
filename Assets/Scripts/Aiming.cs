@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
@@ -36,12 +37,22 @@ public class Aiming : NetworkBehaviour
     private new LineRenderer renderer;
     private Controller2d controller;
     private Vector2 direction;
+    private BulletEffects bulletEffects;
+    private PlayerSpawner playerSpawner;
     private void Start()
     {
         renderer = GetComponent<LineRenderer>();
+        bulletEffects = GetComponentInParent<BulletEffects>();  
         controller = playerTransform.GetComponent<Controller2d>();
         isFacingRightNetwork.OnValueChanged += OnFacingDirectionChanged;
     }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        playerSpawner = FindObjectOfType<PlayerSpawner>();
+    }
+
 
     public override void OnDestroy()
     {
@@ -50,6 +61,17 @@ public class Aiming : NetworkBehaviour
 
     public void Update()
     {
+        if (playerSpawner.isLevelResetting.Value)
+            return;
+
+        if (bulletEffects.isInBubble.Value) {
+            gunSprite.enabled = false;
+            return;
+        }
+
+        if (gunSprite.enabled == false)
+            gunSprite.enabled = true;
+
         if (IsOwner)
         {
             ShootBullet();

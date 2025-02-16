@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+using Unity.Netcode;
+using System.Threading.Tasks;
 
 public class GlobalBehaviour : MonoBehaviour
 {
@@ -21,7 +23,6 @@ public class GlobalBehaviour : MonoBehaviour
     [Header("Level loader")]
     public Animator transition;
     public Image transitionImage;
-
 
     public void LoadInLevel()
     {
@@ -61,6 +62,24 @@ public class GlobalBehaviour : MonoBehaviour
         resetShow.SetActive(false);
         resetTime = 0;
       }
+    }
+
+    public void LoadLevel(string nextSceneName)
+    {
+        NetworkManager.Singleton.SceneManager.LoadScene(nextSceneName, LoadSceneMode.Single);
+    }
+    public void ResetLoadOutLevelLevel()
+    {
+        StartCoroutine(LoadOutLevel(ResetLevel));
+    }
+
+    private void ResetLevel()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        if (NetworkManager.Singleton.IsServer)
+            LoadLevel(currentSceneName);
+        else
+            transition.Play("WipeIn");
     }
 
 }
