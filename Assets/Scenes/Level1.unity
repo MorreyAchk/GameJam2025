@@ -12969,6 +12969,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 222407625027087939, guid: 2af4be3b0180dff4d99a14a56a6f3e67, type: 3}
+      propertyPath: windDirection.x
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 222407625027087939, guid: 2af4be3b0180dff4d99a14a56a6f3e67, type: 3}
+      propertyPath: windDirection.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2102074815352201623, guid: 2af4be3b0180dff4d99a14a56a6f3e67, type: 3}
       propertyPath: m_Name
       value: MemoryStone

@@ -61,9 +61,6 @@ public class Aiming : NetworkBehaviour
 
     public void Update()
     {
-        if (playerSpawner.isLevelResetting.Value)
-            return;
-
         if (bulletEffects.isInBubble.Value) {
             gunSprite.enabled = false;
             return;
@@ -77,6 +74,8 @@ public class Aiming : NetworkBehaviour
             ShootBullet();
             MoveGun();
             Trajectory();
+            if (playerSpawner.isSceneChaniging.Value)
+                return;
             SentAngleAndRotationToServerRpc(aimingAngle, transform.rotation);
         }
         else {
@@ -214,11 +213,10 @@ public class Aiming : NetworkBehaviour
     {
         if (cooldown.IsCoolingDown)
             return;
-        if (Input.GetMouseButtonDown(1) && !IsInGround() && pointsOfReflection.Count >= 2)
+        if (Input.GetMouseButtonDown(1) && !IsInGround())
         {
-            Vector2 direction = (pointsOfReflection[1] - pointsOfReflection[0]).normalized;
             cooldown.StartCooldown();
-            SpawnBulletServerRpc(direction);
+            SpawnBulletServerRpc();
         }
     }
     [ClientRpc]
@@ -227,8 +225,9 @@ public class Aiming : NetworkBehaviour
     }
 
     [ServerRpc]
-    private void SpawnBulletServerRpc(Vector2 direction)
+    private void SpawnBulletServerRpc()
     {
+        Vector2 direction = (mousePosition - new Vector2(shootingPoint.position.x, shootingPoint.position.y)).normalized;
         ShootingParticlesClientRpc();
         GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
         bullet.GetComponent<NetworkObject>().Spawn();

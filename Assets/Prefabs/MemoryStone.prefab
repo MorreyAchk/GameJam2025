@@ -146,12 +146,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b33031770f51c340854b3d955b6706d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 2
-  color: {r: 0, g: 0, b: 0, a: 0}
   defaultIntensity: 2
   intensity: 20
   innerSprite: {fileID: 7598385113593506539}
-  xWindValueForce: -15
+  windDirection: {x: -3, y: 0}
   particleSystem: {fileID: 5938816992636201387}
 --- !u!114 &3211912288702245491
 MonoBehaviour:

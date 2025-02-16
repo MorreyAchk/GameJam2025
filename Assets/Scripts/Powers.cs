@@ -6,6 +6,5 @@ public enum Powers
 {
     Wind,
     Bubble,
-    Ice,
     Empty
 }

@@ -10,7 +10,7 @@ public class MemoryStoneTrigger : NetworkBehaviour
     public float defaultIntensity = 3f;
     public float intensity = 10f;
     public SpriteRenderer innerSprite;
-    public float xWindValueForce = 10f;
+    public Vector2 windDirection = new (-10f, 0);
     public new ParticleSystem particleSystem;
     public NetworkVariable<MemoryStoneData> memoryStoneData = new(new MemoryStoneData(Powers.Empty, Color.white), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private MemoryStoneData localData = new(Powers.Empty, Color.white);
@@ -52,7 +52,7 @@ public class MemoryStoneTrigger : NetworkBehaviour
             }
             if (memoryStoneData.Value.power == Powers.Wind)
             {
-                bulletEffects.UpdateBubbleDirection(xWindValueForce);
+                bulletEffects.PushBubble(windDirection);
             }
 
             SetNetworkData(Powers.Empty, Color.white);

@@ -65,7 +65,8 @@ public class BulletTrigger : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (power == Powers.Wind) {
+        if (power == Powers.Wind && graphics)
+        {
             float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
             if (IsServer) {
                 graphics.rotation = Quaternion.Euler(0, 0, angle);

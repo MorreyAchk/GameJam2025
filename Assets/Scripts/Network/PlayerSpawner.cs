@@ -15,16 +15,17 @@ public class PlayerSpawner : NetworkBehaviour
     public GameObject bubblePlayerPrefab;
     public GameObject windPlayerPrefab;
 
-    public readonly NetworkVariable<bool> isLevelResetting = new(false);
+    public readonly NetworkVariable<bool> isSceneChaniging = new(false);
 
     private void Start()
     {
-        isLevelResetting.OnValueChanged -= OnIsLevelResettingChanged;
+        isSceneChaniging.OnValueChanged += OnIsSceneChanigingChanged;
         if (isInDevelopment && FindFirstObjectByType<NetworkManager>() == null)
         {
             Instantiate(globalBehaviourObject);
             networkManagerObject.SetActive(true);
             NetworkManager.StartHost();
+            SpawnAllPlayers();
         }
         else
         {
@@ -38,7 +39,7 @@ public class PlayerSpawner : NetworkBehaviour
 
     }
 
-    private void OnIsLevelResettingChanged(bool previousValue, bool newValue)
+    private void OnIsSceneChanigingChanged(bool previousValue, bool newValue)
     {
         if(newValue)
             GlobalBehaviour.Instance.ResetLoadOutLevelLevel();
@@ -47,7 +48,10 @@ public class PlayerSpawner : NetworkBehaviour
     public override void OnDestroy()
     {
         if (NetworkManager.Singleton != null)
+        {
             NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
+            isSceneChaniging.OnValueChanged += OnIsSceneChanigingChanged;
+        }
     }
 
     private void OnSceneLoaded(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)

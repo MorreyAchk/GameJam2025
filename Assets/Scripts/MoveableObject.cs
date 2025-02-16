@@ -3,27 +3,21 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Stone : NetworkBehaviour
+public class MoveableObject : NetworkBehaviour
 {
-
     private Rigidbody2D rb;
     private BulletEffects bulletEffects;
+    public float defaultUpBubbleSpeed;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         bulletEffects = GetComponent<BulletEffects>();
     }
-    private void Update()
-    {
-        if (bulletEffects.isInBubble.Value)
-        {
-            rb.velocity = new Vector2(bulletEffects.bubbleDirectionX.Value, 2f);
-        }
-    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        rb.velocity = Vector3.zero;
         if (!IsServer)
             return;
 

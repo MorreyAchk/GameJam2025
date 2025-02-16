@@ -49,8 +49,6 @@ public class Controller2d : NetworkBehaviour
 
     void Update()
     {
-        if (playerSpawner.isLevelResetting.Value)
-            return;
 
         if (IsOwner)
         {
@@ -59,6 +57,8 @@ public class Controller2d : NetworkBehaviour
             PlayerInput();
             Jumping();
             Animations();
+            if (playerSpawner.isSceneChaniging.Value)
+                return;
             SentPositionToServerRpc(transform.position);
         }
         else
@@ -71,21 +71,17 @@ public class Controller2d : NetworkBehaviour
     {
         Vector2 velocity;
         if (bulletEffects.isInBubble.Value)
+            return;
+
+        if (isOnLadder.Value)
         {
-            bulletEffects.wasInBubble = true;
-            velocity = new Vector2(bulletEffects.bubbleDirectionX.Value, 2f);
+            velocity = new Vector2(horizontal * speed, vertical * speed);
         }
         else
         {
-            if (isOnLadder.Value)
-            {
-                velocity = new Vector2(horizontal * speed, vertical * speed);
-            }
-            else
-            {
-                velocity = new Vector2(horizontal * speed, rb.velocity.y);
-            }
+            velocity = new Vector2(horizontal * speed, rb.velocity.y);
         }
+
         rb.velocity = velocity;
     }
 
@@ -200,18 +196,14 @@ public class Controller2d : NetworkBehaviour
 
     public void Die()
     {
-        ActivateTransitionClientRpc();
         if (IsServer)
         {
             ParticleSystem deathParticles = Instantiate(deathParticleSystem, transform.position, Quaternion.identity);
             deathParticles.GetComponent<NetworkObject>().Spawn();
-            playerSpawner.isLevelResetting.Value = true;
+            playerSpawner.isSceneChaniging.Value = true;
             HideServerRpc();
         }
     }
-
-    [ClientRpc]
-    private void ActivateTransitionClientRpc() => GlobalBehaviour.Instance.ResetLoadOutLevelLevel();
 
     [ServerRpc(RequireOwnership = false)]
     private void HideServerRpc()
