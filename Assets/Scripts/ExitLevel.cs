@@ -8,6 +8,7 @@ public class ExitLevel : NetworkBehaviour
 {
     public string nextScene;
     private PlayerSpawner playerSpawner;
+    private int playerCounter;
 
     public override void OnNetworkSpawn()
     {
@@ -19,7 +20,11 @@ public class ExitLevel : NetworkBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if(IsServer)
+            playerCounter++;
+        }
+
+        if (playerCounter == 2) {
+            if (IsServer)
                 playerSpawner.isSceneChaniging.Value = true;
 
             StartCoroutine(GlobalBehaviour.Instance.LoadOutLevel(() =>
@@ -29,6 +34,14 @@ public class ExitLevel : NetworkBehaviour
                     GlobalBehaviour.Instance.LoadLevel(nextScene);
                 }
             }));
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            playerCounter--;
         }
     }
 }

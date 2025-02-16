@@ -17,7 +17,9 @@ public class MoveableObject : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        rb.velocity = Vector3.zero;
+        if (collision.collider.CompareTag("Wall"))
+            rb.velocity = Vector3.zero;
+
         if (!IsServer)
             return;
 

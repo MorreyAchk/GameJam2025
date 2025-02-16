@@ -5321,7 +5321,7 @@ MonoBehaviour:
   parentCollider: {fileID: 2044233522259549153}
   bubbleParticleSystem: {fileID: 7114867732542484785}
   wasInBubble: 0
-  bubbleUpSpeed: 2
+  bubbleUpSpeed: 1.4
   windImpactForce: 3
 --- !u!114 &6173023261497456150
 MonoBehaviour:

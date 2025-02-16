@@ -213,10 +213,11 @@ public class Aiming : NetworkBehaviour
     {
         if (cooldown.IsCoolingDown)
             return;
-        if (Input.GetMouseButtonDown(1) && !IsInGround())
+        if (Input.GetMouseButtonDown(1) && !IsInGround() && pointsOfReflection.Count > 1)
         {
+            Vector2 direction = (pointsOfReflection[1] - pointsOfReflection[0]).normalized;
             cooldown.StartCooldown();
-            SpawnBulletServerRpc();
+            SpawnBulletServerRpc(direction);
         }
     }
     [ClientRpc]
@@ -225,9 +226,8 @@ public class Aiming : NetworkBehaviour
     }
 
     [ServerRpc]
-    private void SpawnBulletServerRpc()
+    private void SpawnBulletServerRpc(Vector2 direction)
     {
-        Vector2 direction = (mousePosition - new Vector2(shootingPoint.position.x, shootingPoint.position.y)).normalized;
         ShootingParticlesClientRpc();
         GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
         bullet.GetComponent<NetworkObject>().Spawn();

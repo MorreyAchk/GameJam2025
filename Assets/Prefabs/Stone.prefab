@@ -303,7 +303,7 @@ MonoBehaviour:
   bubbleParticleSystem: {fileID: 5180470248496399893}
   wasInBubble: 0
   bubbleUpSpeed: 1
-  windImpactForce: 3
+  windImpactForce: 10
 --- !u!114 &2898076487075825920
 MonoBehaviour:
   m_ObjectHideFlags: 0
