@@ -20,6 +20,10 @@ public class MemoryStoneTrigger : NetworkBehaviour
         memoryStoneData.OnValueChanged += OnMemoryStoneDataChanged;
     }
 
+    public override void OnDestroy()
+    {
+        memoryStoneData.OnValueChanged -= OnMemoryStoneDataChanged;
+    }
     private void OnMemoryStoneDataChanged(MemoryStoneData previousValue, MemoryStoneData newValue)
     {
         float finalIntensity = Powers.Empty == newValue.power ? defaultIntensity : intensity;

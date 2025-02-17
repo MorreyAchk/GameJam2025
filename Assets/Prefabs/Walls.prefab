@@ -201,6 +201,8 @@ MonoBehaviour:
   finalDoor: 0
   isReversed: 0
   flags: []
+  onAnimationName: Open
+  offAnimationName: Close
 --- !u!1 &7088002040508230086
 GameObject:
   m_ObjectHideFlags: 0

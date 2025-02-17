@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 7699169704406541065}
   - component: {fileID: 2095459986098369640}
   - component: {fileID: 9013370750471227889}
-  - component: {fileID: 1261636558427824948}
   m_Layer: 6
   m_Name: WoodenBox
   m_TagString: Untagged
@@ -245,19 +244,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1261636558427824948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 842595969754448270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7d68f1a79a72074d97806e186d2ff81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultUpBubbleSpeed: 0.6
 --- !u!1 &5016434253981905315
 GameObject:
   m_ObjectHideFlags: 0
