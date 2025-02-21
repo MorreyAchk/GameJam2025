@@ -13248,7 +13248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7387977155355090451, guid: 3f2178ee03d527a43884aba92a3be38d, type: 3}
       propertyPath: m_Name
-      value: ExitDoor (1)
+      value: ExitDoor
       objectReference: {fileID: 0}
     - target: {fileID: 7738285312932433341, guid: 3f2178ee03d527a43884aba92a3be38d, type: 3}
       propertyPath: GlobalObjectIdHash
@@ -13256,7 +13256,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8819185902299770474, guid: 3f2178ee03d527a43884aba92a3be38d, type: 3}
       propertyPath: nextScene
-      value: Credits
+      value: Level2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
