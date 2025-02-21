@@ -12,6 +12,7 @@ TagManager:
   - Memory stone
   - Ladder
   - Stone
+  - Box
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
+  - Wall
   - 
   - 
   - 

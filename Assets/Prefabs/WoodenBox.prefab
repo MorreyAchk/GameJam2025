@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 9013370750471227889}
   m_Layer: 6
   m_Name: WoodenBox
-  m_TagString: Untagged
+  m_TagString: Box
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 7
   m_Sprite: {fileID: 21300018, guid: ae3918a914038694d852d0bb81f62473, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -149,7 +149,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 10
+  m_Mass: 90
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -255,7 +255,7 @@ GameObject:
   - component: {fileID: 8237993423050791507}
   - component: {fileID: 3523666046091444303}
   - component: {fileID: 7169901990651651390}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BubbleParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5084,7 +5084,7 @@ GameObject:
   - component: {fileID: 5327864627950245371}
   - component: {fileID: 1949058589492772663}
   - component: {fileID: 2529976140588299888}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BulletEffects
   m_TagString: Untagged
   m_Icon: {fileID: 0}

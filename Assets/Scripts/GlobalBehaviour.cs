@@ -12,20 +12,32 @@ public class GlobalBehaviour : MonoBehaviour
 {
     private static GlobalBehaviour instance;
     public AudioSource audioSource;
-    public AudioClip[] lever, door;
     public Image brightness;
 
-    public GameObject resetShow;
-    private float resetTime;
-
+    public GameObject networkManager;
     public static GlobalBehaviour Instance => instance;
 
     [Header("Level loader")]
     public Animator transition;
     public Image transitionImage;
-
-    public void LoadInLevel()
+    private void Start()
     {
+        StartCoroutine(LoadInLevel());
+        if (networkManager != null)
+            Instantiate(networkManager);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) => StartCoroutine(LoadInLevel());
+
+    private IEnumerator LoadInLevel()
+    {
+        yield return new WaitForSeconds(1f);
         transition.Play("WipeOut");
     }
 
@@ -48,22 +60,6 @@ public class GlobalBehaviour : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void Update()
-    {
-      if (Input.GetKey(KeyCode.X))
-      {
-        resetShow.SetActive(true);
-        resetTime += Time.deltaTime;
-        if (resetTime >= 5)
-          SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-      }
-      else
-      {
-        resetShow.SetActive(false);
-        resetTime = 0;
-      }
-    }
-
     public void LoadLevel(string nextSceneName)
     {
         NetworkManager.Singleton.SceneManager.LoadScene(nextSceneName, LoadSceneMode.Single);
@@ -80,6 +76,14 @@ public class GlobalBehaviour : MonoBehaviour
             LoadLevel(currentSceneName);
         else
             transition.Play("WipeIn");
+    }
+
+    public void BackToMainMenu() {
+        StartCoroutine(Instance.LoadOutLevel(() =>
+        {
+            SceneManager.LoadScene(0);
+            NetworkManager.Singleton.Shutdown();
+        }));
     }
 
 }

@@ -7,8 +7,8 @@ public class InteractFlags : NetworkBehaviour
 {
     public bool isPlate;
     private Animator animator;
-    public readonly NetworkVariable<bool> isOn = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-
+    public readonly NetworkVariable<bool> isOn = new(false);
+    private int playerCounter;
 
     private void Start()
     {
@@ -22,34 +22,36 @@ public class InteractFlags : NetworkBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") || collision.CompareTag("Stone"))
+        if (!IsServer)
+            return;
+
+        if (collision.CompareTag("Player") || collision.CompareTag("Stone") || collision.CompareTag("Box"))
         {
             if (isPlate)
             {
                 ToggleFlag(true);
+                playerCounter++;
             }
-            else
-            {
-                Controller2d player = collision.GetComponent<Controller2d>();
+            else if (collision.TryGetComponent<Controller2d>(out var player))
                 player.currentLever = this;
-            }
         }
     }
 
-
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (!IsServer)
+            return;
+
         if (collision.CompareTag("Player") || collision.CompareTag("Stone"))
         {
-            if (isPlate)
+            if (isPlate && collision.GetComponent<NetworkObject>().IsSpawned)
             {
-                ToggleFlag(false);
+                playerCounter--;
+                if (playerCounter == 0)
+                    ToggleFlag(false);
             }
-            else
-            {
-                Controller2d player = collision.GetComponent<Controller2d>();
-                player.currentLever = null;
-            }
+            else if (collision.TryGetComponent<Controller2d>(out var player))
+                player.currentLever = this;
         }
     }
 

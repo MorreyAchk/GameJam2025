@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8731873809745714499}
   - component: {fileID: 9011647867584751751}
   - component: {fileID: 3338302430302751496}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BulletEffects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -390,7 +390,7 @@ GameObject:
   - component: {fileID: 6857473406554057790}
   - component: {fileID: 5180470248496399893}
   - component: {fileID: 7576961911350862320}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BubbleParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}

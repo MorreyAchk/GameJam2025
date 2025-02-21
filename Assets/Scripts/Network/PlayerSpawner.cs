@@ -15,11 +15,8 @@ public class PlayerSpawner : NetworkBehaviour
     public GameObject bubblePlayerPrefab;
     public GameObject windPlayerPrefab;
 
-    public readonly NetworkVariable<bool> isSceneChaniging = new(false);
-
     private void Start()
     {
-        isSceneChaniging.OnValueChanged += OnIsSceneChanigingChanged;
         if (isInDevelopment && FindFirstObjectByType<NetworkManager>() == null)
         {
             Instantiate(globalBehaviourObject);
@@ -32,11 +29,12 @@ public class PlayerSpawner : NetworkBehaviour
             if (IsServer)
                 NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
         }
-        if (GlobalBehaviour.Instance != null)
-        {
-            GlobalBehaviour.Instance.LoadInLevel();
-        }
+        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
+    }
 
+    private void OnClientDisconnected(ulong clientId)
+    {
+        GlobalBehaviour.Instance.BackToMainMenu();
     }
 
     private void OnIsSceneChanigingChanged(bool previousValue, bool newValue)
@@ -47,10 +45,10 @@ public class PlayerSpawner : NetworkBehaviour
 
     public override void OnDestroy()
     {
-        if (NetworkManager.Singleton != null)
+        if (NetworkManager.Singleton != null && NetworkManager.Singleton.SceneManager != null)
         {
             NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
-            isSceneChaniging.OnValueChanged += OnIsSceneChanigingChanged;
+            NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
         }
     }
 

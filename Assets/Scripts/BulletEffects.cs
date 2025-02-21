@@ -11,14 +11,14 @@ public class BulletEffects : NetworkBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Collider2D parentCollider;
     [SerializeField] private ParticleSystem bubbleParticleSystem;
+    public readonly NetworkVariable<bool> pushedByWind = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public readonly NetworkVariable<bool> isInBubble = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public bool wasInBubble;
-    public float bubbleUpSpeed = 1f,windImpactForce=5f;
-    private bool pushedByWind = true;
+    public float bubbleUpSpeed = 1f, windImpactForce = 5f;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>(); 
+        rb = GetComponent<Rigidbody2D>();
         isInBubble.OnValueChanged += OnBubbleStateChanged;
         defaultGravityScale = rb.gravityScale;
     }
@@ -30,7 +30,7 @@ public class BulletEffects : NetworkBehaviour
 
     private void Update()
     {
-        if (isInBubble.Value && !pushedByWind)
+        if (isInBubble.Value && !pushedByWind.Value)
         {
             wasInBubble = true;
             rb.velocity = new Vector2(0f, bubbleUpSpeed);
@@ -44,10 +44,10 @@ public class BulletEffects : NetworkBehaviour
 
         if (collision.collider.tag.ToLower().Contains("wall"))
         {
-            pushedByWind = false;
+            pushedByWind.Value = false;
             UpdateBubbleState(false);
         }
-            
+
         if (collision.collider.CompareTag("Bullet"))
         {
             BulletTrigger bullet = collision.collider.GetComponent<BulletTrigger>();
@@ -56,9 +56,7 @@ public class BulletEffects : NetworkBehaviour
 
             if (bullet.power == Powers.Wind)
             {
-                pushedByWind = true;
-                Vector2 pushDirection = (collision.transform.position - transform.position).normalized;
-                PushBubble(pushDirection);
+                PushBubble(bullet.direction);
             }
 
             bullet.DespawnBullet();
@@ -69,7 +67,7 @@ public class BulletEffects : NetworkBehaviour
     {
         if (newValue)
         {
-            rb.gravityScale = 0f;            
+            rb.gravityScale = 0f;
             InBubbleEffect();
         }
         else
@@ -87,8 +85,10 @@ public class BulletEffects : NetworkBehaviour
         }
     }
 
-    public void PushBubble(Vector2 pushDirection) {
-        rb.AddForce(pushDirection * windImpactForce, ForceMode2D.Impulse);
+    public void PushBubble(Vector2 pushDirection)
+    {
+        pushedByWind.Value = true;
+        rb.AddForce(pushDirection, ForceMode2D.Impulse);
     }
 
     private void InBubbleEffect()

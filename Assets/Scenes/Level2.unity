@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 2693820}
   - component: {fileID: 2693819}
   - component: {fileID: 2693821}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Tilemap
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -8031,9 +8031,9 @@ GameObject:
   m_Component:
   - component: {fileID: 399323290}
   - component: {fileID: 399323289}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Decors
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8395,7 +8395,7 @@ GameObject:
   - component: {fileID: 572035875}
   - component: {fileID: 572035877}
   - component: {fileID: 572035876}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13366,7 +13366,7 @@ GameObject:
   - component: {fileID: 1162634643}
   - component: {fileID: 1162634645}
   - component: {fileID: 1162634644}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tilemap
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -14025,9 +14025,9 @@ GameObject:
   - component: {fileID: 1470889756}
   - component: {fileID: 1470889755}
   - component: {fileID: 1470889758}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Collider
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15017,9 +15017,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2077163622}
   - component: {fileID: 2077163621}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BackGround
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15486,6 +15486,10 @@ PrefabInstance:
     - target: {fileID: 2826282939754368782, guid: 4e73550fdb609674a85438ebce5744ce, type: 3}
       propertyPath: m_Name
       value: EnterDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 2826282939754368782, guid: 4e73550fdb609674a85438ebce5744ce, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3789693442840788880, guid: 4e73550fdb609674a85438ebce5744ce, type: 3}
       propertyPath: m_LocalPosition.x

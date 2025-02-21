@@ -43,24 +43,24 @@ public class MemoryStoneTrigger : NetworkBehaviour
         if (collision.CompareTag("Bullet"))
         {
             BulletTrigger bullet = collision.GetComponent<BulletTrigger>();
+            SetNetworkData(Powers.Empty, Color.white);
             SetNetworkData(bullet.power, bullet.color);
             bullet.DespawnBullet();
         }
-
-        if (collision.CompareTag("Player"))
+        else if (collision.TryGetComponent<BulletEffects>(out var bulletEffects))
         {
-            BulletEffects bulletEffects = collision.GetComponent<BulletEffects>();
             if (memoryStoneData.Value.power == Powers.Bubble)
             {
                 bulletEffects.UpdateBubbleState(true);
             }
             if (memoryStoneData.Value.power == Powers.Wind)
             {
-                bulletEffects.PushBubble(windDirection);
+                bulletEffects.PushBubble(windDirection*2f);
             }
 
             SetNetworkData(Powers.Empty, Color.white);
         }
+
     }
 
 

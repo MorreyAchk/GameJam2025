@@ -20,26 +20,23 @@ public class Controller2d : NetworkBehaviour
     [SerializeField] private float jumpingPower = 3f;
     [SerializeField] private float speed = 8f;
     [SerializeField] private Animator playerAnimator;
+    [SerializeField] private PlayerMenu playerMenu;
     public ParticleSystem deathParticleSystem;
     private Vector3 networkPosition;
     public InteractFlags currentLever;
 
+    public readonly NetworkVariable<bool> sentToServer = new(true);
     private readonly NetworkVariable<bool> isOnLadder = new(false);
     private readonly NetworkVariable<bool> isFacingRightNetwork = new(true);
-    private PlayerSpawner playerSpawner;
     private BulletEffects bulletEffects;
     private bool isGrounded;
 
     private void Start()
     {
+        playerMenu.enabled = IsOwner;
         rb = GetComponent<Rigidbody2D>();
         bulletEffects = GetComponent<BulletEffects>();
         isFacingRightNetwork.OnValueChanged += OnFacingDirectionChanged;
-    }
-    public override void OnNetworkSpawn()
-    {
-        base.OnNetworkSpawn();
-        playerSpawner = FindObjectOfType<PlayerSpawner>();
     }
 
     public override void OnDestroy()
@@ -57,7 +54,7 @@ public class Controller2d : NetworkBehaviour
             PlayerInput();
             Jumping();
             Animations();
-            if (playerSpawner.isSceneChaniging.Value)
+            if (!sentToServer.Value)
                 return;
             SentPositionToServerRpc(transform.position);
         }
@@ -200,7 +197,7 @@ public class Controller2d : NetworkBehaviour
         {
             ParticleSystem deathParticles = Instantiate(deathParticleSystem, transform.position, Quaternion.identity);
             deathParticles.GetComponent<NetworkObject>().Spawn();
-            playerSpawner.isSceneChaniging.Value = true;
+            sentToServer.Value = false;
             HideServerRpc();
         }
     }

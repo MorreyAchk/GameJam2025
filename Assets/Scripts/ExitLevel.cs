@@ -7,15 +7,16 @@ using UnityEngine.SceneManagement;
 public class ExitLevel : NetworkBehaviour
 {
     public string nextScene;
-    private PlayerSpawner playerSpawner;
     private int playerCounter;
+    public Controller2d[] players;
+    private PlayerSpawner playerSpawner;
 
-    public override void OnNetworkSpawn()
+    private void Start()
     {
-        base.OnNetworkSpawn();
         playerSpawner = FindObjectOfType<PlayerSpawner>();
-
+        players = FindObjectsByType<Controller2d>(default);
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -23,9 +24,18 @@ public class ExitLevel : NetworkBehaviour
             playerCounter++;
         }
 
-        if (playerCounter == 2) {
+        if (playerCounter == 2)
+        {
             if (IsServer)
-                playerSpawner.isSceneChaniging.Value = true;
+            {
+                if (nextScene == "Credits")
+                    playerSpawner.GetComponent<NetworkObject>().Despawn();
+                foreach (var player in players)
+                {
+                    player.sentToServer.Value = false;
+                }
+            }
+
 
             StartCoroutine(GlobalBehaviour.Instance.LoadOutLevel(() =>
             {

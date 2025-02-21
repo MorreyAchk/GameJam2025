@@ -4983,7 +4983,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1917180377669198341}
   - component: {fileID: 1051752885733792005}
-  - component: {fileID: -8358368514033352418}
   - component: {fileID: 2416770471996403311}
   - component: {fileID: 3117620305110841559}
   - component: {fileID: 3547999292928342768}
@@ -5064,33 +5063,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &-8358368514033352418
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7946226507871204232}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 100
-  m_LinearDrag: 0
-  m_AngularDrag: 0
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 1
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 4
 --- !u!58 &2416770471996403311
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5140,7 +5112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   power: 1
   color: {r: 0, g: 0, b: 0, a: 0}
-  maxBounces: 8
+  bulletSpeed: 10
   graphics: {fileID: 0}
 --- !u!114 &3547999292928342768
 MonoBehaviour:

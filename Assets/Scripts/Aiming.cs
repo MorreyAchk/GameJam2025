@@ -29,7 +29,6 @@ public class Aiming : NetworkBehaviour
 
     [Header("Trajectory")]
     public int maxBounces = 5;
-    public float maxDistance = 20f;
 
     private readonly List<Vector2> pointsOfReflection = new();
     private Vector2 mousePosition;
@@ -38,19 +37,13 @@ public class Aiming : NetworkBehaviour
     private Controller2d controller;
     private Vector2 direction;
     private BulletEffects bulletEffects;
-    private PlayerSpawner playerSpawner;
+
     private void Start()
     {
         renderer = GetComponent<LineRenderer>();
         bulletEffects = GetComponentInParent<BulletEffects>();  
         controller = playerTransform.GetComponent<Controller2d>();
         isFacingRightNetwork.OnValueChanged += OnFacingDirectionChanged;
-    }
-
-    public override void OnNetworkSpawn()
-    {
-        base.OnNetworkSpawn();
-        playerSpawner = FindObjectOfType<PlayerSpawner>();
     }
 
 
@@ -74,7 +67,7 @@ public class Aiming : NetworkBehaviour
             ShootBullet();
             MoveGun();
             Trajectory();
-            if (playerSpawner.isSceneChaniging.Value)
+            if (!controller.sentToServer.Value)
                 return;
             SentAngleAndRotationToServerRpc(aimingAngle, transform.rotation);
         }
@@ -168,9 +161,9 @@ public class Aiming : NetworkBehaviour
         while (bounceCount < maxBounces)
         {
             RaycastHit2D hit = Physics2D.Raycast(
-                pointsOfReflection[pointsOfReflection.Count - 1] + direction * 0.01f, // Offset to avoid self-hit
+                pointsOfReflection[pointsOfReflection.Count - 1] + direction * 0.01f,
                 direction,
-                maxDistance,
+                Mathf.Infinity,
                groundLayer);
 
             if (hit.collider != null)
@@ -182,14 +175,14 @@ public class Aiming : NetworkBehaviour
                     direction = reflection.normalized;
                     bounceCount++;
                 }
-                else break; // Stop if the hit is too close to avoid dense points
+                else break;
             }
-            else break; // Stop if no collision
+            else break;
         }
 
         if (controller.isMoving)
         {
-            pointsOfReflection.Clear();
+            renderer.positionCount = 0;
         }
 
         if (pointsOfReflection.Count > 0 && Input.GetMouseButton(0))
@@ -202,7 +195,7 @@ public class Aiming : NetworkBehaviour
         }
         else
         {
-            renderer.positionCount = 0; // Clear the line if no points
+            renderer.positionCount = 0;
         }
     }
 
@@ -213,11 +206,10 @@ public class Aiming : NetworkBehaviour
     {
         if (cooldown.IsCoolingDown)
             return;
-        if (Input.GetMouseButtonDown(1) && !IsInGround() && pointsOfReflection.Count > 1)
+        if (Input.GetMouseButtonDown(1) && !IsInGround())
         {
-            Vector2 direction = (pointsOfReflection[1] - pointsOfReflection[0]).normalized;
             cooldown.StartCooldown();
-            SpawnBulletServerRpc(direction);
+            SpawnBulletServerRpc(pointsOfReflection.ToArray<Vector2>());
         }
     }
     [ClientRpc]
@@ -226,17 +218,14 @@ public class Aiming : NetworkBehaviour
     }
 
     [ServerRpc]
-    private void SpawnBulletServerRpc(Vector2 direction)
+    private void SpawnBulletServerRpc(Vector2[] pointsOfReflection)
     {
         ShootingParticlesClientRpc();
-        GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
+        GameObject bullet = Instantiate(bulletPrefab, shootingPoint.position, shootingPoint.rotation);
         bullet.GetComponent<NetworkObject>().Spawn();
 
         BulletTrigger bi = bullet.GetComponent<BulletTrigger>();
-        bi.Set(power, color);
-
-        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-        rb.velocity = direction * bulletForce;
+        bi.Set(power, color, new(pointsOfReflection));
     }
 
     #endregion

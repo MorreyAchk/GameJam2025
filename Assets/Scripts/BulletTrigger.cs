@@ -1,14 +1,16 @@
 using UnityEngine;
 using UnityEditor;
 using Unity.Netcode;
+using System.Collections.Generic;
 
 public class BulletTrigger : NetworkBehaviour
 {
     public Powers power;
     public Color color;
-    public int maxBounces = 8;
-    private int bounceCounter;
-    private Rigidbody2D rb;
+    public Vector2 direction;
+    public float bulletSpeed;
+    private List<Vector2> trajectoryPoints;
+    private int bounceCounter, currentPointIndex;
     private Vector3 networkPosition;
     private float networkRotationAngle;
     private NetworkObject networkObject;
@@ -17,22 +19,23 @@ public class BulletTrigger : NetworkBehaviour
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
         networkObject = GetComponent<NetworkObject>();
     }
 
-    public void Set(Powers power, Color color)
+    public void Set(Powers power, Color color, List<Vector2> trajectoryPoints)
     {
         this.power = power;
         this.color = color;
+        this.trajectoryPoints = trajectoryPoints;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (!IsServer)
             return;
+
         bounceCounter++;
-        if (bounceCounter == maxBounces)
+        if (bounceCounter == trajectoryPoints.Count)
         {
             DespawnBullet();
         }
@@ -45,10 +48,47 @@ public class BulletTrigger : NetworkBehaviour
     private void Update()
     {
         if (IsServer) {
+            MoveAlongTrajectory();
             SentPositionFromClientRpc(transform.position);
             return;
         }
         transform.position = networkPosition;
+    }
+
+    private void MoveAlongTrajectory()
+    {
+        if (currentPointIndex >= trajectoryPoints.Count)
+        {
+            DespawnBullet();
+            return;
+        }
+
+        Vector2 target = trajectoryPoints[currentPointIndex];
+        direction = target - (Vector2)transform.position;
+
+        if (direction.sqrMagnitude > Mathf.Epsilon)
+        {
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
+
+        transform.position = Vector2.MoveTowards(transform.position, target, bulletSpeed * Time.deltaTime);
+
+        if (Vector2.Distance(transform.position, target) < 0.1f)
+        {
+            currentPointIndex++;
+            if (power == Powers.Wind && graphics)
+            {
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                if (IsServer)
+                {
+                    graphics.rotation = Quaternion.Euler(0, 0, angle);
+                    SentAngleFromClientRpc(angle);
+                    return;
+                }
+                graphics.rotation = Quaternion.Euler(0, 0, networkRotationAngle);
+            }
+        }
     }
 
     [ClientRpc]
@@ -63,19 +103,6 @@ public class BulletTrigger : NetworkBehaviour
         networkRotationAngle = angle;
     }
 
-    private void FixedUpdate()
-    {
-        if (power == Powers.Wind && graphics)
-        {
-            float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
-            if (IsServer) {
-                graphics.rotation = Quaternion.Euler(0, 0, angle);
-                SentAngleFromClientRpc(angle);
-                return;
-            }
-            graphics.rotation = Quaternion.Euler(0, 0, networkRotationAngle);
-        }
-    }
 }
 
 #if UNITY_EDITOR
