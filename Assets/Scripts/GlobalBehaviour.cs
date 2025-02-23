@@ -72,8 +72,11 @@ public class GlobalBehaviour : MonoBehaviour
     private void ResetLevel()
     {
         string currentSceneName = SceneManager.GetActiveScene().name;
+
         if (NetworkManager.Singleton.IsServer)
+        {
             LoadLevel(currentSceneName);
+        }
         else
             transition.Play("WipeIn");
     }

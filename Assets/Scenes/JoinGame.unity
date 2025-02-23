@@ -1183,7 +1183,7 @@ MonoBehaviour:
   inputField: {fileID: 123530868}
   options: {fileID: 142619890}
   waitScreen: {fileID: 2020120755}
-  nextScene: Level1
+  nextScene: Level2
 --- !u!1 &1529563487
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,9 +14,11 @@ public class MemoryStoneTrigger : NetworkBehaviour
     public new ParticleSystem particleSystem;
     public NetworkVariable<MemoryStoneData> memoryStoneData = new(new MemoryStoneData(Powers.Empty, Color.white), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private MemoryStoneData localData = new(Powers.Empty, Color.white);
+    private AudioSource audioSource;
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         memoryStoneData.OnValueChanged += OnMemoryStoneDataChanged;
     }
 
@@ -32,6 +34,7 @@ public class MemoryStoneTrigger : NetworkBehaviour
         if (Powers.Empty != newValue.power) {
             particleSystem.GetComponent<ParticleSystemRenderer>().material = innerSprite.material;
             particleSystem.Play();
+            audioSource.PlayOneShot(audioSource.clip);
         }
     }
 
@@ -55,7 +58,7 @@ public class MemoryStoneTrigger : NetworkBehaviour
             }
             if (memoryStoneData.Value.power == Powers.Wind)
             {
-                bulletEffects.PushBubble(windDirection*2f);
+                bulletEffects.PushBubble(windDirection);
             }
 
             SetNetworkData(Powers.Empty, Color.white);

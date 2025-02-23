@@ -6,17 +6,19 @@ using UnityEngine;
 public class Interactables : MonoBehaviour
 {
     public bool finalDoor;
-    public bool isReversed;
-    private bool hasToggled;
+    private bool previousValue;
     public List<InteractFlags> flags;
     public string onAnimationName= "Open";
     public string offAnimationName= "Close";
 
     private Animator animator;
+    private AudioSource audioSource;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+        animator.Play(offAnimationName);
     }
 
     private void Update()
@@ -29,20 +31,12 @@ public class Interactables : MonoBehaviour
             flags.Clear();
             return;
         }
+        if (isAllOn == previousValue)
+            return;
 
-        if (isAllOn)
-        {
-            hasToggled = true;
-            string animation = !isReversed ^ isAllOn ? offAnimationName : onAnimationName;
-            animator.Play(animation);
-        }
-
-        else if(hasToggled)
-        {
-            string animation = !isReversed ^ !isAllOn ? onAnimationName : offAnimationName;
-            animator.Play(animation);
-        }
-
+        previousValue = isAllOn;
+        animator.Play(isAllOn ? onAnimationName : offAnimationName);
+        audioSource.PlayOneShot(audioSource.clip);
     }
 
 }

@@ -22,19 +22,23 @@ public class Controller2d : NetworkBehaviour
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private PlayerMenu playerMenu;
     public ParticleSystem deathParticleSystem;
-    private Vector3 networkPosition;
+    private Vector3 networkPosition,previousPosition;
     public InteractFlags currentLever;
 
     public readonly NetworkVariable<bool> sentToServer = new(true);
     private readonly NetworkVariable<bool> isOnLadder = new(false);
     private readonly NetworkVariable<bool> isFacingRightNetwork = new(true);
     private BulletEffects bulletEffects;
+    private AudioSource audioSource;
+    public AudioClip walkingClip;
+    public AudioClip ladderClip;
     private bool isGrounded;
 
     private void Start()
     {
         playerMenu.enabled = IsOwner;
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
         bulletEffects = GetComponent<BulletEffects>();
         isFacingRightNetwork.OnValueChanged += OnFacingDirectionChanged;
     }
@@ -46,10 +50,10 @@ public class Controller2d : NetworkBehaviour
 
     void Update()
     {
-
+        IsGrounded();
+        MovementSound();
         if (IsOwner)
         {
-            IsGrounded();
             InteractWithLever();
             PlayerInput();
             Jumping();
@@ -64,8 +68,21 @@ public class Controller2d : NetworkBehaviour
         }
     }
 
+    private void MovementSound() {
+        isMoving = previousPosition != transform.position && isGrounded;
+        if (isMoving)
+        {
+            //audioSource.clip = isOnLadder.Value ? ladderClip : walkingClip;
+            //audioSource.enabled = !bulletEffects.isInBubble.Value;
+        }
+        previousPosition = transform.position;
+    }
+
     private void FixedUpdate()
     {
+        if (!IsOwner)
+            return;
+
         Vector2 velocity;
         if (bulletEffects.isInBubble.Value)
             return;
@@ -85,7 +102,7 @@ public class Controller2d : NetworkBehaviour
     private void IsGrounded()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundColliderRadius, groundLayer);
-        if (isGrounded && bulletEffects.wasInBubble)
+        if (isGrounded && bulletEffects.wasInBubble && IsOwner)
             bulletEffects.wasInBubble = false;
     }
 
@@ -101,7 +118,6 @@ public class Controller2d : NetworkBehaviour
     #region PlayerMovement
     private void PlayerInput()
     {
-        isMoving = !bulletEffects.isInBubble.Value && (horizontal != 0 || isJumping);
         if (bulletEffects.wasInBubble)
             return;
         horizontal = Input.GetAxisRaw("Horizontal");
@@ -196,8 +212,11 @@ public class Controller2d : NetworkBehaviour
         if (IsServer)
         {
             ParticleSystem deathParticles = Instantiate(deathParticleSystem, transform.position, Quaternion.identity);
-            deathParticles.GetComponent<NetworkObject>().Spawn();
-            sentToServer.Value = false;
+            deathParticles.GetComponent<NetworkObject>().Spawn(true);
+            foreach (var player in FindObjectsOfType<Controller2d>(default))
+            {
+                player.sentToServer.Value = false;
+            }
             HideServerRpc();
         }
     }
@@ -212,5 +231,6 @@ public class Controller2d : NetworkBehaviour
     private void HideClientRpc()
     {
         gameObject.SetActive(false);
+        GlobalBehaviour.Instance.ResetLoadOutLevelLevel();
     }
 }

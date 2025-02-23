@@ -8,10 +8,12 @@ public class InteractFlags : NetworkBehaviour
     public bool isPlate;
     private Animator animator;
     public readonly NetworkVariable<bool> isOn = new(false);
+    private AudioSource audioSource;
     private int playerCounter;
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         animator = GetComponentInChildren<Animator>();
         isOn.OnValueChanged += OnDoorStateChanged;
     }
@@ -22,12 +24,9 @@ public class InteractFlags : NetworkBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!IsServer)
-            return;
-
         if (collision.CompareTag("Player") || collision.CompareTag("Stone") || collision.CompareTag("Box"))
         {
-            if (isPlate)
+            if (isPlate && IsServer && collision.GetComponent<NetworkObject>().IsSpawned)
             {
                 ToggleFlag(true);
                 playerCounter++;
@@ -39,24 +38,22 @@ public class InteractFlags : NetworkBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!IsServer)
-            return;
-
         if (collision.CompareTag("Player") || collision.CompareTag("Stone"))
         {
-            if (isPlate && collision.GetComponent<NetworkObject>().IsSpawned)
+            if (isPlate && IsServer && collision.GetComponent<NetworkObject>().IsSpawned)
             {
                 playerCounter--;
                 if (playerCounter == 0)
                     ToggleFlag(false);
             }
             else if (collision.TryGetComponent<Controller2d>(out var player))
-                player.currentLever = this;
+                player.currentLever = null;
         }
     }
 
     private void OnDoorStateChanged(bool previousValue, bool newValue)
     {
+        audioSource.PlayOneShot(audioSource.clip);
         animator.SetBool("ToggleValue", newValue);
     }
 

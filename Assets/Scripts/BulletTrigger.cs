@@ -14,11 +14,11 @@ public class BulletTrigger : NetworkBehaviour
     private Vector3 networkPosition;
     private float networkRotationAngle;
     private NetworkObject networkObject;
-
-    [HideInInspector] public Transform graphics;
+    private AudioSource audioSource;
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         networkObject = GetComponent<NetworkObject>();
     }
 
@@ -47,12 +47,15 @@ public class BulletTrigger : NetworkBehaviour
 
     private void Update()
     {
-        if (IsServer) {
+        if (IsServer)
+        {
             MoveAlongTrajectory();
             SentPositionFromClientRpc(transform.position);
             return;
         }
-        transform.position = networkPosition;
+        else {
+            transform.SetPositionAndRotation(networkPosition, Quaternion.Euler(0, 0, networkRotationAngle));
+        }
     }
 
     private void MoveAlongTrajectory()
@@ -70,26 +73,19 @@ public class BulletTrigger : NetworkBehaviour
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, 0, angle);
+            SentAngleFromClientRpc(angle);
         }
 
         transform.position = Vector2.MoveTowards(transform.position, target, bulletSpeed * Time.deltaTime);
 
         if (Vector2.Distance(transform.position, target) < 0.1f)
-        {
             currentPointIndex++;
-            if (power == Powers.Wind && graphics)
-            {
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                if (IsServer)
-                {
-                    graphics.rotation = Quaternion.Euler(0, 0, angle);
-                    SentAngleFromClientRpc(angle);
-                    return;
-                }
-                graphics.rotation = Quaternion.Euler(0, 0, networkRotationAngle);
-            }
-        }
     }
+
+
+    //[ClientRpc]
+    //private void RicochetSoundClientRpc() => RicochetSound();
+    //private void RicochetSound() => audioSource.PlayOneShot(audioSource.clip);
 
     [ClientRpc]
     private void SentPositionFromClientRpc(Vector3 position)
@@ -104,24 +100,3 @@ public class BulletTrigger : NetworkBehaviour
     }
 
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(BulletTrigger))]
-public class BulletTriggerEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        // Get the target object
-        BulletTrigger bulletTrigger = (BulletTrigger)target;
-
-        // Draw the default fields
-        DrawDefaultInspector();
-
-        // Conditionally show the graphics field if the power is Wind
-        if (bulletTrigger.power == Powers.Wind)
-        {
-            bulletTrigger.graphics = (Transform)EditorGUILayout.ObjectField("Graphics", bulletTrigger.graphics, typeof(Transform), true);
-        }
-    }
-}
-#endif

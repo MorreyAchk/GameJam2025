@@ -10,7 +10,7 @@ public class Aiming : NetworkBehaviour
     [Header("Aiming")]
     public Transform playerTransform;
     public float gunDistance = 1.5f;
-    [SerializeField] private SpriteRenderer gunSprite;
+    private SpriteRenderer gunSprite;
     private readonly NetworkVariable<bool> isFacingRightNetwork = new(true);
     private float aimingAngle;
     private Vector3 networkPosition;
@@ -25,6 +25,7 @@ public class Aiming : NetworkBehaviour
     public Powers power;
     public LayerMask groundLayer;
     public ParticleSystem shootingParticles;
+    private AudioSource audioSource;
     [SerializeField] private Cooldown cooldown;
 
     [Header("Trajectory")]
@@ -40,7 +41,9 @@ public class Aiming : NetworkBehaviour
 
     private void Start()
     {
+        gunSprite = GetComponent<SpriteRenderer>();
         renderer = GetComponent<LineRenderer>();
+        audioSource = GetComponent<AudioSource>();
         bulletEffects = GetComponentInParent<BulletEffects>();  
         controller = playerTransform.GetComponent<Controller2d>();
         isFacingRightNetwork.OnValueChanged += OnFacingDirectionChanged;
@@ -56,6 +59,7 @@ public class Aiming : NetworkBehaviour
     {
         if (bulletEffects.isInBubble.Value) {
             gunSprite.enabled = false;
+            renderer.positionCount = 0;
             return;
         }
 
@@ -180,11 +184,6 @@ public class Aiming : NetworkBehaviour
             else break;
         }
 
-        if (controller.isMoving)
-        {
-            renderer.positionCount = 0;
-        }
-
         if (pointsOfReflection.Count > 0 && Input.GetMouseButton(0))
         {
             renderer.positionCount = pointsOfReflection.Count;
@@ -214,6 +213,7 @@ public class Aiming : NetworkBehaviour
     }
     [ClientRpc]
     private void ShootingParticlesClientRpc() {
+        audioSource.PlayOneShot(audioSource.clip);
         shootingParticles.Play();
     }
 

@@ -37,12 +37,6 @@ public class PlayerSpawner : NetworkBehaviour
         GlobalBehaviour.Instance.BackToMainMenu();
     }
 
-    private void OnIsSceneChanigingChanged(bool previousValue, bool newValue)
-    {
-        if(newValue)
-            GlobalBehaviour.Instance.ResetLoadOutLevelLevel();
-    }
-
     public override void OnDestroy()
     {
         if (NetworkManager.Singleton != null && NetworkManager.Singleton.SceneManager != null)
