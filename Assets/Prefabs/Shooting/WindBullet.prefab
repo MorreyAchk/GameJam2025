@@ -341,7 +341,6 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 0, a: 0}
   direction: {x: 0, y: 0}
   bulletSpeed: 10
-  graphics: {fileID: 1355352728893718528}
 --- !u!114 &698318557714534858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,6 +469,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 852d51628a2efd845b5e57d55024fc3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  variations:
+  - {fileID: 8300000, guid: 3199c665b2b0c9043ba9015ca90e23da, type: 3}
+  - {fileID: 8300000, guid: 852187f534a27534c943e310d9844de4, type: 3}
+  - {fileID: 8300000, guid: efb54a3df68f0b64fb5209cfbf84a109, type: 3}
 --- !u!1 &8264300083526211866
 GameObject:
   m_ObjectHideFlags: 0
