@@ -14,11 +14,11 @@ public class BulletTrigger : NetworkBehaviour
     private Vector3 networkPosition;
     private float networkRotationAngle;
     private NetworkObject networkObject;
-    private AudioSource audioSource;
+    private VFX vfx;
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        vfx = GetComponent<VFX>();
         networkObject = GetComponent<NetworkObject>();
     }
 
@@ -79,13 +79,18 @@ public class BulletTrigger : NetworkBehaviour
         transform.position = Vector2.MoveTowards(transform.position, target, bulletSpeed * Time.deltaTime);
 
         if (Vector2.Distance(transform.position, target) < 0.1f)
+        {
+            RicochetSoundServerRpc();
             currentPointIndex++;
+        }
     }
 
 
-    //[ClientRpc]
-    //private void RicochetSoundClientRpc() => RicochetSound();
-    //private void RicochetSound() => audioSource.PlayOneShot(audioSource.clip);
+    [ServerRpc(RequireOwnership = false)]
+    private void RicochetSoundServerRpc() => RicochetSoundClientRpc();
+
+    [ClientRpc]
+    private void RicochetSoundClientRpc() => vfx.PlaySound();
 
     [ClientRpc]
     private void SentPositionFromClientRpc(Vector3 position)
