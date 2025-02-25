@@ -52,6 +52,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlate: 0
+  leverSound: {fileID: 8300000, guid: d3d6cbe8a93a5e64a9adde2dafc64d11, type: 3}
+  upSound: {fileID: 0}
+  downSound: {fileID: 0}
 --- !u!61 &7227801203707659322
 BoxCollider2D:
   m_ObjectHideFlags: 0

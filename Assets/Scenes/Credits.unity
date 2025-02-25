@@ -666,8 +666,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Credits\n\n Programming and level design : Yasen Yankov\n \nProgramming 
-    : Alexander Chernozemski\n\nAudio and vfx : Andreyan stoyanov\n\nArt : Nikola
-    marin"
+    : Alexander Chernozemski\n\nAudio and vfx : Andreyan stoyanov\n\nArt and voice
+    acting: Nikola marin"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 05b9254fe8927e04480caa139d984fe9, type: 2}
   m_sharedMaterial: {fileID: -3578140795152104418, guid: 05b9254fe8927e04480caa139d984fe9, type: 2}

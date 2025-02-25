@@ -6,7 +6,6 @@ public class VFX : MonoBehaviour
 {
     private AudioSource audioSource;
     private float previousValue;
-    public AudioClip[] variations;
 
     void Start()
     {
@@ -23,21 +22,5 @@ public class VFX : MonoBehaviour
             audioSource.volume = settingValue;
             previousValue = settingValue;
         }
-    }
-
-    public void PlaySound()
-    {
-        AudioClip clip = variations[Random.Range(0, variations.Length)];
-        audioSource.pitch = Random.Range(0.8f, 1.2f);
-
-        audioSource.PlayOneShot(clip);
-
-        StartCoroutine(ResetPitch());
-    }
-
-    private IEnumerator ResetPitch()
-    {
-        yield return new WaitForSeconds(0.1f);
-        audioSource.pitch = 1.0f;
     }
 }

@@ -14074,9 +14074,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2695597995931949722, guid: 6e70b3fdfe7d1304f92cf2220dec891b, type: 3}
+      propertyPath: windPlayerPrefab
+      value: 
+      objectReference: {fileID: 3687731367918875877, guid: 4689200a21b22514a9683d856e6fdda6, type: 3}
+    - target: {fileID: 2695597995931949722, guid: 6e70b3fdfe7d1304f92cf2220dec891b, type: 3}
       propertyPath: bubblePlayerPrefab
       value: 
-      objectReference: {fileID: 1802323255938062425, guid: e59d179c79e59ab44a2bee31262b15b1, type: 3}
+      objectReference: {fileID: 1137854501082006958, guid: d227e3f96dbcf9741b5cdc354e15b193, type: 3}
     - target: {fileID: 2695597995931949722, guid: 6e70b3fdfe7d1304f92cf2220dec891b, type: 3}
       propertyPath: networkManagerObject
       value: 

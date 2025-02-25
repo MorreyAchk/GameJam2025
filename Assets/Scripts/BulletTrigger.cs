@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using Unity.Netcode;
 using System.Collections.Generic;
+using System.Collections;
 
 public class BulletTrigger : NetworkBehaviour
 {
@@ -14,11 +15,11 @@ public class BulletTrigger : NetworkBehaviour
     private Vector3 networkPosition;
     private float networkRotationAngle;
     private NetworkObject networkObject;
-    private VFX vfx;
+    private AudioSource audioSource;
 
     private void Start()
     {
-        vfx = GetComponent<VFX>();
+        audioSource = GetComponent<AudioSource>();
         networkObject = GetComponent<NetworkObject>();
     }
 
@@ -90,7 +91,22 @@ public class BulletTrigger : NetworkBehaviour
     private void RicochetSoundServerRpc() => RicochetSoundClientRpc();
 
     [ClientRpc]
-    private void RicochetSoundClientRpc() => vfx.PlaySound();
+    private void RicochetSoundClientRpc() => PlaySound();
+
+    private void PlaySound()
+    {
+        audioSource.pitch = Random.Range(0.8f, 1.2f);
+
+        audioSource.PlayOneShot(audioSource.clip);
+
+        StartCoroutine(ResetPitch());
+    }
+
+    private IEnumerator ResetPitch()
+    {
+        yield return new WaitForSeconds(0.1f);
+        audioSource.pitch = 1.0f;
+    }
 
     [ClientRpc]
     private void SentPositionFromClientRpc(Vector3 position)

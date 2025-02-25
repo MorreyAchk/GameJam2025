@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class Controller2d : NetworkBehaviour
 {
-    public bool isJumping, isMoving;
     private float horizontal, vertical;
     private bool isFacingRight = true;
     private Rigidbody2D rb;
@@ -28,8 +27,11 @@ public class Controller2d : NetworkBehaviour
     public readonly NetworkVariable<bool> sentToServer = new(true);
     private readonly NetworkVariable<bool> isOnLadder = new(false);
     private readonly NetworkVariable<bool> isFacingRightNetwork = new(true);
+    private readonly NetworkVariable<bool> isMoving = new(false,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
+    private readonly NetworkVariable<bool> isJumping = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     private BulletEffects bulletEffects;
-    private AudioSource audioSource;
+    public AudioSource jumpingAudioSource;
+    private AudioSource movingAudioSource;
     public AudioClip walkingClip;
     public AudioClip ladderClip;
     private bool isGrounded;
@@ -38,14 +40,21 @@ public class Controller2d : NetworkBehaviour
     {
         playerMenu.enabled = IsOwner;
         rb = GetComponent<Rigidbody2D>();
-        audioSource = GetComponent<AudioSource>();
+        movingAudioSource = GetComponent<AudioSource>();
         bulletEffects = GetComponent<BulletEffects>();
         isFacingRightNetwork.OnValueChanged += OnFacingDirectionChanged;
+        isJumping.OnValueChanged += OnJumpingChanged;
+        if (IsOwner)
+        {
+            previousPosition = transform.position;
+            SentPositionToServerRpc(previousPosition);
+        }
     }
 
     public override void OnDestroy()
     {
         isFacingRightNetwork.OnValueChanged -= OnFacingDirectionChanged;
+        isJumping.OnValueChanged -= OnJumpingChanged;
     }
 
     void Update()
@@ -60,7 +69,11 @@ public class Controller2d : NetworkBehaviour
             Animations();
             if (!sentToServer.Value)
                 return;
-            SentPositionToServerRpc(transform.position);
+            if (Vector3.Distance(transform.position, previousPosition) > 0)
+            {
+                previousPosition = transform.position;
+                SentPositionToServerRpc(previousPosition);
+            }
         }
         else
         {
@@ -69,13 +82,9 @@ public class Controller2d : NetworkBehaviour
     }
 
     private void MovementSound() {
-        isMoving = previousPosition != transform.position && isGrounded;
-        if (isMoving)
-        {
-            //audioSource.clip = isOnLadder.Value ? ladderClip : walkingClip;
-            //audioSource.enabled = !bulletEffects.isInBubble.Value;
-        }
-        previousPosition = transform.position;
+        movingAudioSource.volume = PlayerPrefs.GetFloat("vfx");
+        movingAudioSource.clip = isOnLadder.Value ? ladderClip : walkingClip;
+        movingAudioSource.enabled = (isMoving.Value && isGrounded) || (vertical != 0 && isOnLadder.Value);
     }
 
     private void FixedUpdate()
@@ -102,7 +111,7 @@ public class Controller2d : NetworkBehaviour
     private void IsGrounded()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundColliderRadius, groundLayer);
-        if (isGrounded && bulletEffects.wasInBubble && IsOwner)
+        if (isGrounded && bulletEffects.wasInBubble)
             bulletEffects.wasInBubble = false;
     }
 
@@ -120,20 +129,23 @@ public class Controller2d : NetworkBehaviour
     {
         if (bulletEffects.wasInBubble)
             return;
+
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
-        isJumping = Input.GetButtonDown("Jump");
+        isJumping.Value = Input.GetButtonDown("Jump");
+
+        isMoving.Value = horizontal != 0 || isJumping.Value;
     }
 
     private void Animations()
     {
-        playerAnimator.SetBool("isMoving", isMoving);
+        playerAnimator.SetBool("isMoving", isMoving.Value);
         Flip();
     }
 
     private void Jumping()
     {
-        if (isJumping)
+        if (isJumping.Value)
         {
             if (isGrounded)
             {
@@ -144,6 +156,11 @@ public class Controller2d : NetworkBehaviour
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
             }
         }
+    }
+
+    private void OnJumpingChanged(bool oldValue, bool newValue) {
+        if (newValue)
+            jumpingAudioSource.PlayOneShot(jumpingAudioSource.clip);
     }
 
     private void Flip()

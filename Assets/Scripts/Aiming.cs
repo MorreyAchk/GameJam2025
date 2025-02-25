@@ -76,8 +76,7 @@ public class Aiming : NetworkBehaviour
             SentAngleAndRotationToServerRpc(aimingAngle, transform.rotation);
         }
         else {
-            transform.position = networkPosition;
-            transform.rotation = networkRotation;
+            transform.SetPositionAndRotation(networkPosition, networkRotation);
         }
     }
 

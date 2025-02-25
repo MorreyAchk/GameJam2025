@@ -23,7 +23,7 @@ public class BulletEffects : NetworkBehaviour
     [SerializeField] private AudioClip windBlow;
 
     private void Start()
-    {   
+    {
         spriteRenderer = bubbles.GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         isInBubble.OnValueChanged += OnBubbleStateChanged;
@@ -91,7 +91,7 @@ public class BulletEffects : NetworkBehaviour
         if (newValue != Vector2.zero)
         {
             rb.AddForce(newValue, ForceMode2D.Impulse);
-            bubbleActions.PlayOneShot(windBlow);
+            PlayBubbleActionSound(windBlow);
         }
     }
 
@@ -115,6 +115,7 @@ public class BulletEffects : NetworkBehaviour
         animator.Play("BubbleIn");
         if (!bubbleParticleSystem.isPlaying)
         {
+            bubbles.volume = PlayerPrefs.GetFloat("vfx");
             bubbleParticleSystem.Play();
             bubbles.Play();
         }
@@ -127,8 +128,13 @@ public class BulletEffects : NetworkBehaviour
         {
             bubbleParticleSystem.Stop();
             bubbles.Stop();
-            bubbleActions.PlayOneShot(bubblePop);
-        }
+            PlayBubbleActionSound(bubblePop);
+        }  
+    }
+
+    private void PlayBubbleActionSound(AudioClip clip) {
+        bubbleActions.volume = PlayerPrefs.GetFloat("vfx");
+        bubbleActions.PlayOneShot(clip);
     }
 
 }

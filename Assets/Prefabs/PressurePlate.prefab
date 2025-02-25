@@ -136,6 +136,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlate: 1
+  upSound: {fileID: 8300000, guid: 3cdaab5b7b2632745a1c246fb582edc3, type: 3}
+  downSound: {fileID: 8300000, guid: 902d5d608a47e2b4b99b1e7b490a48e7, type: 3}
 --- !u!95 &2184697629986151251
 Animator:
   serializedVersion: 5

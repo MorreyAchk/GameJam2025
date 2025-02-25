@@ -11,6 +11,9 @@ public class InteractFlags : NetworkBehaviour
     private AudioSource audioSource;
     private int playerCounter;
 
+    public AudioClip upSound;
+    public AudioClip downSound;
+
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -53,7 +56,11 @@ public class InteractFlags : NetworkBehaviour
 
     private void OnDoorStateChanged(bool previousValue, bool newValue)
     {
-        audioSource.PlayOneShot(audioSource.clip);
+        if(isPlate)
+            audioSource.PlayOneShot(newValue? downSound:upSound);
+        else
+            audioSource.PlayOneShot(audioSource.clip);
+
         animator.SetBool("ToggleValue", newValue);
     }
 

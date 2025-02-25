@@ -22,6 +22,7 @@ public class GlobalBehaviour : MonoBehaviour
     public Image transitionImage;
     private void Start()
     {
+        audioSource.volume = PlayerPrefs.GetFloat("volume");
         StartCoroutine(LoadInLevel());
         if (networkManager != null)
             Instantiate(networkManager);
