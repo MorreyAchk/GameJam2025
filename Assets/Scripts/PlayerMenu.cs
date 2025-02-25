@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMenu : MonoBehaviour
 {
+    public bool isPlayerMenu;
     [SerializeField] private GameObject options;
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject parentObject;
@@ -31,7 +32,7 @@ public class PlayerMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Escape))
+        if (Input.GetKeyUp(KeyCode.Escape) && isPlayerMenu)
             ToggleMenu();
     }
 
@@ -43,6 +44,8 @@ public class PlayerMenu : MonoBehaviour
     public void ToggleMenu()
     {
         parentObject.SetActive(!parentObject.activeSelf);
+        mainMenu.SetActive(true);
+        options.SetActive(false);
     }
 
     public void ToggleOptions()
@@ -73,6 +76,10 @@ public class PlayerMenu : MonoBehaviour
         VFXTestSound.volume = slider.value;
         if(!VFXTestSound.isPlaying && options.activeSelf)
             VFXTestSound.Play();
+        foreach (var vfx in FindObjectsByType<VFX>(default))
+        {
+            vfx.UpdateVolume(slider.value);
+        }
     }
 
     public void OnBrightnessChange(Slider slider)

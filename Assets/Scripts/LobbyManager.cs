@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,6 +14,9 @@ public class LobbyManager : MonoBehaviour
     public TMP_InputField inputField;
     public GameObject options;
     public GameObject waitScreen;
+    public TMP_Text waitScreenText;
+    public GameObject transitionTrigger;
+    private NetworkObject spawnedTransition;
     public string nextScene;
 
     private void Start()
@@ -33,6 +37,7 @@ public class LobbyManager : MonoBehaviour
 
     public void StartGame()
     {
+        waitScreenText.text = "Waiting for second player...";
         options.SetActive(false);
         waitScreen.SetActive(true);
         if (NetworkManager.Singleton.StartHost())
@@ -54,7 +59,9 @@ public class LobbyManager : MonoBehaviour
 
     public void JoinGame()
     {
-        StartCoroutine(GlobalBehaviour.Instance.LoadOutLevel(null));
+        waitScreenText.text = "Waiting for host...";
+        options.SetActive(false);
+        waitScreen.SetActive(true);
         var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
         transport.ConnectionData.Address = inputField.text;
 
@@ -76,6 +83,8 @@ public class LobbyManager : MonoBehaviour
         if (playersConnected == maxPlayers)
         {
             Debug.Log("All players connected. Starting game...");
+            spawnedTransition = Instantiate(transitionTrigger).GetComponent<NetworkObject>();
+            spawnedTransition.Spawn();
             StartGameForAllPlayers();
         }
     }
@@ -89,6 +98,9 @@ public class LobbyManager : MonoBehaviour
 
     private void StartGameForAllPlayers()
     {
-        StartCoroutine(GlobalBehaviour.Instance.LoadOutLevel(() => { NetworkManager.Singleton.SceneManager.LoadScene(nextScene, LoadSceneMode.Single); }));
+        StartCoroutine(GlobalBehaviour.Instance.LoadOutLevel(() => { 
+            NetworkManager.Singleton.SceneManager.LoadScene(nextScene, LoadSceneMode.Single);
+            spawnedTransition.Despawn(true);
+        }));
     }
 }

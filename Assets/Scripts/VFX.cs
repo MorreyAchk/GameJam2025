@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,22 +6,16 @@ using UnityEngine;
 public class VFX : MonoBehaviour
 {
     private AudioSource audioSource;
-    private float previousValue;
 
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = PlayerPrefs.GetFloat("vfx");
-        previousValue = audioSource.volume;
     }
 
-    private void Update()
+    internal void UpdateVolume(float value)
     {
-        float settingValue = PlayerPrefs.GetFloat("vfx");
-        if (previousValue != settingValue)
-        {
-            audioSource.volume = settingValue;
-            previousValue = settingValue;
-        }
+        if(audioSource != null)
+            audioSource.volume = value;
     }
 }

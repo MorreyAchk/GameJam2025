@@ -105,6 +105,19 @@ public class BulletEffects : NetworkBehaviour
         }
     }
 
+    public void RequestUpdatePop()
+    {
+        if (IsServer)
+            isInBubble.Value = false;
+        else
+            RequestUpdatePopServerRpc();
+    }
+
+    [ServerRpc]
+    private void RequestUpdatePopServerRpc() {
+        isInBubble.Value = false;
+    }
+
     public void PushBubble(Vector2 pushDirection)
     {
         windForceDirection.Value = pushDirection;

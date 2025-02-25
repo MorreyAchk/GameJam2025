@@ -10715,6 +10715,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 752841598659060510}
     - target: {fileID: 2438283905204456814, guid: 677c14fe05737ec4482cb8900782138c, type: 3}
+      propertyPath: isPlayerMenu
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2438283905204456814, guid: 677c14fe05737ec4482cb8900782138c, type: 3}
       propertyPath: parentObject
       value: 
       objectReference: {fileID: 752841598659060510}

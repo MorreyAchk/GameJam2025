@@ -1919,6 +1919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0eba7155b370510a9161bb03abc1cd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayerMenu: 0
   options: {fileID: 6499688129486104258}
   mainMenu: {fileID: 5121560127853097056}
   parentObject: {fileID: 5121560127853097056}

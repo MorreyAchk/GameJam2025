@@ -127,13 +127,13 @@ public class Controller2d : NetworkBehaviour
     #region PlayerMovement
     private void PlayerInput()
     {
+        isJumping.Value = Input.GetButtonDown("Jump");
         if (bulletEffects.wasInBubble)
             return;
 
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
-        isJumping.Value = Input.GetButtonDown("Jump");
-
+        
         isMoving.Value = horizontal != 0 || isJumping.Value;
     }
 
@@ -155,11 +155,13 @@ public class Controller2d : NetworkBehaviour
             {
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
             }
+            if (bulletEffects.isInBubble.Value)
+                bulletEffects.RequestUpdatePop();
         }
     }
 
     private void OnJumpingChanged(bool oldValue, bool newValue) {
-        if (newValue)
+        if (newValue && !bulletEffects.wasInBubble)
             jumpingAudioSource.PlayOneShot(jumpingAudioSource.clip);
     }
 
