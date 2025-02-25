@@ -73,6 +73,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6543948052055451187, guid: e59d179c79e59ab44a2bee31262b15b1, type: 3}
+      propertyPath: color.g
+      value: 0.5176471
+      objectReference: {fileID: 0}
+    - target: {fileID: 6543948052055451187, guid: e59d179c79e59ab44a2bee31262b15b1, type: 3}
+      propertyPath: color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6543948052055451187, guid: e59d179c79e59ab44a2bee31262b15b1, type: 3}
       propertyPath: bulletPrefab
       value: 
       objectReference: {fileID: 7946226507871204232, guid: 992d4cdfdd3b9694f9910e3399712aab, type: 3}

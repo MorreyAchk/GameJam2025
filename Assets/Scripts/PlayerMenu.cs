@@ -25,10 +25,12 @@ public class PlayerMenu : MonoBehaviour
             PlayerPrefs.SetFloat("brightness", 0.5f);
             PlayerPrefs.SetInt("savedFirstRun", 1);
         }
-
-        volumeSlider.value = PlayerPrefs.GetFloat("volume");
-        vfxSlider.value = PlayerPrefs.GetFloat("vfx");
-        brightnesSlider.value = PlayerPrefs.GetFloat("brightness");
+        if (volumeSlider != null)
+        {
+            volumeSlider.value = PlayerPrefs.GetFloat("volume");
+            vfxSlider.value = PlayerPrefs.GetFloat("vfx");
+            brightnesSlider.value = PlayerPrefs.GetFloat("brightness");
+        }
     }
 
     void Update()

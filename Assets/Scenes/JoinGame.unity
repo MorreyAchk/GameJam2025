@@ -1055,7 +1055,7 @@ MonoBehaviour:
   waitScreen: {fileID: 1563325947}
   waitScreenText: {fileID: 1615716050}
   transitionTrigger: {fileID: 6600179753097246793, guid: 336f87f3314014844b3a157aaf2d2bfa, type: 3}
-  nextScene: Level2
+  nextScene: Level1
 --- !u!1 &1529563487
 GameObject:
   m_ObjectHideFlags: 0

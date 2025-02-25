@@ -376,7 +376,7 @@ PrefabInstance:
     - target: {fileID: 6328842804815450762, guid: dcd52a58633368a43afbb6fa4fb3b3ac, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 510697243419860605}
     - target: {fileID: 6328842804815450762, guid: dcd52a58633368a43afbb6fa4fb3b3ac, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
@@ -387,7 +387,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6328842804815450762, guid: dcd52a58633368a43afbb6fa4fb3b3ac, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: EndGameMenu, Assembly-CSharp
+      value: PlayerMenu, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6328842804815450762, guid: dcd52a58633368a43afbb6fa4fb3b3ac, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -756,8 +756,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0eba7155b370510a9161bb03abc1cd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayerMenu: 0
   options: {fileID: 0}
   mainMenu: {fileID: 0}
+  controlsMenu: {fileID: 0}
   parentObject: {fileID: 0}
   VFXTestSound: {fileID: 0}
   volumeSlider: {fileID: 0}

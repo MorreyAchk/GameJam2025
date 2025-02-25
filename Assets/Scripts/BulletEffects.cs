@@ -7,7 +7,7 @@ using UnityEngine;
 public class BulletEffects : NetworkBehaviour
 {
     private Rigidbody2D rb;
-    private float defaultGravityScale;
+    private float defaultGravityScale, defaultMass;
     private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator animator;
     [SerializeField] private ParticleSystem bubbleParticleSystem;
@@ -29,6 +29,7 @@ public class BulletEffects : NetworkBehaviour
         isInBubble.OnValueChanged += OnBubbleStateChanged;
         windForceDirection.OnValueChanged += OnPushedByWindChanged;
         defaultGravityScale = rb.gravityScale;
+        defaultMass = rb.mass;
     }
 
     public override void OnDestroy()
@@ -43,6 +44,7 @@ public class BulletEffects : NetworkBehaviour
         {
             wasInBubble = true;
             rb.velocity = new Vector2(0f, bubbleUpSpeed);
+            rb.mass = 2f;
         }
     }
 
@@ -61,7 +63,9 @@ public class BulletEffects : NetworkBehaviour
         {
             BulletTrigger bullet = collision.collider.GetComponent<BulletTrigger>();
             if (bullet.power == Powers.Bubble)
+            {
                 UpdateBubbleState(true);
+            }
 
             if (bullet.power == Powers.Wind)
             {
@@ -90,8 +94,10 @@ public class BulletEffects : NetworkBehaviour
     {
         if (newValue != Vector2.zero)
         {
+            rb.mass = 2f;
             rb.AddForce(newValue, ForceMode2D.Impulse);
             PlayBubbleActionSound(windBlow);
+            rb.mass = defaultMass;
         }
     }
 

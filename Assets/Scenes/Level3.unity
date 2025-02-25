@@ -593,11 +593,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 222407625027087939, guid: 2af4be3b0180dff4d99a14a56a6f3e67, type: 3}
       propertyPath: windDirection.x
-      value: 8
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 222407625027087939, guid: 2af4be3b0180dff4d99a14a56a6f3e67, type: 3}
       propertyPath: windDirection.y
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2102074815352201623, guid: 2af4be3b0180dff4d99a14a56a6f3e67, type: 3}
       propertyPath: m_Name
@@ -4707,9 +4707,9 @@ GameObject:
   - component: {fileID: 1561233826302095701}
   - component: {fileID: 6607191276823927316}
   - component: {fileID: 7076416803037294832}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Tilemap
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13177,9 +13177,9 @@ GameObject:
   - component: {fileID: 530651122157327222}
   - component: {fileID: 4023303708246013383}
   - component: {fileID: 8441493218058158343}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Tilemap
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
