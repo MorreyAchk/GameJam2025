@@ -7,6 +7,7 @@ public class PlayerMenu : MonoBehaviour
     public bool isPlayerMenu;
     [SerializeField] private GameObject options;
     [SerializeField] private GameObject mainMenu;
+    [SerializeField] private GameObject controlsMenu;
     [SerializeField] private GameObject parentObject;
     [SerializeField] private AudioSource VFXTestSound;
 
@@ -46,6 +47,13 @@ public class PlayerMenu : MonoBehaviour
         parentObject.SetActive(!parentObject.activeSelf);
         mainMenu.SetActive(true);
         options.SetActive(false);
+        controlsMenu.SetActive(false);
+    }
+
+    public void ToggleControls()
+    {
+        controlsMenu.SetActive(!controlsMenu.activeSelf);
+        mainMenu.SetActive(!mainMenu.activeSelf);
     }
 
     public void ToggleOptions()

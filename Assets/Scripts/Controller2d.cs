@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class Controller2d : NetworkBehaviour
 {
     private float horizontal, vertical;
-    private bool isFacingRight = true;
+    private bool isFacingRight = true, isJumping;
     private Rigidbody2D rb;
 
 
@@ -28,7 +28,6 @@ public class Controller2d : NetworkBehaviour
     private readonly NetworkVariable<bool> isOnLadder = new(false);
     private readonly NetworkVariable<bool> isFacingRightNetwork = new(true);
     private readonly NetworkVariable<bool> isMoving = new(false,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
-    private readonly NetworkVariable<bool> isJumping = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     private BulletEffects bulletEffects;
     public AudioSource jumpingAudioSource;
     private AudioSource movingAudioSource;
@@ -43,7 +42,6 @@ public class Controller2d : NetworkBehaviour
         movingAudioSource = GetComponent<AudioSource>();
         bulletEffects = GetComponent<BulletEffects>();
         isFacingRightNetwork.OnValueChanged += OnFacingDirectionChanged;
-        isJumping.OnValueChanged += OnJumpingChanged;
         if (IsOwner)
         {
             previousPosition = transform.position;
@@ -54,7 +52,6 @@ public class Controller2d : NetworkBehaviour
     public override void OnDestroy()
     {
         isFacingRightNetwork.OnValueChanged -= OnFacingDirectionChanged;
-        isJumping.OnValueChanged -= OnJumpingChanged;
     }
 
     void Update()
@@ -82,9 +79,21 @@ public class Controller2d : NetworkBehaviour
     }
 
     private void MovementSound() {
+        if (isJumping)
+            JumpSoundServerRpc();
+
         movingAudioSource.volume = PlayerPrefs.GetFloat("vfx");
         movingAudioSource.clip = isOnLadder.Value ? ladderClip : walkingClip;
         movingAudioSource.enabled = (isMoving.Value && isGrounded) || (vertical != 0 && isOnLadder.Value);
+    }
+
+    [ServerRpc]
+    private void JumpSoundServerRpc() => JumpSoundClientRpc();
+
+    [ClientRpc]
+    private void JumpSoundClientRpc()
+    {
+        jumpingAudioSource.PlayOneShot(jumpingAudioSource.clip);
     }
 
     private void FixedUpdate()
@@ -127,14 +136,14 @@ public class Controller2d : NetworkBehaviour
     #region PlayerMovement
     private void PlayerInput()
     {
-        isJumping.Value = Input.GetButtonDown("Jump");
+        isJumping = Input.GetButtonDown("Jump");
         if (bulletEffects.wasInBubble)
             return;
 
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
         
-        isMoving.Value = horizontal != 0 || isJumping.Value;
+        isMoving.Value = horizontal != 0 || isJumping;
     }
 
     private void Animations()
@@ -145,7 +154,7 @@ public class Controller2d : NetworkBehaviour
 
     private void Jumping()
     {
-        if (isJumping.Value)
+        if (isJumping)
         {
             if (isGrounded)
             {
@@ -159,12 +168,6 @@ public class Controller2d : NetworkBehaviour
                 bulletEffects.RequestUpdatePop();
         }
     }
-
-    private void OnJumpingChanged(bool oldValue, bool newValue) {
-        if (newValue && !bulletEffects.wasInBubble)
-            jumpingAudioSource.PlayOneShot(jumpingAudioSource.clip);
-    }
-
     private void Flip()
     {
         if ((isFacingRight && horizontal < 0f) || (!isFacingRight && horizontal > 0f))
